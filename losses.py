@@ -3,6 +3,7 @@ import tensorflow as tf
 
 from keras.losses import mse, binary_crossentropy
 from keras import backend as KB
+from keras import layers as KL
 
 def add_custom_loss(model=None, config=None, kind='mse'):
     # defaults to mse
@@ -16,7 +17,8 @@ def add_custom_loss(model=None, config=None, kind='mse'):
     
 
     if kind == 'mse':
-        reconstruction_loss = mse(model.inputs[0], model.outputs[0])
+        # Note: Change back if we do fully convolutional
+        reconstruction_loss = mse(KL.Flatten()(model.inputs[0]), model.outputs[0])
     elif kind == 'ce':
         reconstruction_loss = binary_crossentropy(model.inputs[0], model.outputs[0])
     

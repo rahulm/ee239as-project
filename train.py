@@ -4,7 +4,7 @@ from time import time
 import argparse
 import sys
 import tensorflow as tf
-
+import h5py
 from keras import models as KM
 from keras import backend as KB
 from keras import layers as KL
@@ -14,11 +14,13 @@ from keras.optimizers import Adam
 from keras.callbacks import LambdaCallback, TensorBoard
 import matplotlib.pyplot as plt
 from config import Config
-from model import get_model
 import numpy as np
 from keras.utils import plot_model
 from plotting import plot_results
 from losses import add_custom_loss
+import pandas as pd
+from model import get_model
+from data_generator import generate_training_data, generate_validation_data
 
 ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
@@ -28,17 +30,40 @@ parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 # TODO Add parsing arguments
 
 
-# MNIST dataset
+# MNIST Dataset
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
+# FACES small Dataset
+x_train = np.load('./data/face_images_train_aligned_F.npy')
+x_test = np.load('./data/face_images_test_aligned_F.npy')
 
 
+# Remove preprocessing from network so we can unprocess and preprocess w/ options
 image_size = x_train.shape[1]
 original_dim = image_size * image_size
 x_train = np.reshape(x_train, [-1, original_dim])
 x_test = np.reshape(x_test, [-1, original_dim])
 x_train = x_train.astype('float32') / 255
 x_test = x_test.astype('float32') / 255
+
+
+# Obtain data
+dataset_root = '/home/odin/Downloads/Celeb'
+
+# read data
+images_root_path = os.path.join(dataset_root, 'img_align_celeba')
+
+data_partitions = pd.read_csv(os.path.join(dataset_root, 'list_eval_partition.csv'))
+
+landmarks = pd.read_csv(os.path.join(dataset_root, 'list_landmarks_align_celeba.csv'))
+
+crops = pd.read_csv(os.path.join(dataset_root, 'list_bbox_celeba.csv'))
+
+# Train test split
+train_df = data_partitions[data_partitions['partition']==0]
+val_df = data_partitions[data_partitions['partition']==1]
+test_df = data_partitions[data_partitions['partition']==2]
+
 
 
 
@@ -54,10 +79,15 @@ if __name__ == '__main__':
     # TODO (Jon) - change required to True here
     # and add dataset path
     parser.add_argument('--dataset', required=False,
-                        metavar="/path/to/coco/",
+                        metavar="/path/to/dataset/",
                         default='./<addyourstuff>',
-                        help='Directory of the MS-COCO dataset')
-    
+                        help='Path to dataset')
+                        
+    parser.add_argument('--name', required=False,
+                        metavar="/path/to/dataset/",
+                        default='mnist_binary',
+                        help='Name of dataset')
+
     parser.add_argument('--decoder', required=True,
                             metavar="naive",
                             help="decoder network style")
@@ -84,6 +114,12 @@ if __name__ == '__main__':
                     type=int,
                     help='Input resolution',
                     default=28)
+
+    parser.add_argument('--channel', required=False,
+                    metavar='resolution',
+                    type=int,
+                    help='Input resolution channel',
+                    default=3)
     
     parser.add_argument('--load_weights', required=False,
                     metavar='load_weights path',
@@ -169,22 +205,36 @@ if __name__ == '__main__':
     if not os.path.isdir(MODELS_DIR):
         os.makedirs(MODELS_DIR)
 
+    inuse_config = Config(name=args.name,
+                          IMG_SIZE=args.res, 
+                          BATCH_SIZE=args.batch_size,
+                          IMG_CHANNEL=args.channel,
+                          DATASET_SIZE = len(train_df) + len(val_df) + len(test_df))
 
-    inuse_config = Config(IMG_SIZE=args.res, BATCH_SIZE=args.batch_size)
-
-    
+    # DATA LOADING HERE
     with tf.device('/cpu:0'):
         print('we are inside before get model')
-        
-        model, encoder, decoder = get_model(config=inuse_config, input_shape=(inuse_config.original_dim,))
+        # TODO Change input shape when using convolutional networks
 
+        # If MNIST:
+        if inuse_config.name == 'mnist_binary':
+            model, encoder, decoder = get_model(config=inuse_config, input_shape=(inuse_config.original_dim,))
+        elif inuse_config.name == 'celeb':
 
-    # TODO Can add here load weights for fine tuning model
-    if load_weights_path is not None:
-        print('loading weights from: ', load_weights_path, '...')
-        model.load_weights(load_weights_path, by_name=True)
-        print('weights loaded!')
+            train_datagen = generate_training_data(train_df, inuse_config, batch_size=inuse_config.BATCH_SIZE)
+            val_datagen = generate_validation_data(val_df, inuse_config)
+
+            model, encoder, decoder = get_model(config=inuse_config, 
+                                                input_tensor=KL.Input(shape=(inuse_config.original_dim,)))
+
+    # Note: Can use this for fine-tuning pre-trained models later
+    # if load_weights_path is not None and args.mode != 'train':
+    #     print('loading weights from: ', load_weights_path, '...')
+    #     model.load_weights(load_weights_path, by_name=True)
+    #     print('weights loaded!')
     
+    # TODO: Check if this works -> we may have to overwrite call function
+    # or make custom frozen batchnorm layer (was issue in past)
     if args.freeze_batchnorm != 0:
         print('freezing batchnorm...')
         # Check through Encoder
@@ -211,35 +261,47 @@ if __name__ == '__main__':
     models = (encoder, decoder)
     data = (x_test, y_test)
 
-    vae_loss = add_custom_loss(model=model, config=inuse_config, kind=args.loss)
+    
+    # vae_loss = add_custom_loss(model=model, config=inuse_config, kind=args.loss)
 
-    model.add_loss(vae_loss)
-    # Note: you can do optimizer=Adam(lr=args.lr) here
-    model.compile(optimizer='adam')
-    model.summary()
+    # model.add_loss(vae_loss)
+    # # Note: you can do optimizer=Adam(lr=args.lr) here
+    # model.compile(optimizer='adam')
+    # model.summary()
     plot_model(model,
                to_file='vae_mlp_mine.png',
                show_shapes=True)
     print('args mode: ', args.mode)
     if args.mode == 'train':
-        model.fit(x_train,
-                  epochs = args.epochs,
-                  batch_size = inuse_config.BATCH_SIZE,
-                  validation_data=(x_test, None))
-                #   callbacks=callbacks_list) # Keep commented for now
-                # We will use callbacks list later when we have deep conv models to save on 
-                # each epoch
+        # model.fit(x_train,
+        #           epochs = args.epochs,
+        #           batch_size = inuse_config.BATCH_SIZE,
+        #           validation_data=(x_test, None))
+                ##   callbacks=callbacks_list) # Keep commented for now
+                ## We will use callbacks list later when we have deep conv models to save on 
+                ## each epoch
+    
+        model.fit_generator(train_datagen, 
+                            steps_per_epoch=inuse_config.dataset_size//inuse_config.BATCH_SIZE,
+                            epochs=args.epochs)
+
+
         model.save_weights(save_weights_path)
     else:
+        if load_weights_path is not None:
+            print('loading weights from: ', load_weights_path, '...')
+            model.load_weights(load_weights_path, by_name=True)
+            print('weights loaded!')
     
         # inference / generation pipeline goes here
         # Load weights if model not already loaded
         print('Model is already loaded')
 
-    plot_results(models,
+    # Note: Encoder, Decoder = model.layers[1], model.layers[2]
+    plot_results((model.layers[1], model.layers[2]),
                  data,
                  batch_size=args.batch_size,
-                 model_name='vae_mnist')
+                 model_name='vae_faces')
     
         
 
