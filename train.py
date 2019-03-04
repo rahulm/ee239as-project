@@ -279,6 +279,7 @@ if __name__ == '__main__':
     kl_loss = 1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var)
     kl_loss = KB.sum(kl_loss, axis=-1)
     kl_loss *= -0.5
+    kl_loss = KB.mean(kl_loss)
     # Note: might need to take mean of it here
 
     # vae_loss = add_custom_loss(model=model, config=inuse_config, kind=args.loss)
@@ -304,7 +305,7 @@ if __name__ == '__main__':
                             steps_per_epoch= inuse_config.dataset_size//inuse_config.BATCH_SIZE,
                             epochs=args.epochs,
                             validation_data=val_datagen,
-                            validation_steps=50,
+                            validation_steps= len(val_df)//4,
                             verbose=1,
                             callbacks=callbacks_list,
                             )
