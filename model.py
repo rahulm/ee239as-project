@@ -5,6 +5,7 @@ from keras.utils import plot_model
 import tensorflow as tf
 from processing import sampling
 from keras import objectives
+from keras.optimizers import Adam
 from keras.losses import binary_crossentropy, mse
 
 eps = 1e-5
@@ -75,7 +76,7 @@ def get_vae(input_tensor, config=None):
         loss = xent_loss + kl_loss
         return loss
     
-    vae.compile(optimizer='adam', loss=vae_loss)
+    vae.compile(optimizer='rmsprop', loss=vae_loss)
 
     return vae, encoder, decoder
 

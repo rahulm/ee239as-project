@@ -37,6 +37,7 @@ def resize_image(image, to_width=64, to_height=64):
     image = cv2.resize(image, (to_width, to_height), interpolation=cv2.INTER_AREA)
     return image
 
+# NOTE: normalize not being called
 def normalize(image, kind='max_min'):
     if kind == 'max_min':
         return image / 127.5 - 1

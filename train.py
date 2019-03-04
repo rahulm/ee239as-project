@@ -131,7 +131,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_weights', required=False,
                     metavar='save_weights path',
                     help="file to save weights from",
-                    default='vae_mlp_mnist_default.h5')     
+                    default='vae_mlp_celeb_rmsprop.h5')     
 
     parser.add_argument('--tensorboard', 
                     required=False,
@@ -271,8 +271,8 @@ if __name__ == '__main__':
 
     # model.add_loss(vae_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    # model.compile(optimizer='adam')
-    # model.summary()
+    # model.compile(optimizer='adam', loss=None)
+    model.summary()
     plot_model(model,
                to_file='vae_mlp_mine.png',
                show_shapes=True)
@@ -287,10 +287,10 @@ if __name__ == '__main__':
                 ## each epoch
     
         history = model.fit_generator(train_datagen, 
-                            steps_per_epoch= inuse_config.dataset_size//inuse_config.BATCH_SIZE,
+                            steps_per_epoch= len(train_df)//inuse_config.BATCH_SIZE,
                             epochs=args.epochs,
                             validation_data=val_datagen,
-                            validation_steps=50,
+                            validation_steps=len(val_df)//2, # TODO Increase this to len(val_df)
                             verbose=1,
                             callbacks=callbacks_list,
                             )
