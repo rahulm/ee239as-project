@@ -3,6 +3,7 @@ import os
 from time import time
 import argparse
 import sys
+import pickle
 import tensorflow as tf
 import h5py
 from keras import models as KM
@@ -134,7 +135,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--tensorboard', 
                     required=False,
-                    default=False,
+                    default=True,
                     help="Whether to use tensorboard callback or not",
                     action='store_true')
 
@@ -226,6 +227,10 @@ if __name__ == '__main__':
 
             model, encoder, decoder = get_model(config=inuse_config, 
                                                 input_tensor=KL.Input(shape=(inuse_config.original_dim,)))
+            plot_model(model, to_file='linear_model.png')
+            plot_model(encoder, to_file='linear_encoder.png')
+            plot_model(decoder, to_file='linear_decoder.png')
+            
 
     # Note: Can use this for fine-tuning pre-trained models later
     # if load_weights_path is not None and args.mode != 'train':
@@ -247,7 +252,7 @@ if __name__ == '__main__':
                 l.trainable = False
 
     def save_model(epoch, logs):
-        model.save(os.path.join(MODELS_DIR, save_weights_path))
+        model.save_weights(os.path.join(MODELS_DIR, str(epoch) + save_weights_path))
     
     callbacks_list = [LambdaCallback(on_epoch_end=save_model)]
 
@@ -281,10 +286,20 @@ if __name__ == '__main__':
                 ## We will use callbacks list later when we have deep conv models to save on 
                 ## each epoch
     
-        model.fit_generator(train_datagen, 
-                            steps_per_epoch=inuse_config.dataset_size//inuse_config.BATCH_SIZE,
-                            epochs=args.epochs)
+        history = model.fit_generator(train_datagen, 
+                            steps_per_epoch= inuse_config.dataset_size//inuse_config.BATCH_SIZE,
+                            epochs=args.epochs,
+                            validation_data=val_datagen,
+                            validation_steps=50,
+                            verbose=1,
+                            callbacks=callbacks_list,
+                            )
 
+        losses = {'loss': history.history['loss'],
+                    'val_loss': history.history['val_loss'],
+                    'epoch': history.epoch}
+        with open('history.pkl', 'wb') as pkl_file:
+            pickle.dump(losses, pkl_file)
 
         model.save_weights(save_weights_path)
     else:
