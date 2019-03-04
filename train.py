@@ -18,10 +18,11 @@ from config import Config
 import numpy as np
 from keras.utils import plot_model
 from plotting import plot_results
-from losses import add_custom_loss
+from losses import add_custom_loss, mse, binary_crossentropy
 import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
+
 
 ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
@@ -131,11 +132,11 @@ if __name__ == '__main__':
     parser.add_argument('--save_weights', required=False,
                     metavar='save_weights path',
                     help="file to save weights from",
-                    default='vae_mlp_mnist_default.h5')     
+                    default='vae_mlp_celeb.h5')     
 
     parser.add_argument('--tensorboard', 
                     required=False,
-                    default=True,
+                    default=False,
                     help="Whether to use tensorboard callback or not",
                     action='store_true')
 
@@ -211,6 +212,7 @@ if __name__ == '__main__':
                           BATCH_SIZE=args.batch_size,
                           IMG_CHANNEL=args.channel,
                           DATASET_SIZE = len(train_df) + len(val_df) + len(test_df))
+    
 
     # DATA LOADING HERE
     with tf.device('/cpu:0'):
@@ -266,12 +268,24 @@ if __name__ == '__main__':
     models = (encoder, decoder)
     data = (x_test, y_test)
 
-    
+    if args.loss == 'mse':
+        reconstruction_loss = mse
+    elif args.loss == 'ce':
+        # Change to sparse_categorical crossentropy
+        reconstruction_loss = binary_crossentropy
+    # Adds KL Loss
+    z_log_var = encoder.get_layer('z_log_var').output
+    z_mean = encoder.get_layer('z_mean').output
+    kl_loss = 1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var)
+    kl_loss = KB.sum(kl_loss, axis=-1)
+    kl_loss *= -0.5
+    # Note: might need to take mean of it here
+
     # vae_loss = add_custom_loss(model=model, config=inuse_config, kind=args.loss)
 
-    # model.add_loss(vae_loss)
+    model.add_loss(kl_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    # model.compile(optimizer='adam')
+    model.compile(optimizer='adam', loss=reconstruction_loss)
     # model.summary()
     plot_model(model,
                to_file='vae_mlp_mine.png',

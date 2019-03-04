@@ -50,8 +50,6 @@ def get_decoder(latent_inputs = None, config=None):
     # Add to outputs
     decoder = KM.Model(latent_inputs, outputs, name='decoder')
     return decoder
-    
-
 
 def get_vae(input_tensor, config=None):
     
@@ -59,29 +57,14 @@ def get_vae(input_tensor, config=None):
     encoder = get_encoder(input_tensor = input_tensor, config=config)
     encoder.summary()
 
-    [z_mean, z_log_var, z] = encoder.outputs
-
-
     # Get decoder
     latent_inputs = KL.Input(shape=(config.latent_dim,), name='z_sampling')
     decoder = get_decoder(latent_inputs=latent_inputs, config=config)
     x_decoded_mean = decoder(encoder(input_tensor)[2])
 
     vae = KM.Model(input_tensor, x_decoded_mean, name='vae_mlp')
-
-    def vae_loss(x, x_decoded_mean):
-        xent_loss = objectives.binary_crossentropy(input_tensor, x_decoded_mean)
-        kl_loss = -0.5 * KB.mean(1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var))
-        loss = xent_loss + kl_loss
-        return loss
-    
-    vae.compile(optimizer='adam', loss=vae_loss)
-
     return vae, encoder, decoder
-
-        
     
-# TODO (Jon) - Add in preprocessing and unprocessing
 def get_model(config=None, input_shape=(None, None, 1), input_tensor=None):
     if input_tensor is None:
         input_tensor = KL.Input(shape=input_shape, name = 'encoder_input')
