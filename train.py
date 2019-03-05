@@ -39,22 +39,7 @@ parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 
 
 
-# Obtain data
-dataset_root = '/home/odin/Downloads/Celeb'
 
-# read data
-images_root_path = os.path.join(dataset_root, 'img_align_celeba')
-
-data_partitions = pd.read_csv(os.path.join(dataset_root, 'list_eval_partition.csv'))
-
-landmarks = pd.read_csv(os.path.join(dataset_root, 'list_landmarks_align_celeba.csv'))
-
-crops = pd.read_csv(os.path.join(dataset_root, 'list_bbox_celeba.csv'))
-
-# Train test split
-train_df = data_partitions[data_partitions['partition']==0]
-val_df = data_partitions[data_partitions['partition']==1]
-test_df = data_partitions[data_partitions['partition']==2]
 
 
 
@@ -210,6 +195,22 @@ if __name__ == '__main__':
     if not os.path.isdir(MODELS_DIR):
         os.makedirs(MODELS_DIR)
 
+
+    # read data
+    images_root_path = os.path.join(args.dataset, 'img_align_celeba')
+
+    data_partitions = pd.read_csv(os.path.join(args.dataset, 'list_eval_partition.csv'))
+
+    landmarks = pd.read_csv(os.path.join(args.dataset, 'list_landmarks_align_celeba.csv'))
+
+    crops = pd.read_csv(os.path.join(args.dataset, 'list_bbox_celeba.csv'))
+
+    # Train test split
+    train_df = data_partitions[data_partitions['partition']==0]
+    val_df = data_partitions[data_partitions['partition']==1]
+    test_df = data_partitions[data_partitions['partition']==2]
+
+
     inuse_config = Config(name=args.name,
                           IMG_SIZE=args.res, 
                           BATCH_SIZE=args.batch_size,
@@ -217,7 +218,8 @@ if __name__ == '__main__':
                           DATASET_SIZE = len(train_df) + len(val_df) + len(test_df),
                           img_height=args.img_height,
                           img_width=args.img_width,
-                          encoder=args.encoder)
+                          encoder=args.encoder,
+                          dataset_root=args.dataset)
 
     
 

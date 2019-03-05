@@ -24,7 +24,11 @@ def generate_training_data(data, config, batch_size=4, resize=True):
             idx = np.random.randint(len(data))
             row = data.iloc[idx]
 #             data.reset_index() 
-            x = preprocess_image(row['image_id'], to_height=config.img_height, to_width=config.img_width, resize=resize)
+            x = preprocess_image(row['image_id'], 
+                                images_root_path = config.images_root_path,
+                                to_height=config.img_height, 
+                                to_width=config.img_width, 
+                                resize=resize)
             x = x / 255.
             image_batch[i] = x
             
@@ -41,7 +45,12 @@ def generate_validation_data(data, config, batch_size=4, resize=True):
             idx = np.random.randint(len(data))
             row = data.iloc[idx]
 #             data.reset_index() 
-            x = preprocess_image_val(row['image_id'], to_height=config.img_height, to_width=config.img_width, resize=resize)
+            x = preprocess_image_val(row['image_id'], 
+                                     images_root_path=config.images_root_path,
+                                     to_height=config.img_height, 
+                                     to_width=config.img_width, 
+                                     resize=resize)
+                                     
             x = x / 255.
             image_batch[i] = x
 
@@ -181,19 +190,12 @@ if __name__ == '__main__':
     print('Use tb? : ', args.tensorboard)
 
 
-    # Grab data
-
-    # Obtain data
-    dataset_root = '/home/odin/Downloads/Celeb'
-
     # read data
-    images_root_path = os.path.join(dataset_root, 'img_align_celeba')
+    images_root_path = os.path.join(args.dataset, 'img_align_celeba')
 
-    data_partitions = pd.read_csv(os.path.join(dataset_root, 'list_eval_partition.csv'))
-
-    landmarks = pd.read_csv(os.path.join(dataset_root, 'list_landmarks_align_celeba.csv'))
-
-    crops = pd.read_csv(os.path.join(dataset_root, 'list_bbox_celeba.csv'))
+    data_partitions = pd.read_csv(os.path.join(args.dataset, 'list_eval_partition.csv'))
+    landmarks = pd.read_csv(os.path.join(args.dataset, 'list_landmarks_align_celeba.csv'))
+    crops = pd.read_csv(os.path.join(args.dataset, 'list_bbox_celeba.csv'))
 
     # Train test split
     train_df = data_partitions[data_partitions['partition']==0]
@@ -207,7 +209,9 @@ if __name__ == '__main__':
                           IMG_CHANNEL=args.channel,
                           DATASET_SIZE = len(train_df) + len(val_df) + len(test_df),
                           img_height=args.img_height,
-                          img_width=args.img_width)
+                          img_width=args.img_width,
+                          dataset_root=args.dataset,
+                          )
 
     # Data generation sample
     train_datagen = generate_training_data(train_df, inuse_config, batch_size=inuse_config.BATCH_SIZE)

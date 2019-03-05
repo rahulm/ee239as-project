@@ -1,4 +1,4 @@
-
+import os
 class Config(object):
 
     # Name of dataset
@@ -16,7 +16,7 @@ class Config(object):
 
 
 
-    def __init__(self, name, IMG_SIZE, IMG_CHANNEL, BATCH_SIZE, DATASET_SIZE, img_width=None, img_height=None, encoder='naive'):
+    def __init__(self, name, IMG_SIZE, IMG_CHANNEL, BATCH_SIZE, DATASET_SIZE, img_width=None, img_height=None, encoder='naive', dataset_root=None):
         """
         @OUTPUT_STRIDE: output stride of base network 
         STRIDE: output stride of base network where openpose keypoint network connects
@@ -48,4 +48,7 @@ class Config(object):
         self.original_dim = self.img_height * self.img_width * self.IMG_CHANNEL
 
         self.ENCODER = encoder
+
+        self.dataset_root = dataset_root
+        self.images_root_path = os.path.join(self.dataset_root, 'img_align_celeba')
 

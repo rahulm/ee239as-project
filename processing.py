@@ -25,7 +25,7 @@ def sampling(args):
 def read_image(impath):
     # takes in image path
     # returns image as [0,255] RGB read in original shape
-    image = cv2.imread(os.path.join(images_root_path, impath))
+    image = cv2.imread(impath)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # can also do HSV
     return image    
 
@@ -52,16 +52,16 @@ def unnormalize(image, kind='max_min'):
     # TODO Add for preloaded resnetnorm
         
 
-def preprocess_image(impath, to_width=None, to_height=None, resize=False):
-    img = read_image(impath)
+def preprocess_image(impath, images_root_path = None, to_width=None, to_height=None, resize=False):
+    img = read_image(os.path.join(images_root_path, impath))
     img = transform(img)
     if resize:
         img = resize_image(img, to_width=to_width, to_height=to_height)
 
     return img
 
-def preprocess_image_val(impath, to_width=None, to_height=None, resize=False):
-    img = read_image(impath)
+def preprocess_image_val(impath, images_root_path = None, to_width=None, to_height=None, resize=False):
+    img = read_image(os.path.join(images_root_path, impath))
     if resize:
         img = resize_image(img)
     return img
