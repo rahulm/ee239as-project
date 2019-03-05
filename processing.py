@@ -33,7 +33,7 @@ def transform(image):
     # TODO: can do transform here
     return image
 
-def resize_image(image, to_width=64, to_height=64):
+def resize_image(image, to_width, to_height):
     image = cv2.resize(image, (to_width, to_height), interpolation=cv2.INTER_AREA)
     return image
 
@@ -52,15 +52,18 @@ def unnormalize(image, kind='max_min'):
     # TODO Add for preloaded resnetnorm
         
 
-def preprocess_image(impath, to_width=None, to_height=None):
+def preprocess_image(impath, to_width=None, to_height=None, resize=False):
     img = read_image(impath)
     img = transform(img)
-    img = resize_image(img)
+    if resize:
+        img = resize_image(img, to_width=to_width, to_height=to_height)
+
     return img
 
-def preprocess_image_val(impath, to_width=None, to_height=None):
+def preprocess_image_val(impath, to_width=None, to_height=None, resize=False):
     img = read_image(impath)
-    img = resize_image(img)
+    if resize:
+        img = resize_image(img)
     return img
     
 def flip_image(image):

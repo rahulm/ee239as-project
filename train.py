@@ -14,11 +14,14 @@ from keras.utils import multi_gpu_model
 from keras.optimizers import Adam
 from keras.callbacks import LambdaCallback, TensorBoard
 import matplotlib.pyplot as plt
+import copy
 from config import Config
 import numpy as np
 from keras.utils import plot_model
 from plotting import plot_results
-from losses import add_custom_loss, mse, binary_crossentropy
+# Note: we should also try these loss functions
+from losses import add_custom_loss
+from keras.losses import mse, binary_crossentropy, sparse_categorical_crossentropy,categorical_crossentropy
 import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
@@ -28,25 +31,12 @@ ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
+if not os.path.isdir('output_images'):
+    os.mkdir('output_images')
+
 parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 # TODO Add parsing arguments
 
-
-# MNIST Dataset
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-
-# FACES small Dataset
-x_train = np.load('./data/face_images_train_aligned_F.npy')
-x_test = np.load('./data/face_images_test_aligned_F.npy')
-
-
-# Remove preprocessing from network so we can unprocess and preprocess w/ options
-image_size = x_train.shape[1]
-original_dim = image_size * image_size
-x_train = np.reshape(x_train, [-1, original_dim])
-x_test = np.reshape(x_test, [-1, original_dim])
-x_train = x_train.astype('float32') / 255
-x_test = x_test.astype('float32') / 255
 
 
 # Obtain data
@@ -87,7 +77,7 @@ if __name__ == '__main__':
                         
     parser.add_argument('--name', required=False,
                         metavar="/path/to/dataset/",
-                        default='mnist_binary',
+                        default='celeb',
                         help='Name of dataset')
 
     parser.add_argument('--decoder', required=True,
@@ -116,6 +106,19 @@ if __name__ == '__main__':
                     type=int,
                     help='Input resolution',
                     default=28)
+    
+    parser.add_argument('--img_height', required=False,
+                    metavar='image height',
+                    type=int,
+                    help='Input height',
+                    default=28)
+    
+    parser.add_argument('--img_width', required=False,
+                    metavar='img_width',
+                    type=int,
+                    help='Input width',
+                    default=28)
+
 
     parser.add_argument('--channel', required=False,
                     metavar='resolution',
@@ -211,7 +214,11 @@ if __name__ == '__main__':
                           IMG_SIZE=args.res, 
                           BATCH_SIZE=args.batch_size,
                           IMG_CHANNEL=args.channel,
-                          DATASET_SIZE = len(train_df) + len(val_df) + len(test_df))
+                          DATASET_SIZE = len(train_df) + len(val_df) + len(test_df),
+                          img_height=args.img_height,
+                          img_width=args.img_width,
+                          encoder=args.encoder)
+
     
 
     # DATA LOADING HERE
@@ -227,8 +234,8 @@ if __name__ == '__main__':
             train_datagen = generate_training_data(train_df, inuse_config, batch_size=inuse_config.BATCH_SIZE)
             val_datagen = generate_validation_data(val_df, inuse_config)
 
-            model, encoder, decoder = get_model(config=inuse_config, 
-                                                input_tensor=KL.Input(shape=(inuse_config.original_dim,)))
+            model, encoder, decoder = get_model(config=inuse_config, input_shape=(256,256,3)) 
+                                                
             plot_model(model, to_file='linear_model.png')
             plot_model(encoder, to_file='linear_encoder.png')
             plot_model(decoder, to_file='linear_decoder.png')
@@ -266,13 +273,12 @@ if __name__ == '__main__':
     # Model compilation
     args = parser.parse_args()
     models = (encoder, decoder)
-    data = (x_test, y_test)
 
     if args.loss == 'mse':
         reconstruction_loss = mse
     elif args.loss == 'ce':
         # Change to sparse_categorical crossentropy
-        reconstruction_loss = binary_crossentropy
+        reconstruction_loss = sparse_categorical_crossentropy
     # Adds KL Loss
     z_log_var = encoder.get_layer('z_log_var').output
     z_mean = encoder.get_layer('z_mean').output
@@ -286,7 +292,7 @@ if __name__ == '__main__':
 
     model.add_loss(kl_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    model.compile(optimizer='adam', loss=reconstruction_loss)
+    model.compile(optimizer='rmsprop', loss=reconstruction_loss)
     # model.summary()
     plot_model(model,
                to_file='vae_mlp_mine.png',
@@ -302,7 +308,7 @@ if __name__ == '__main__':
                 ## each epoch
     
         history = model.fit_generator(train_datagen, 
-                            steps_per_epoch= inuse_config.dataset_size//inuse_config.BATCH_SIZE,
+                            steps_per_epoch= len(train_df)//inuse_config.BATCH_SIZE,
                             epochs=args.epochs,
                             validation_data=val_datagen,
                             validation_steps= len(val_df)//4,
@@ -317,21 +323,39 @@ if __name__ == '__main__':
             pickle.dump(losses, pkl_file)
 
         model.save_weights(save_weights_path)
-    else:
+    else: ## INFERENCE
         if load_weights_path is not None:
             print('loading weights from: ', load_weights_path, '...')
-            model.load_weights(load_weights_path, by_name=True)
+            model.load_weights(os.path.join(MODELS_DIR, load_weights_path), by_name=True)
             print('weights loaded!')
-    
+
+            sample_im2test = train_datagen.next()[0][0]
+
+            sample_image_resized = copy.deepcopy(sample_im2test).reshape((inuse_config.IMG_SIZE, inuse_config.IMG_SIZE, inuse_config.IMG_CHANNEL))
+            sample_image_resized_and_scaled = (sample_image_resized * 255).astype(np.uint8)
+
+            blob = model.predict([np.expand_dims(sample_im2test,axis=0)])[0]
+
+            output_img = blob.reshape((inuse_config.IMG_SIZE, inuse_config.IMG_SIZE, inuse_config.IMG_CHANNEL))
+            output_img = (output_img * 255).astype(np.uint8)
+
+            plt.subplot(211)
+            plt.title('sample_image')
+            plt.imshow(sample_image_resized_and_scaled)
+
+            plt.subplot(212)
+            plt.title('reconstructed image')
+            plt.imshow(output_img)
+            plt.savefig('./output_images/sample_reconstruction.png')
         # inference / generation pipeline goes here
         # Load weights if model not already loaded
         print('Model is already loaded')
 
     # Note: Encoder, Decoder = model.layers[1], model.layers[2]
-    plot_results((model.layers[1], model.layers[2]),
-                 data,
-                 batch_size=args.batch_size,
-                 model_name='vae_faces')
+    # plot_results((model.layers[1], model.layers[2]),
+    #              data,
+    #              batch_size=args.batch_size,
+    #              model_name='vae_faces')
     
         
 
