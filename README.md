@@ -41,3 +41,8 @@ To run code:
 python train.py --decoder naive --encoder naive --epochs 50 --batch_size 8 --intermediate_dim 512 --latent_dim 50 --mode train --res 64 --loss mse --name celeb
 ```
 
+To run code on Google Cloud Platform with TPU:
+```
+python train.py --decoder naive --encoder naive --epochs 50 --batch_size 8 --intermediate_dim 512 --latent_dim 50 --mode train --res 64 --loss mse --name celeb --use_tpu --dataset gs://rough-sketchpad-bucket/data/Celeb
+```
+

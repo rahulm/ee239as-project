@@ -23,53 +23,12 @@ import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
 
-
 ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
-parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
-# TODO Add parsing arguments
 
-
-# MNIST Dataset
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-
-# FACES small Dataset
-x_train = np.load('./data/face_images_train_aligned_F.npy')
-x_test = np.load('./data/face_images_test_aligned_F.npy')
-
-
-# Remove preprocessing from network so we can unprocess and preprocess w/ options
-image_size = x_train.shape[1]
-original_dim = image_size * image_size
-x_train = np.reshape(x_train, [-1, original_dim])
-x_test = np.reshape(x_test, [-1, original_dim])
-x_train = x_train.astype('float32') / 255
-x_test = x_test.astype('float32') / 255
-
-
-# Obtain data
-dataset_root = '/home/odin/Downloads/Celeb'
-
-# read data
-images_root_path = os.path.join(dataset_root, 'img_align_celeba')
-
-data_partitions = pd.read_csv(os.path.join(dataset_root, 'list_eval_partition.csv'))
-
-landmarks = pd.read_csv(os.path.join(dataset_root, 'list_landmarks_align_celeba.csv'))
-
-crops = pd.read_csv(os.path.join(dataset_root, 'list_bbox_celeba.csv'))
-
-# Train test split
-train_df = data_partitions[data_partitions['partition']==0]
-val_df = data_partitions[data_partitions['partition']==1]
-test_df = data_partitions[data_partitions['partition']==2]
-
-
-
-
-if __name__ == '__main__':
+def get_args():
     parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
     
 
@@ -82,7 +41,8 @@ if __name__ == '__main__':
     # and add dataset path
     parser.add_argument('--dataset', required=False,
                         metavar="/path/to/dataset/",
-                        default='./<addyourstuff>',
+                        # default='./<addyourstuff>',
+                        default=None,
                         help='Path to dataset')
                         
     parser.add_argument('--name', required=False,
@@ -173,13 +133,19 @@ if __name__ == '__main__':
     parser.add_argument('--initial_epoch', required=False,
                     type=int, default=0)
     
-    parser.add_argument('--tpu', 
+    parser.add_argument('--use_tpu', 
                     required=False,
                     default=False,
                     help="Whether to use TPU or not.",
                     action='store_true')
 
     args = parser.parse_args()
+    return args
+
+
+if __name__ == '__main__':
+    args = get_args()
+    
     print('Mode: ', args.mode)
     print("Resolution: ", args.res)
     print("Encoder: ", args.encoder)
@@ -212,6 +178,49 @@ if __name__ == '__main__':
 
     if not os.path.isdir(MODELS_DIR):
         os.makedirs(MODELS_DIR)
+    
+    
+    
+    
+    ### data loading
+
+    # # MNIST Dataset
+    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+    # # FACES small Dataset
+    # x_train = np.load('./data/face_images_train_aligned_F.npy')
+    # x_test = np.load('./data/face_images_test_aligned_F.npy')
+
+
+    # # Remove preprocessing from network so we can unprocess and preprocess w/ options
+    # image_size = x_train.shape[1]
+    # original_dim = image_size * image_size
+    # x_train = np.reshape(x_train, [-1, original_dim])
+    # x_test = np.reshape(x_test, [-1, original_dim])
+    # x_train = x_train.astype('float32') / 255
+    # x_test = x_test.astype('float32') / 255
+
+
+    # Obtain data
+    celeb_dataset_root = '/home/odin/Downloads/Celeb'
+    if args.dataset is not None:
+        celeb_dataset_root = args.dataset
+
+    # read data
+    images_root_path = os.path.join(celeb_dataset_root, 'img_align_celeba')
+
+    data_partitions = pd.read_csv(os.path.join(celeb_dataset_root, 'list_eval_partition.csv'))
+
+    landmarks = pd.read_csv(os.path.join(celeb_dataset_root, 'list_landmarks_align_celeba.csv'))
+
+    crops = pd.read_csv(os.path.join(celeb_dataset_root, 'list_bbox_celeba.csv'))
+
+    # Train test split
+    train_df = data_partitions[data_partitions['partition']==0]
+    val_df = data_partitions[data_partitions['partition']==1]
+    test_df = data_partitions[data_partitions['partition']==2]
+    
+    
 
     inuse_config = Config(name=args.name,
                           IMG_SIZE=args.res, 
@@ -299,7 +308,7 @@ if __name__ == '__main__':
                show_shapes=True)
     
     # TODO: check if this TPU conversion works
-    if args.tpu:
+    if args.use_tpu:
         # currently hard-coding tpu_name to the VM used
         tpu_name = 'ee239asproject'
         tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
