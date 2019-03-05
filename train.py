@@ -172,6 +172,12 @@ if __name__ == '__main__':
     # Initial epoch for fine-tuning
     parser.add_argument('--initial_epoch', required=False,
                     type=int, default=0)
+    
+    parser.add_argument('--tpu', 
+                    required=False,
+                    default=False,
+                    help="Whether to use TPU or not.",
+                    action='store_true')
 
     args = parser.parse_args()
     print('Mode: ', args.mode)
@@ -291,6 +297,17 @@ if __name__ == '__main__':
     plot_model(model,
                to_file='vae_mlp_mine.png',
                show_shapes=True)
+    
+    # TODO: check if this TPU conversion works
+    if args.tpu:
+        # currently hard-coding tpu_name to the VM used
+        tpu_name = 'ee239asproject'
+        tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
+        tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
+        model = tf.contrib.tpu.keras_to_tpu_model(
+            model,
+            strategy=tpu_strategy)
+    
     print('args mode: ', args.mode)
     if args.mode == 'train':
         # model.fit(x_train,
