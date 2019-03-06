@@ -1,11 +1,11 @@
-from keras import layers as KL
-from keras import models as KM
-from keras import backend as KB
-from keras.utils import plot_model
+from tensorflow.keras import layers as KL
+from tensorflow.keras import models as KM
+from tensorflow.keras import backend as KB
+from tensorflow.keras.utils import plot_model
 import tensorflow as tf
 from processing import sampling
 from keras import objectives
-from keras.losses import binary_crossentropy, mse
+from tensorflow.keras.losses import binary_crossentropy, mse
 
 eps = 1e-5
 
