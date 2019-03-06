@@ -225,7 +225,7 @@ if __name__ == '__main__':
 
     if args.use_subset:
         print('Using subset of original dataset')
-        train_df = train_df[0:9000]
+        train_df = train_df[0:19000]
         val_df = val_df[0:2000]
         test_df = test_df[0:1000]
 

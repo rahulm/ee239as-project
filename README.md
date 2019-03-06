@@ -37,8 +37,9 @@
 
 
 To run code:
-RESNET:
+MOBILENET: 
+Note: don't add `--use_subset` if you want to train on full dataset
 ```
-python train.py --decoder naive --encoder resnet50 --epochs 50 --batch_size 16 --intermediate_dim 512 --latent_dim 50 --mode train --img_width 256 --img_height 256 --loss mse --name celeb --dataset /home/odin/Downloads/Celeb
+python train.py --decoder naive --encoder naive --epochs 50 --batch_size 16 --intermediate_dim 512 --latent_dim 50 --mode train --img_width 256 --img_height 256 --loss mse --name celeb --dataset /home/odin/Downloads/Celeb --use_subset
 ```
 
