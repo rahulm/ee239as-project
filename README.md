@@ -34,6 +34,12 @@
             ],
 
 
+## TODO to get TPU up
+* Rewrite loss function using tensorflow losses (KB.mean -> KB.tf.reduce_mean
+* Refactor input tensor to agree w tensorflow model type architecture like from blog about using keras  https://www.dlology.com/blog/how-to-train-keras-model-x20-times-faster-with-tpu-for-free/
+* Notice Binary CrossEntropy issue when training with conv
+https://stackoverflow.com/questions/54838137/keras-tensorflow-vae-strange-behavior-with-loss-function
+
 
 
 To run code:

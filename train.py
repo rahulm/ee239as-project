@@ -15,6 +15,8 @@ from keras.optimizers import Adam
 from keras.callbacks import LambdaCallback, TensorBoard
 import matplotlib.pyplot as plt
 import copy
+import glob
+from processing import *
 from config import Config
 import numpy as np
 from keras.utils import plot_model
@@ -211,12 +213,9 @@ if __name__ == '__main__':
 
     # read data
     images_root_path = os.path.join(args.dataset, 'img_align_celeba')
-
     data_partitions = pd.read_csv(os.path.join(args.dataset, 'list_eval_partition.csv'))
-
-    landmarks = pd.read_csv(os.path.join(args.dataset, 'list_landmarks_align_celeba.csv'))
-
-    crops = pd.read_csv(os.path.join(args.dataset, 'list_bbox_celeba.csv'))
+    # landmarks = pd.read_csv(os.path.join(args.dataset, 'list_landmarks_align_celeba.csv'))
+    # crops = pd.read_csv(os.path.join(args.dataset, 'list_bbox_celeba.csv'))
 
     # Train test split
     train_df = data_partitions[data_partitions['partition']==0]
@@ -225,6 +224,7 @@ if __name__ == '__main__':
 
     # Try loading CIFAR-10
     # Try loading diff dataset
+
 
 
     if args.use_subset:
@@ -321,30 +321,59 @@ if __name__ == '__main__':
                show_shapes=True)
 
     if args.tpu:
+        # TODO: Rahul === uncomment here
         # currently hard-coding tpu_name to the VM used
-        tpu_name = 'ee239asproject'
-        tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
-        tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
-        model = tf.contrib.tpu.keras_to_tpu_model(
-            model,
-            strategy=tpu_strategy)
+        # tpu_name = 'ee239asproject'
+        # tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
+        # tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
+        # model = tf.contrib.tpu.keras_to_tpu_model(
+        #     model,
+        #     strategy=tpu_strategy)
 
-        tpu_last_data_idx = 19000 # RAHUL ADD HERE
-        train_df = train_df[0:tpu_last_data_idx-2000]
-        val_df = val_df[tpu_last_data_idx-2000:tpu_last_data_idx]
-        # test_df = test_df[0:1000]
-    
+        training_images_paths = glob.glob(images_root_path + '/*.jpg')
+        training_images_paths = sorted(training_images_paths)
+
+        train_data_paths = training_images_paths[0:len(train_df)]
+        val_data_paths = training_images_paths[len(train_df): len(train_df) + len(val_df)]
+        test_data_paths = training_images_paths[len(train_df) + len(val_df): len(train_df) + len(val_df) + len(test_df)]
+
+        # CUT according to data loaded in TPU instance
+        tpu_last_data_idx = 4000 # TODO: Rahul add amount of images here
+        train_data_paths = train_data_paths[0:1000]
+        val_data_paths = val_data_paths[0:200]
+
+        X_train = np.array([preprocess_image(impath, 
+                                                images_root_path=images_root_path, 
+                                                to_width=inuse_config.img_width, 
+                                                to_height=inuse_config.img_width, 
+                                                resize=True)/255. for impath in train_data_paths])
+        X_val = np.array([preprocess_image_val(impath, 
+                                                images_root_path=images_root_path, 
+                                                to_width=inuse_config.img_width, 
+                                                to_height=inuse_config.img_width, 
+                                                resize=True)/255. for impath in val_data_paths])
+
 
     print('args mode: ', args.mode)
-    if args.mode == 'train':
-        # model.fit(x_train,
-        #           epochs = args.epochs,
-        #           batch_size = inuse_config.BATCH_SIZE,
-        #           validation_data=(x_test, None))
-                ##   callbacks=callbacks_list) # Keep commented for now
-                ## We will use callbacks list later when we have deep conv models to save on 
-                ## each epoch
-    
+    # TPU TRAIN MODE
+    if args.mode == 'train' and args.tpu:
+        history = model.fit(X_train, X_train,
+                  epochs = args.epochs,
+                  batch_size = inuse_config.BATCH_SIZE,
+                  validation_data=(X_val, None))
+                #   callbacks=callbacks_list) # Keep commented for now
+                # We will use callbacks list later when we have deep conv models to save on 
+                # each epoch
+        losses = {'loss': history.history['loss'],
+                    'val_loss': history.history['val_loss'],
+                    'epoch': history.epoch}
+        with open('history.pkl', 'wb') as pkl_file:
+            pickle.dump(losses, pkl_file)
+
+        model.save_weights(save_weights_path)
+
+
+    elif args.mode=='train':
         history = model.fit_generator(train_datagen, 
                             steps_per_epoch= len(train_df)//inuse_config.BATCH_SIZE,
                             epochs=args.epochs,
