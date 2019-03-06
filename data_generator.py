@@ -39,7 +39,7 @@ def generate_validation_data(data, config, batch_size=4, resize=True):
     if config is None:
         raise ValueError('inside gen train data config is None')
     
-    image_batch = np.zeros((batch_size,config.img_height*config.img_width* config.IMG_CHANNEL))
+    image_batch = np.zeros((batch_size,config.img_height,config.img_width,config.IMG_CHANNEL))
     while True:
         for i in range(batch_size):
             idx = np.random.randint(len(data))
