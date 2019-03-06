@@ -290,8 +290,6 @@ if __name__ == '__main__':
     kl_loss = KB.mean(kl_loss)
     # Note: might need to take mean of it here
 
-    # vae_loss = add_custom_loss(model=model, config=inuse_config, kind=args.loss)
-
     model.add_loss(kl_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
     model.compile(optimizer='rmsprop', loss=reconstruction_loss)

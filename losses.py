@@ -5,6 +5,11 @@ from keras.losses import mse, binary_crossentropy
 from keras import backend as KB
 from keras import layers as KL
 
+# NOTE ================================================
+# # ========= NOT IN USE ATM ===========================
+# # ======================================================
+
+
 def add_custom_loss(model=None, config=None, kind='mse'):
     # defaults to mse
     # Adds custom loss as tensor
