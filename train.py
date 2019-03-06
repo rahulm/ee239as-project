@@ -120,7 +120,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_weights', required=False,
                     metavar='save_weights path',
                     help="file to save weights from",
-                    default='vae_mlp_celeb.h5')     
+                    default='vae_mlp_celeb2.h5')     
 
     parser.add_argument('--tensorboard', 
                     required=False,
@@ -223,6 +223,10 @@ if __name__ == '__main__':
     val_df = data_partitions[data_partitions['partition']==1]
     test_df = data_partitions[data_partitions['partition']==2]
 
+    # Try loading CIFAR-10
+    # Try loading diff dataset
+
+
     if args.use_subset:
         print('Using subset of original dataset')
         train_df = train_df[0:19000]
@@ -310,7 +314,7 @@ if __name__ == '__main__':
 
     model.add_loss(kl_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    model.compile(optimizer='rmsprop', loss=reconstruction_loss)
+    model.compile(optimizer='adam', loss=reconstruction_loss)
     # model.summary()
     plot_model(model,
                to_file='vae_mlp_mine.png',
@@ -324,6 +328,11 @@ if __name__ == '__main__':
         model = tf.contrib.tpu.keras_to_tpu_model(
             model,
             strategy=tpu_strategy)
+
+        tpu_last_data_idx = 19000 # RAHUL ADD HERE
+        train_df = train_df[0:tpu_last_data_idx-2000]
+        val_df = val_df[tpu_last_data_idx-2000:tpu_last_data_idx]
+        # test_df = test_df[0:1000]
     
 
     print('args mode: ', args.mode)

@@ -178,6 +178,18 @@ if __name__ == '__main__':
     # Initial epoch for fine-tuning
     parser.add_argument('--initial_epoch', required=False,
                     type=int, default=0)
+    parser.add_argument('--use_subset', 
+                    required=False,
+                    default=False,
+                    help="Whether to use tensorboard callback or not",
+                    action='store_true')
+
+    parser.add_argument('--tpu', 
+                    required=False,
+                    default=False,
+                    help="Whether to use TPU or not.",
+                    action='store_true')
+                    
 
     args = parser.parse_args()
     print('Mode: ', args.mode)

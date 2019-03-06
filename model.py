@@ -59,9 +59,9 @@ def get_encoder(input_tensor, config=None):
         x = conv_BN_relu(x, filters=32, kernel_size=3, stride=2)
         x = conv_BN_relu(x, filters=32, kernel_size=3, stride=2)
         # Note: You can either use GlobalAvgPooling or you can Flatten()
-        x = KL.GlobalAveragePooling2D(name='avg_pool')(x)
+        # x = KL.GlobalAveragePooling2D(name='avg_pool')(x)
         # Can add max pool here if want
-        # x = KL.Flatten()(x)
+        x = KL.Flatten()(x)
         enc_input = x
 
 
