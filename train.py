@@ -161,6 +161,12 @@ if __name__ == '__main__':
     parser.add_argument('--initial_epoch', required=False,
                     type=int, default=0)
 
+    parser.add_argument('--use_subset', 
+                    required=False,
+                    default=False,
+                    help="Whether to use tensorboard callback or not",
+                    action='store_true')
+
     parser.add_argument('--tpu', 
                     required=False,
                     default=False,
@@ -217,6 +223,11 @@ if __name__ == '__main__':
     val_df = data_partitions[data_partitions['partition']==1]
     test_df = data_partitions[data_partitions['partition']==2]
 
+    if args.use_subset:
+        print('Using subset of original dataset')
+        train_df = train_df[0:9000]
+        val_df = val_df[0:2000]
+        test_df = test_df[0:1000]
 
     inuse_config = Config(name=args.name,
                           IMG_SIZE=args.res, 

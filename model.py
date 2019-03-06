@@ -10,8 +10,13 @@ from keras.applications import ResNet50
 
 eps = 1e-5
 
-def conv_BN_relu(x, filters, kernel_size=3, stride=1, dilation=1):
-    x = KL.Conv2D(filters, kernel_size=kernel_size, strides=stride, dilation_rate=dilation, padding='same', use_bias=False)(x)
+def conv_BN_relu(x, filters, kernel_size=3, stride=1, dilation=1, padding='SAME'):
+    x = KL.Conv2D(filters, 
+                  kernel_size=kernel_size, 
+                  strides=stride, 
+                  dilation_rate=dilation, 
+                  padding=padding, 
+                  use_bias=False)(x)
     x = KL.BatchNormalization(epsilon=eps)(x)
     x = KL.Activation('relu')(x)
     return x
@@ -46,6 +51,20 @@ def get_encoder(input_tensor, config=None):
         enc_input = base_features
         enc_input = KL.GlobalAveragePooling2D(name='avg_pool')(enc_input)
 
+    if config.ENCODER == 'naive':
+        # Naive backbone
+        x = conv_BN_relu(input_tensor, filters=32)
+        x = conv_BN_relu(x, filters=32, kernel_size=3, stride=2)
+        x = conv_BN_relu(x, filters=32, kernel_size=3, stride=2)
+        x = conv_BN_relu(x, filters=32, kernel_size=3, stride=2)
+        x = conv_BN_relu(x, filters=32, kernel_size=3, stride=2)
+        # Note: You can either use GlobalAvgPooling or you can Flatten()
+        x = KL.GlobalAveragePooling2D(name='avg_pool')(x)
+        # Can add max pool here if want
+        # x = KL.Flatten()(x)
+        enc_input = x
+
+
 
     x = KL.Dense(config.intermediate_dim, activation='relu')(enc_input)
 
@@ -69,8 +88,9 @@ def get_decoder(latent_inputs = None, config=None):
 
     x = KL.Reshape((1,1,config.intermediate_dim), input_shape=(config.intermediate_dim,))(x)
 
-    # Shape (16,16)
+    # Shape (16,16, 512)
     x = KL.UpSampling2D((16,16))(x)
+
     x = conv_block(x, 
                    filters=64,
                    kernel_size=3,
@@ -95,9 +115,14 @@ def get_decoder(latent_inputs = None, config=None):
                    stage='dec')
 
     x = KL.UpSampling2D((4,4))(x)
-    # Upsample and Conv2D
-    outputs = KL.Activation('sigmoid')(x)
+    x = KL.Conv2D(3, 
+                kernel_size=3, 
+                strides=1, 
+                padding='SAME', 
+                use_bias=False)(x)
 
+    x = KL.BatchNormalization(epsilon=eps)(x)
+    outputs = KL.Activation('sigmoid')(x)
 
     # Add to outputs
     decoder = KM.Model(latent_inputs, outputs, name='decoder')

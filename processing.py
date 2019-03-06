@@ -61,7 +61,7 @@ def preprocess_image(impath, images_root_path = None, to_width=None, to_height=N
 def preprocess_image_val(impath, images_root_path = None, to_width=None, to_height=None, resize=False):
     img = read_image(os.path.join(images_root_path, impath))
     if resize:
-        img = resize_image(img)
+        img = resize_image(img, to_width=to_width, to_height=to_height)
     return img
     
 def flip_image(image):
