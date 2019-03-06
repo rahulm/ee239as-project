@@ -23,6 +23,10 @@ import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
 
+#
+import gcsfs
+#
+
 ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
@@ -185,7 +189,7 @@ if __name__ == '__main__':
     ### data loading
 
     # # MNIST Dataset
-    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    #(x_train, y_train), (x_test, y_test) = mnist.load_data()
 
     # # FACES small Dataset
     # x_train = np.load('./data/face_images_train_aligned_F.npy')
@@ -244,9 +248,11 @@ if __name__ == '__main__':
 
             model, encoder, decoder = get_model(config=inuse_config, 
                                                 input_tensor=KL.Input(shape=(inuse_config.original_dim,)))
-            plot_model(model, to_file='linear_model.png')
-            plot_model(encoder, to_file='linear_encoder.png')
-            plot_model(decoder, to_file='linear_decoder.png')
+           
+            # currently removing to avoid graphviz issues
+            #plot_model(model, to_file='linear_model.png')
+            #plot_model(encoder, to_file='linear_encoder.png')
+            #plot_model(decoder, to_file='linear_decoder.png')
             
 
     # Note: Can use this for fine-tuning pre-trained models later
@@ -279,9 +285,9 @@ if __name__ == '__main__':
         callbacks_list.append(tb)
 
     # Model compilation
-    args = parser.parse_args()
+    #args = parser.parse_args()
     models = (encoder, decoder)
-    data = (x_test, y_test)
+    # data = (x_test, y_test)
 
     if args.loss == 'mse':
         reconstruction_loss = mse
@@ -303,14 +309,14 @@ if __name__ == '__main__':
     # # Note: you can do optimizer=Adam(lr=args.lr) here
     model.compile(optimizer='adam', loss=reconstruction_loss)
     # model.summary()
-    plot_model(model,
-               to_file='vae_mlp_mine.png',
-               show_shapes=True)
+    # plot_model(model,
+    #           to_file='vae_mlp_mine.png',
+    #           show_shapes=True)
     
     # TODO: check if this TPU conversion works
     if args.use_tpu:
         # currently hard-coding tpu_name to the VM used
-        tpu_name = 'ee239asproject'
+        tpu_name = 'ee239project'
         tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
         tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
         model = tf.contrib.tpu.keras_to_tpu_model(
@@ -354,10 +360,10 @@ if __name__ == '__main__':
         print('Model is already loaded')
 
     # Note: Encoder, Decoder = model.layers[1], model.layers[2]
-    plot_results((model.layers[1], model.layers[2]),
-                 data,
-                 batch_size=args.batch_size,
-                 model_name='vae_faces')
+    # plot_results((model.layers[1], model.layers[2]),
+    #             data,
+    #             batch_size=args.batch_size,
+    #             model_name='vae_faces')
     
         
 
