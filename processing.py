@@ -3,8 +3,6 @@ import cv2
 import numpy as np
 import os
 
-dataset_root = '/home/odin/Downloads/Celeb'
-images_root_path = os.path.join(dataset_root, 'img_align_celeba')
 
 
 def sampling(args):
