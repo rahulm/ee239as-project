@@ -6,9 +6,10 @@ import sys
 import pickle
 import tensorflow as tf
 import h5py
-from keras import models as KM
+
+from tensorflow.keras import models as KM
 from keras import backend as KB
-from keras import layers as KL
+from tensorflow.keras import layers as KL
 from keras.datasets import mnist
 from keras.utils import multi_gpu_model
 from keras.optimizers import Adam

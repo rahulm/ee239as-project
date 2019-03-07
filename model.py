@@ -1,5 +1,5 @@
-from keras import layers as KL
-from keras import models as KM
+from tensorflow.keras import layers as KL
+from tensorflow.keras import models as KM
 from keras import backend as KB
 from keras.utils import plot_model
 import tensorflow as tf
