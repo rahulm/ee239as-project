@@ -38,6 +38,12 @@ def get_args(print_args=False):
     parser.add_argument('--dataset', required=True, type=str, metavar='path/to/dataset',
                         help='path to dataset')
 
+    parser.add_argument('--num-train-imgs', required=True, type=int, metavar='N',
+                        help='number of training images')
+    
+    parser.add_argument('--num-val-imgs', required=True, type=int, metavar='N',
+                        help='number of validation images')
+    
     args = parser.parse_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()
     if args.no_cuda:
@@ -52,6 +58,13 @@ def get_args(print_args=False):
         print(args)
         print('\n')
 
+    if args.num_train_imgs > 162770:
+        print("There are only 162770 training images")
+        exit(1)
+    
+    if args.num_val_imgs > 19866:
+        print("There are only 19866 validation images")
+        exit(1)
     return args
 
 
@@ -214,10 +227,11 @@ if __name__ == '__main__':
     #   Train set: images 0 to 162770
     #   Validationn set: images 162711 to 182637
     #   Test set: images 182638 to 202599
-    train_loader = range(500) # <- will train with batch_size * 500 images
-    val_loader = range(50)
-    # train_loader = range(2)
-    # val_loader = range(2)
+    num_train_imgs = args.num_train_imgs
+    num_val_imgs = args.num_val_imgs
+    train_loader = range(num_train_imgs // batch_size) # <- will train with batch_size * 500 images
+    val_loader = range(num_val_imgs // batch_size)
+
     
     # set up custom transform
     totensor = transforms.ToTensor()
