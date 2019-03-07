@@ -373,9 +373,9 @@ if __name__ == '__main__':
         history = model.fit(X_train, X_train,
                             epochs=args.epochs,
                             shuffle=True,
-                            batch_size=(inuse_config.BATCH_SIZE*8))
+                            batch_size=(inuse_config.BATCH_SIZE*8),
                             # batch_size=inuse_config.BATCH_SIZE,
-                            # validation_data=(X_val, X_val))
+                            validation_data=(X_val, X_val))
 
         losses = {'loss': history.history['loss'],
                     'val_loss': history.history['val_loss'],

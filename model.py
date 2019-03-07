@@ -136,7 +136,7 @@ def get_vae(input_tensor, config=None):
 
     # Get decoder ## Maybe these inputs are different from the ones before
     # Make spot for input then send in input
-    latent_inputs = KL.Input(shape=(config.latent_dim,), name='z_sampling')
+    latent_inputs = KL.Input(shape=(config.latent_dim,), name='z_sampling', batch_size=config.BATCH_SIZE)
     decoder = get_decoder(latent_inputs=latent_inputs, config=config)
     x_decoded_mean = decoder(encoder(input_tensor)[2])
     decoder.summary()
@@ -147,9 +147,9 @@ def get_vae(input_tensor, config=None):
     
 def get_model(config=None, input_shape=(None, None, 1), input_tensor=None):
     if input_tensor is None:
-        input_tensor = KL.Input(shape=input_shape, name = 'encoder_input')
+        input_tensor = KL.Input(shape=input_shape, name = 'encoder_input', batch_size=config.BATCH_SIZE)
 
     elif not KB.is_keras_tensor(input_tensor):
-        input_tensor = KL.Input(tensor=input_tensor, name="encoder_input")
+        input_tensor = KL.Input(tensor=input_tensor, name="encoder_input", batch_size=config.BATCH_SIZE)
 
     return get_vae(input_tensor, config)
