@@ -380,20 +380,20 @@ if __name__ == '__main__':
                             # # batch_size=inuse_config.BATCH_SIZE,
                             # validation_data=(X_val, X_val))
 		
-		def train_input_fn(batch_size):
-			# Convert the inputs to a Dataset.
-			dataset = tf.data.Dataset.from_tensor_slices((X_train, X_train))
-			# Shuffle, repeat, and batch the examples.
-			dataset = dataset.cache()
-			dataset = dataset.shuffle(1000, reshuffle_each_iteration=True)
-			dataset = dataset.repeat()
-			dataset = dataset.batch(batch_size, drop_remainder=True)
-			# Return the dataset.
-			return dataset
+        def train_input_fn(batch_size):
+            # Convert the inputs to a Dataset.
+            dataset = tf.data.Dataset.from_tensor_slices((X_train, X_train))
+            # Shuffle, repeat, and batch the examples.
+            dataset = dataset.cache()
+            dataset = dataset.shuffle(1000, reshuffle_each_iteration=True)
+            dataset = dataset.repeat()
+            dataset = dataset.batch(batch_size, drop_remainder=True)
+            # Return the dataset.
+            return dataset
 		
-		history = model.fit(train_input_fn,
-							steps_per_epoch=60,
-                            epochs=args.epochs)
+        history = model.fit(train_input_fn,
+                        steps_per_epoch=60,
+                        epochs=args.epochs)
 
         losses = {'loss': history.history['loss'],
                     'val_loss': history.history['val_loss'],
