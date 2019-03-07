@@ -17,53 +17,56 @@ from PIL import Image
 from VAE import VAE
 
 
-def get_args():
-	parser = argparse.ArgumentParser(description='PyTorch VAE')
+def get_args(print_args=False):
+    parser = argparse.ArgumentParser(description='PyTorch VAE')
 
-	parser.add_argument('--batch-size', type=int, default=128, metavar='N',
-						help='input batch size for training (default: 128)')
+    parser.add_argument('--batch-size', type=int, default=128, metavar='N',
+                        help='input batch size for training (default: 128)')
 
-	parser.add_argument('--epochs', type=int, default=20, metavar='N',
-						help='number of epochs to train (default: 20)')
+    parser.add_argument('--epochs', type=int, default=20, metavar='N',
+                        help='number of epochs to train (default: 20)')
 
-	parser.add_argument('--no-cuda', action='store_true', default=False,
-						help='enables CUDA training')
+    parser.add_argument('--no-cuda', action='store_true', default=False,
+                        help='enables CUDA training')
 
-	parser.add_argument('--seed', type=int, default=1, metavar='S',
-						help='random seed (default: 1)')
+    parser.add_argument('--seed', type=int, default=1, metavar='S',
+                        help='random seed (default: 1)')
 
-	parser.add_argument('--log-interval', type=int, default=1, metavar='N',
-						help='how many batches to wait before logging training status')
-						
-	parser.add_argument('--dataset', required=True, type=str, metavar='path/to/dataset',
-						help='path to dataset')
+    parser.add_argument('--log-interval', type=int, default=1, metavar='N',
+                        help='how many batches to wait before logging training status')
+                        
+    parser.add_argument('--dataset', required=True, type=str, metavar='path/to/dataset',
+                        help='path to dataset')
 
-	args = parser.parse_args()
-	args.cuda = not args.no_cuda and torch.cuda.is_available()
-	if args.no_cuda:
-		args.cuda = False
-	elif torch.cuda.is_available():
-		args.cuda = True
-	else:
-		args.cuda = False
-		print("args.cuda set to False because cuda is not available")
-	
-	return args
+    args = parser.parse_args()
+    args.cuda = not args.no_cuda and torch.cuda.is_available()
+    if args.no_cuda:
+        args.cuda = False
+    elif torch.cuda.is_available():
+        args.cuda = True
+    else:
+        args.cuda = False
+        print("args.cuda set to False because cuda is not available")
+
+    if print_args:
+        print(args)
+
+    return args
 
 
 def load_batch(batch_idx, istrain):
     if istrain:
         #   Pull from training set
-        l = [str(batch_idx*batch_size + i).zfill(6) for i in range(1, batch_size)]
+        l = [str(batch_idx*batch_size + i).zfill(6) for i in range(1, batch_size+1)]
         # l = [str(batch_idx*batch_size + i).zfill(6) for i in range(batch_size)]
     else:
         #   Pull from validation set
-        l = [str(batch_idx*batch_size + i + 162771).zfill(6) for i in range(1, batch_size)]
+        l = [str(batch_idx*batch_size + i + 162771).zfill(6) for i in range(1, batch_size+1)]
         # l = [str(batch_idx*batch_size + i + 162771).zfill(6) for i in range(batch_size)]
 
     data = []
     for idx in l:
-        img = Image.open(template%idx)
+        img = img_transforms(Image.open(template%idx))
         # img = Image.open(os.path.abspath(template%idx))
         data.append(np.array(img))
     data = [totensor(i) for i in data]
@@ -106,13 +109,15 @@ def train(epoch):
         recon_batch, mu, logvar = model(data)
         loss = loss_function(recon_batch, data, mu, logvar)
         loss.backward()
-        train_loss += loss.data[0]
+        # train_loss += loss.data[0]
+        train_loss += loss.item()
         optimizer.step()
         if batch_idx % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), (len(train_loader)*batch_size),
                 100. * batch_idx / len(train_loader),
-                loss.data[0] / len(data)))
+                loss.item() / len(data)))
+                # loss.data[0] / len(data)))
 
     print('====> Epoch: {} Average loss: {:.4f}'.format(
           epoch, train_loss / (len(train_loader)*batch_size)))
@@ -127,11 +132,8 @@ def validate(epoch):
         if args.cuda:
             data = data.cuda()
         recon_batch, mu, logvar = model(data)
-        val_loss += loss_function(recon_batch, data, mu, logvar).data[0]
-
-        #   TODO: LEFT OFF HERE, check if recons folder already exists or not
-        if not os.path.exists("./recons"):
-            os.makedirs("./recons")
+        # val_loss += loss_function(recon_batch, data, mu, logvar).data[0]
+        val_loss += loss_function(recon_batch, data, mu, logvar).item()
 
         torchvision.utils.save_image(data.data, './recons/Epoch_{}_batch_{}_data.jpg'.format(epoch, batch_idx), nrow=8, padding=2)
         torchvision.utils.save_image(recon_batch.data, './recons/Epoch_{}_batch_{}_recon.jpg'.format(epoch, batch_idx), nrow=8, padding=2)
@@ -150,7 +152,7 @@ def resume_training():
 
 
 if __name__ == '__main__':
-    args = get_args()
+    args = get_args(print_args=True)
 
     #   CHANGE THE PATH SUITED TO YOUR MACHINE
     #   'template' variable is used in the function load_batch
@@ -164,8 +166,8 @@ if __name__ == '__main__':
     kwargs = {'num_workers': 1, 'pin_memory': True} if args.cuda else {}
 
     #   Network hyperparameters
-    # model = VAE(nc=3, ngf=128, ndf=128, latent_variable_size=500)
-    model = VAE(nc=3, ngf=178, ndf=218, latent_variable_size=500)
+    model = VAE(nc=3, ngf=128, ndf=128, latent_variable_size=500, use_cuda=args.cuda)
+    # model = VAE(nc=3, ngf=178, ndf=218, latent_variable_size=500)
     if args.cuda:
         model.cuda()
     batch_size = args.batch_size
@@ -176,9 +178,20 @@ if __name__ == '__main__':
     #   Train set: images 0 to 162770
     #   Validationn set: images 162711 to 182637
     #   Test set: images 182638 to 202599
-    train_loader = range(500) # <- will train with batch_size * 500 images
-    val_loader = range(50)
+    # train_loader = range(500) # <- will train with batch_size * 500 images
+    # val_loader = range(50)
+    train_loader = range(2)
+    val_loader = range(2)
+    
+    # set up custom transform
     totensor = transforms.ToTensor()
+    img_transforms = transforms.Scale((128, 128))
+    
+    #  Check if recons and models folder already exists or not
+    if not os.path.exists("recons"):
+        os.makedirs("recons")
+    if not os.path.exists("models"):
+        os.makedirs("models")
 
     resume_training()
 

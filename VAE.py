@@ -1,9 +1,13 @@
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
+
 
 class VAE(nn.Module):
-    def __init__(self, nc, ngf, ndf, latent_variable_size):
+    def __init__(self, nc, ngf, ndf, latent_variable_size, use_cuda=False):
         super(VAE, self).__init__()
+        
+        self.use_cuda = use_cuda
 
         self.nc = nc
         self.ngf = ngf
@@ -72,7 +76,8 @@ class VAE(nn.Module):
 
     def reparametrize(self, mu, logvar):
         std = logvar.mul(0.5).exp_()
-        if args.cuda:
+        # if args.cuda:
+        if self.use_cuda:
             eps = torch.cuda.FloatTensor(std.size()).normal_()
         else:
             eps = torch.FloatTensor(std.size()).normal_()
