@@ -370,6 +370,7 @@ if __name__ == '__main__':
                                                 resize=True)/255. for impath in val_data_paths])
 
 
+
     print('args mode: ', args.mode)
     # TPU TRAIN MODE
     if args.mode == 'train' and args.tpu:
@@ -380,7 +381,7 @@ if __name__ == '__main__':
                             # # batch_size=inuse_config.BATCH_SIZE,
                             # validation_data=(X_val, X_val))
 		
-        def train_input_fn(batch_size):
+        def train_input_fn(batch_size=inuse_config.BATCH_SIZE):
             # Convert the inputs to a Dataset.
             dataset = tf.data.Dataset.from_tensor_slices((X_train, X_train))
             # Shuffle, repeat, and batch the examples.
