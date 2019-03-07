@@ -329,7 +329,8 @@ if __name__ == '__main__':
     model.add_loss(kl_loss_good)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
     # model.compile(optimizer='adam', loss=reconstruction_loss, loss_weights=[1.0])
-    model.compile(optimizer=AdamOptimizer(learning_rate=args.lr), loss=reconstruction_loss, loss_weights=[1.0])
+    # model.compile(optimizer=AdamOptimizer(learning_rate=args.lr), loss=reconstruction_loss, loss_weights=[1.0])
+    model.compile(optimizer=AdamOptimizer(learning_rate=args.lr), loss=reconstruction_loss)
     # model.summary()
     # plot_model(model,
                # to_file='vae_mlp_mine.png',
@@ -372,12 +373,27 @@ if __name__ == '__main__':
     print('args mode: ', args.mode)
     # TPU TRAIN MODE
     if args.mode == 'train' and args.tpu:
-        history = model.fit(X_train, X_train,
-                            epochs=args.epochs,
-                            shuffle=True,
-                            batch_size=(inuse_config.BATCH_SIZE*8),
-                            # batch_size=inuse_config.BATCH_SIZE,
-                            validation_data=(X_val, X_val))
+        # history = model.fit(X_train, X_train,
+                            # epochs=args.epochs,
+                            # shuffle=True,
+                            # batch_size=(inuse_config.BATCH_SIZE*8),
+                            # # batch_size=inuse_config.BATCH_SIZE,
+                            # validation_data=(X_val, X_val))
+		
+		def train_input_fn(batch_size):
+			# Convert the inputs to a Dataset.
+			dataset = tf.data.Dataset.from_tensor_slices((X_train, X_train))
+			# Shuffle, repeat, and batch the examples.
+			dataset = dataset.cache()
+			dataset = dataset.shuffle(1000, reshuffle_each_iteration=True)
+			dataset = dataset.repeat()
+			dataset = dataset.batch(batch_size, drop_remainder=True)
+			# Return the dataset.
+			return dataset
+		
+		history = model.fit(train_input_fn,
+							steps_per_epoch=60,
+                            epochs=args.epochs)
 
         losses = {'loss': history.history['loss'],
                     'val_loss': history.history['val_loss'],
