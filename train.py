@@ -335,7 +335,7 @@ if __name__ == '__main__':
     if args.tpu:
         # TODO: Rahul === uncomment here
         # currently hard-coding tpu_name to the VM used
-        tpu_name = 'ee239asproject'
+        tpu_name = 'ee239project'
         tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
         tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
         model = tf.contrib.tpu.keras_to_tpu_model(
