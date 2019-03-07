@@ -298,23 +298,43 @@ if __name__ == '__main__':
     args = parser.parse_args()
     models = (encoder, decoder)
 
+    def nll(y_true, y_pred):
+        """ Negative log likelihood (Bernoulli). """
+
+        # keras.losses.binary_crossentropy gives the mean
+        # over the last axis. we require the sum
+        # Flatten first
+
+        lh = K.tf.distributions.Bernoulli(probs=y_pred)
+
+        return KB.sum(binary_crossentropy(y_true, y_pred), axis=-1)
+
+    def xent(y_true, y_pred):
+        # Batch flatten maybe
+
+        return KB.sum(binary_crossentropy(y_true, y_pred), axis=-1)
+
     if args.loss == 'mse':
         reconstruction_loss = mse
     elif args.loss == 'ce':
         # Change to sparse_categorical crossentropy
-        reconstruction_loss = sparse_categorical_crossentropy
+        reconstruction_loss = xent
     # Adds KL Loss
+    # IS THIS RIGHT
+
     z_log_var = encoder.get_layer('z_log_var').output
     z_mean = encoder.get_layer('z_mean').output
     kl_loss = 1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var)
     kl_loss = KB.sum(kl_loss, axis=-1)
     kl_loss *= -0.5
-    kl_loss = KB.mean(kl_loss)
-    # Note: might need to take mean of it here
+    # kl_loss = KB.mean(kl_loss) # Do we need mean here?
 
-    model.add_loss(kl_loss)
+    # Note: might need to take mean of it here
+    kl_loss_good = -0.5 * KB.mean(1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var), axis=-1)
+
+    model.add_loss(kl_loss_good)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    model.compile(optimizer='adam', loss=reconstruction_loss)
+    model.compile(optimizer='adam', loss=reconstruction_loss, loss_weights=[1.0])
     # model.summary()
     plot_model(model,
                to_file='vae_mlp_mine.png',
@@ -339,8 +359,8 @@ if __name__ == '__main__':
 
         # CUT according to data loaded in TPU instance
         tpu_last_data_idx = 4000 # TODO: Rahul add amount of images here
-        train_data_paths = train_data_paths[0:1000]
-        val_data_paths = val_data_paths[0:200]
+        train_data_paths = train_data_paths[0:9000]
+        val_data_paths = val_data_paths[0:1024]
 
         X_train = np.array([preprocess_image(impath, 
                                                 images_root_path=images_root_path, 
@@ -358,12 +378,11 @@ if __name__ == '__main__':
     # TPU TRAIN MODE
     if args.mode == 'train' and args.tpu:
         history = model.fit(X_train, X_train,
-                  epochs = args.epochs,
-                  batch_size = inuse_config.BATCH_SIZE,
-                  validation_data=(X_val, None))
-                #   callbacks=callbacks_list) # Keep commented for now
-                # We will use callbacks list later when we have deep conv models to save on 
-                # each epoch
+                            epochs=args.epochs,
+                            shuffle=True,
+                            batch_size=inuse_config.BATCH_SIZE,
+                            validation_data=(X_val, X_val))
+
         losses = {'loss': history.history['loss'],
                     'val_loss': history.history['val_loss'],
                     'epoch': history.epoch}
@@ -378,10 +397,9 @@ if __name__ == '__main__':
                             steps_per_epoch= len(train_df)//inuse_config.BATCH_SIZE,
                             epochs=args.epochs,
                             validation_data=val_datagen,
-                            validation_steps= len(val_df)//4,
+                            validation_steps=len(val_df)//4,
                             verbose=1,
-                            callbacks=callbacks_list,
-                            )
+                            callbacks=callbacks_list)
 
         losses = {'loss': history.history['loss'],
                     'val_loss': history.history['val_loss'],

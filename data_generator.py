@@ -10,8 +10,12 @@ import matplotlib.image as mpimg
 import cv2
 import glob
 from processing import read_image, transform, resize_image, normalize, unnormalize, preprocess_image, preprocess_image_val
+import time
 
+# ERROR IN RANDOM SEED
+# np.random.seed(seed=time.time())
 def generate_training_data(data, config, batch_size=4, resize=True):
+    
     # Data passed in will be train data as train_partition
     # If resize is true you will resize to the passed is config.img_height, config.img_width
     if config is None:
@@ -22,7 +26,6 @@ def generate_training_data(data, config, batch_size=4, resize=True):
     while True:
         for i in range(batch_size):
             idx = np.random.randint(len(data))
-            row = data.iloc[idx]
 #             data.reset_index() 
             x = preprocess_image(row['image_id'], 
                                 images_root_path = config.images_root_path,
@@ -35,6 +38,7 @@ def generate_training_data(data, config, batch_size=4, resize=True):
         yield image_batch, image_batch
 # Note: you can make this convolutional without flattening
 
+# NOTE: ERROR IN RANDOM SEEDING
 def generate_validation_data(data, config, batch_size=4, resize=True):
     if config is None:
         raise ValueError('inside gen train data config is None')
