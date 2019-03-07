@@ -50,6 +50,7 @@ def get_args(print_args=False):
 
     if print_args:
         print(args)
+        print('\n')
 
     return args
 
@@ -151,7 +152,42 @@ def resume_training():
         torch.save(model.state_dict(), './models/Epoch_{}_Train_loss_{:.4f}_Val_loss_{:.4f}.pth'.format(epoch, train_loss, val_loss))
 
 
+
+def setup_custom_logging():
+    import datetime
+    import sys
+    
+    if not os.path.exists('logs'):
+        os.makedirs('logs')
+    
+    curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+    
+    logfilename = os.path.join('logs', "log-{}.txt".format(curr_date_time))
+    outfile = open(logfilename, 'w')
+    
+    class CustomLogging:
+        def __init__(self, orig_stream):
+            self.orig_stream = orig_stream
+            self.fileout = outfile
+        def write(self, data):
+            self.orig_stream.write(data)
+            self.orig_stream.flush()
+            self.fileout.write(data)
+            self.fileout.flush()
+        def flush(self):
+            self.orig_stream.flush()
+            self.fileout.flush()
+    
+    sys.stdout = CustomLogging(sys.stdout)
+    return logfilename
+    
+
+
 if __name__ == '__main__':
+    
+    logfilename = setup_custom_logging()
+    print("Logging to {}\n".format(logfilename))
+    
     args = get_args(print_args=True)
 
     #   CHANGE THE PATH SUITED TO YOUR MACHINE
@@ -167,7 +203,7 @@ if __name__ == '__main__':
 
     #   Network hyperparameters
     model = VAE(nc=3, ngf=128, ndf=128, latent_variable_size=500, use_cuda=args.cuda)
-    # model = VAE(nc=3, ngf=178, ndf=218, latent_variable_size=500)
+    
     if args.cuda:
         model.cuda()
     batch_size = args.batch_size
