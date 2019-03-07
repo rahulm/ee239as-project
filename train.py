@@ -178,10 +178,10 @@ if __name__ == '__main__':
     #   Train set: images 0 to 162770
     #   Validationn set: images 162711 to 182637
     #   Test set: images 182638 to 202599
-    # train_loader = range(500) # <- will train with batch_size * 500 images
-    # val_loader = range(50)
-    train_loader = range(2)
-    val_loader = range(2)
+    train_loader = range(500) # <- will train with batch_size * 500 images
+    val_loader = range(50)
+    # train_loader = range(2)
+    # val_loader = range(2)
     
     # set up custom transform
     totensor = transforms.ToTensor()
