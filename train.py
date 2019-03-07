@@ -20,7 +20,7 @@ import numpy as np
 from keras.utils import plot_model
 from plotting import plot_results
 # Note: we should also try these loss functions
-from losses import add_custom_loss
+# from losses import add_custom_loss, xent
 from keras.losses import mse, binary_crossentropy, sparse_categorical_crossentropy,categorical_crossentropy
 import pandas as pd
 from model import get_model
@@ -209,6 +209,7 @@ if __name__ == '__main__':
         os.makedirs(MODELS_DIR)
 
 
+
     # read data
     images_root_path = os.path.join(args.dataset, 'img_align_celeba')
 
@@ -297,21 +298,22 @@ if __name__ == '__main__':
     # Model compilation
     args = parser.parse_args()
     models = (encoder, decoder)
+    
+    def xent(y_true, y_pred):
+    # Batch flatten maybe
+
+        return KB.sum(binary_crossentropy(y_true, y_pred), axis=-1)
 
     if args.loss == 'mse':
         reconstruction_loss = mse
     elif args.loss == 'ce':
         # Change to sparse_categorical crossentropy
-        reconstruction_loss = sparse_categorical_crossentropy
+        reconstruction_loss = xent
+    
     # Adds KL Loss
     z_log_var = encoder.get_layer('z_log_var').output
     z_mean = encoder.get_layer('z_mean').output
-    kl_loss = 1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var)
-    kl_loss = KB.sum(kl_loss, axis=-1)
-    kl_loss *= -0.5
-    kl_loss = KB.mean(kl_loss)
-    # Note: might need to take mean of it here
-
+    kl_loss = -0.5 * KB.mean(1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var), axis=-1)
     model.add_loss(kl_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
     model.compile(optimizer='adam', loss=reconstruction_loss)
@@ -320,20 +322,8 @@ if __name__ == '__main__':
                to_file='vae_mlp_mine.png',
                show_shapes=True)
 
-    if args.tpu:
-        # currently hard-coding tpu_name to the VM used
-        tpu_name = 'ee239asproject'
-        tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
-        tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
-        model = tf.contrib.tpu.keras_to_tpu_model(
-            model,
-            strategy=tpu_strategy)
 
-        tpu_last_data_idx = 19000 # RAHUL ADD HERE
-        train_df = train_df[0:tpu_last_data_idx-2000]
-        val_df = val_df[tpu_last_data_idx-2000:tpu_last_data_idx]
-        # test_df = test_df[0:1000]
-    
+    # 
 
     print('args mode: ', args.mode)
     if args.mode == 'train':
