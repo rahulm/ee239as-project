@@ -27,6 +27,7 @@ def generate_training_data(data, config, batch_size=4, resize=True):
         for i in range(batch_size):
             idx = np.random.randint(len(data))
 #             data.reset_index() 
+            row = data.iloc[idx]
             x = preprocess_image(row['image_id'], 
                                 images_root_path = config.images_root_path,
                                 to_height=config.img_height, 
