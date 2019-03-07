@@ -28,6 +28,7 @@ import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
 
+import gcsfs
 
 ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
@@ -35,15 +36,6 @@ DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
 if not os.path.isdir('output_images'):
     os.mkdir('output_images')
-
-parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
-# TODO Add parsing arguments
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -260,9 +252,9 @@ if __name__ == '__main__':
 
             model, encoder, decoder = get_model(config=inuse_config, input_shape=(256,256,3)) 
                                                 
-            plot_model(model, to_file='linear_model.png')
-            plot_model(encoder, to_file='linear_encoder.png')
-            plot_model(decoder, to_file='linear_decoder.png')
+            # plot_model(model, to_file='linear_model.png')
+            # plot_model(encoder, to_file='linear_encoder.png')
+            # plot_model(decoder, to_file='linear_decoder.png')
             
 
     # Note: Can use this for fine-tuning pre-trained models later
@@ -336,9 +328,9 @@ if __name__ == '__main__':
     # # Note: you can do optimizer=Adam(lr=args.lr) here
     model.compile(optimizer='adam', loss=reconstruction_loss, loss_weights=[1.0])
     # model.summary()
-    plot_model(model,
-               to_file='vae_mlp_mine.png',
-               show_shapes=True)
+    # plot_model(model,
+               # to_file='vae_mlp_mine.png',
+               # show_shapes=True)
 
     if args.tpu:
         # TODO: Rahul === uncomment here
