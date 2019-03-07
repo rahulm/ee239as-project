@@ -12,7 +12,8 @@ from keras import backend as KB
 from tensorflow.keras import layers as KL
 from keras.datasets import mnist
 from keras.utils import multi_gpu_model
-from keras.optimizers import Adam
+# from keras.optimizers import Adam
+from tensorflow.train import AdamOptimizer
 from keras.callbacks import LambdaCallback, TensorBoard
 import matplotlib.pyplot as plt
 import copy
@@ -327,7 +328,8 @@ if __name__ == '__main__':
 
     model.add_loss(kl_loss_good)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    model.compile(optimizer='adam', loss=reconstruction_loss, loss_weights=[1.0])
+    # model.compile(optimizer='adam', loss=reconstruction_loss, loss_weights=[1.0])
+    model.compile(optimizer=AdamOptimizer(learning_rate=args.lr), loss=reconstruction_loss, loss_weights=[1.0])
     # model.summary()
     # plot_model(model,
                # to_file='vae_mlp_mine.png',
