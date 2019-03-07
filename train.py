@@ -343,12 +343,12 @@ if __name__ == '__main__':
     if args.tpu:
         # TODO: Rahul === uncomment here
         # currently hard-coding tpu_name to the VM used
-        # tpu_name = 'ee239asproject'
-        # tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
-        # tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
-        # model = tf.contrib.tpu.keras_to_tpu_model(
-        #     model,
-        #     strategy=tpu_strategy)
+        tpu_name = 'ee239asproject'
+        tpu = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_name)
+        tpu_strategy = tf.contrib.tpu.TPUDistributionStrategy(tpu)
+        model = tf.contrib.tpu.keras_to_tpu_model(
+            model,
+            strategy=tpu_strategy)
 
         training_images_paths = glob.glob(images_root_path + '/*.jpg')
         training_images_paths = sorted(training_images_paths)
