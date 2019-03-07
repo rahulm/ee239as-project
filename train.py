@@ -75,7 +75,7 @@ def load_batch(batch_idx, istrain):
         # l = [str(batch_idx*batch_size + i).zfill(6) for i in range(batch_size)]
     else:
         #   Pull from validation set
-        l = [str(batch_idx*batch_size + i + 162771).zfill(6) for i in range(1, batch_size+1)]
+        l = [str(batch_idx*batch_size + i + 162770).zfill(6) for i in range(1, batch_size+1)]
         # l = [str(batch_idx*batch_size + i + 162771).zfill(6) for i in range(batch_size)]
 
     data = []
@@ -244,4 +244,3 @@ if __name__ == '__main__':
         os.makedirs("models")
 
     resume_training()
-
