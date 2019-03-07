@@ -11,6 +11,7 @@ import cv2
 import glob
 from processing import read_image, transform, resize_image, normalize, unnormalize, preprocess_image, preprocess_image_val
 
+# TODO: Fix numpy random seed issue
 def generate_training_data(data, config, batch_size=4, resize=True):
     # Data passed in will be train data as train_partition
     # If resize is true you will resize to the passed is config.img_height, config.img_width

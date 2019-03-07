@@ -43,7 +43,6 @@ parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
     
@@ -297,19 +296,20 @@ if __name__ == '__main__':
     # Model compilation
     args = parser.parse_args()
     models = (encoder, decoder)
+    def xent(y_true, y_pred):
+        # Batch flatten maybe
+
+        return KB.sum(binary_crossentropy(y_true, y_pred), axis=-1)
 
     if args.loss == 'mse':
         reconstruction_loss = mse
     elif args.loss == 'ce':
         # Change to sparse_categorical crossentropy
-        reconstruction_loss = sparse_categorical_crossentropy
+        reconstruction_loss = xent
     # Adds KL Loss
     z_log_var = encoder.get_layer('z_log_var').output
     z_mean = encoder.get_layer('z_mean').output
-    kl_loss = 1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var)
-    kl_loss = KB.sum(kl_loss, axis=-1)
-    kl_loss *= -0.5
-    kl_loss = KB.mean(kl_loss)
+    kl_loss = -0.5 * KB.mean(1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var), axis=-1)
     # Note: might need to take mean of it here
 
     model.add_loss(kl_loss)
