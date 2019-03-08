@@ -38,11 +38,16 @@ class ae_trainer(object):
 
             train_loss.append(training_loss)
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss/len(trainloader)))
+            
+            # save model checkpoint
+            torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-epoch_{}.pth".format(self.model_name, epoch)))
+            
         
         # torch.save(self.model.state_dict, "./saved_weights/{}_model_weights".format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + ".pth")
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
-        torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-{}.pth".format(self.model_name, curr_date_time)))
+        # torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-{}.pth".format(self.model_name, curr_date_time)))
 
+        plt.figure()
         plt.plot(num_epoch, train_loss)
         plt.ylabel("Training loss")
         plt.xlabel("Number of Epochs")
@@ -96,11 +101,15 @@ class vae_trainer(object):
 
             train_loss.append(training_loss)
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss/len(trainloader)))
+            
+            # save model checkpoint
+            torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-epoch_{}.pth".format(self.model_name, epoch)))
         
         # torch.save(self.model.state_dict, "./saved_weights/{}_model_weights".format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + ".pth")
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
-        torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-{}.pth".format(self.model_name, curr_date_time)))
-
+        # torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-{}.pth".format(self.model_name, curr_date_time)))
+        
+        plt.figure()
         plt.plot(num_epoch, train_loss)
         plt.ylabel("Training loss")
         plt.xlabel("Number of Epochs")
