@@ -3,10 +3,12 @@ import os
 from time import time
 import argparse
 import sys
+import cv2
 import pickle
 import tensorflow as tf
 import h5py
 from keras import models as KM
+from keras.models import load_model
 from keras import backend as KB
 from keras import layers as KL
 from keras.datasets import mnist
@@ -21,9 +23,9 @@ from keras.utils import plot_model
 from plotting import plot_results
 # Note: we should also try these loss functions
 # from losses import add_custom_loss, xent
-from keras.losses import mse, binary_crossentropy, sparse_categorical_crossentropy,categorical_crossentropy
+from keras.losses import mse, binary_crossentropy,categorical_crossentropy
 import pandas as pd
-from model import get_model
+from model import get_model, get_convolutional_vae
 from data_generator import generate_training_data, generate_validation_data
 
 
@@ -36,13 +38,6 @@ if not os.path.isdir('output_images'):
 
 parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 # TODO Add parsing arguments
-
-
-
-
-
-
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
@@ -76,10 +71,6 @@ if __name__ == '__main__':
     parser.add_argument('--loss', required=True,
                             metavar="mse",
                             help="loss func")
-
-    # parser.add_argument('--decoder', required=True,
-    #                         metavar="naive",
-    #                         help="decoder network style")
 
     parser.add_argument('--logs', required=False,
                             default=DEFAULT_LOGS_DIR,
@@ -120,7 +111,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_weights', required=False,
                     metavar='save_weights path',
                     help="file to save weights from",
-                    default='vae_mlp_celeb2.h5')     
+                    default='vae_mlp_zhuface.h5')     
 
     parser.add_argument('--tensorboard', 
                     required=False,
@@ -157,7 +148,6 @@ if __name__ == '__main__':
     parser.add_argument('--freeze_batchnorm', required=False,
                     type=int, default=0)
     
-    # Initial epoch for fine-tuning
     parser.add_argument('--initial_epoch', required=False,
                     type=int, default=0)
 
@@ -166,14 +156,6 @@ if __name__ == '__main__':
                     default=False,
                     help="Whether to use tensorboard callback or not",
                     action='store_true')
-
-    parser.add_argument('--tpu', 
-                    required=False,
-                    default=False,
-                    help="Whether to use TPU or not.",
-                    action='store_true')
-
-
     args = parser.parse_args()
     print('Mode: ', args.mode)
     print("Resolution: ", args.res)
@@ -184,65 +166,31 @@ if __name__ == '__main__':
     print('Save weights file: ', args.save_weights)
     print('Use tb? : ', args.tensorboard)
 
-    if args.encoder not in ['resnet101', 'resnet50', 'mobilenet', 'mobilenetv2', 'xception', 'naive']:
+    if args.encoder not in ['resnet101', 'resnet50', 'mobilenet', 'mobilenetv2', 'xception', 'naive', 'vae_light']:
         raise ValueError("The backbone you selected: ", args.backbone, 'not valid!')
-
-    if args.decoder not in ['unet', 'deeplabv3+', 'naive_upsampling', 'naive']:
+    if args.decoder not in ['unet', 'deeplabv3+', 'naive_upsampling', 'naive', 'vae_light']:
         raise ValueError("The decoder you selected: ", args.decoder, "is invalid!")
-    
     LOGS_DIR = args.logs
     MODELS_DIR = os.path.join(LOGS_DIR, args.encoder)
-
-
     load_weights_path = args.load_weights
-    save_weights_path = args.save_weights #'bbox_instance_resnet101_deeplabv3+.h5'
-
+    save_weights_path = args.save_weights
     if not os.path.isdir(LOGS_DIR):
 	    os.makedirs(LOGS_DIR)
-
     if not os.path.isdir(MODELS_DIR):
         os.makedirs(MODELS_DIR)
-
     MODELS_DIR = os.path.join(MODELS_DIR, args.decoder)
-
     if not os.path.isdir(MODELS_DIR):
         os.makedirs(MODELS_DIR)
-
-
-
-    # read data
-    images_root_path = os.path.join(args.dataset, 'img_align_celeba')
-
-    data_partitions = pd.read_csv(os.path.join(args.dataset, 'list_eval_partition.csv'))
-
-    landmarks = pd.read_csv(os.path.join(args.dataset, 'list_landmarks_align_celeba.csv'))
-
-    crops = pd.read_csv(os.path.join(args.dataset, 'list_bbox_celeba.csv'))
-
-    # Train test split
-    train_df = data_partitions[data_partitions['partition']==0]
-    val_df = data_partitions[data_partitions['partition']==1]
-    test_df = data_partitions[data_partitions['partition']==2]
-
-    # Try loading CIFAR-10
-    # Try loading diff dataset
-
-
-    if args.use_subset:
-        print('Using subset of original dataset')
-        train_df = train_df[0:19000]
-        val_df = val_df[0:2000]
-        test_df = test_df[0:1000]
 
     inuse_config = Config(name=args.name,
                           IMG_SIZE=args.res, 
                           BATCH_SIZE=args.batch_size,
                           IMG_CHANNEL=args.channel,
-                          DATASET_SIZE = len(train_df) + len(val_df) + len(test_df),
                           img_height=args.img_height,
                           img_width=args.img_width,
                           encoder=args.encoder,
-                          dataset_root=args.dataset)
+                          dataset_root=args.dataset,
+                          DATASET_SIZE=1000)
 
     
 
@@ -253,11 +201,33 @@ if __name__ == '__main__':
 
         # If MNIST:
         if inuse_config.name == 'mnist_binary':
-            model, encoder, decoder = get_model(config=inuse_config, input_shape=(inuse_config.original_dim,))
-        elif inuse_config.name == 'celeb':
+            # MNIST dataset
+            (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-            train_datagen = generate_training_data(train_df, inuse_config, batch_size=inuse_config.BATCH_SIZE)
-            val_datagen = generate_validation_data(val_df, inuse_config)
+            image_size = x_train.shape[1]
+            original_dim = image_size * image_size
+            x_train = np.reshape(x_train, [-1, original_dim])
+            x_test = np.reshape(x_test, [-1, original_dim])
+            x_train = x_train.astype('float32') / 255
+            x_test = x_test.astype('float32') / 255
+
+            model, encoder, decoder = get_model(config=inuse_config, input_shape=(inuse_config.original_dim,))
+
+            models = (encoder, decoder)
+            data = (x_test, y_test)
+
+        
+
+        elif inuse_config.name == 'face':
+            X_train_raw = np.load('data/face_images_train_aligned_F.npy')
+            X_test_raw = np.load('data/face_images_test_aligned_F.npy')
+
+            # X_train as rgb floats
+            X_train = X_train_raw / 255.
+            X_test = X_test_raw / 255.
+
+            X_train = np.array([cv2.resize(x, (256,256))/255. for x in X_train], dtype=np.float32)
+            X_test = np.array([cv2.resize(x, (256,256))/255. for x in X_test], dtype=np.float32)
 
             model, encoder, decoder = get_model(config=inuse_config, input_shape=(256,256,3)) 
                                                 
@@ -265,7 +235,6 @@ if __name__ == '__main__':
             plot_model(encoder, to_file='linear_encoder.png')
             plot_model(decoder, to_file='linear_decoder.png')
             
-
     # Note: Can use this for fine-tuning pre-trained models later
     # if load_weights_path is not None and args.mode != 'train':
     #     print('loading weights from: ', load_weights_path, '...')
@@ -299,50 +268,76 @@ if __name__ == '__main__':
     args = parser.parse_args()
     models = (encoder, decoder)
     
-    def xent(y_true, y_pred):
+    def xent_conv(y_true, y_pred):
     # Batch flatten maybe
-
+        y_true = KB.batch_flatten(y_true)
+        y_pred = KB.batch_flatten(y_pred)
         return KB.sum(binary_crossentropy(y_true, y_pred), axis=-1)
-
-    if args.loss == 'mse':
-        reconstruction_loss = mse
-    elif args.loss == 'ce':
-        # Change to sparse_categorical crossentropy
-        reconstruction_loss = xent
     
+    def nll(y_true, y_pred):
+        """ Negative log likelihood (Bernoulli). """
+
+        lh = KB.tf.distributions.Bernoulli(probs=y_pred)
+
+        return - KB.sum(lh.log_prob(y_true), axis=-1)
+    
+
+    if inuse_config.ENCODER in ['conv_vae']:
+        if args.loss == 'mse':
+            reconstruction_loss = mse
+        elif args.loss == 'ce':
+            # Change to sparse_categorical crossentropy
+            reconstruction_loss = xent_conv
+        elif args.loss == 'nll':
+            reconstruction_loss = nll
+    else:
+        if args.loss == 'mse':
+            reconstruction_loss = mse
+        elif args.loss == 'ce':
+            # Change to sparse_categorical crossentropy
+            reconstruction_loss = binary_crossentropy
+        elif args.loss == 'nll':
+            reconstruction_loss = nll
+        
     # Adds KL Loss
+    
     z_log_var = encoder.get_layer('z_log_var').output
     z_mean = encoder.get_layer('z_mean').output
-    kl_loss = -0.5 * KB.mean(1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var), axis=-1)
+    kl_loss = -0.5 * KB.sum(1 + z_log_var - KB.square(z_mean) - KB.exp(z_log_var), axis=-1)
+    
     model.add_loss(kl_loss)
     # # Note: you can do optimizer=Adam(lr=args.lr) here
-    model.compile(optimizer='adam', loss=reconstruction_loss)
+    model.compile(optimizer='adam', loss=reconstruction_loss, loss_weights=[inuse_config.original_dim])
     # model.summary()
     plot_model(model,
-               to_file='vae_mlp_mine.png',
+               to_file='dec_' + inuse_config.DECODER + 'enc_' + inuse_config.ENCODER +'vae_mlp_mine.png',
                show_shapes=True)
-
-
-    # 
 
     print('args mode: ', args.mode)
     if args.mode == 'train':
-        # model.fit(x_train,
-        #           epochs = args.epochs,
-        #           batch_size = inuse_config.BATCH_SIZE,
-        #           validation_data=(x_test, None))
-                ##   callbacks=callbacks_list) # Keep commented for now
-                ## We will use callbacks list later when we have deep conv models to save on 
-                ## each epoch
-    
-        history = model.fit_generator(train_datagen, 
-                            steps_per_epoch= len(train_df)//inuse_config.BATCH_SIZE,
-                            epochs=args.epochs,
-                            validation_data=val_datagen,
-                            validation_steps= len(val_df)//4,
-                            verbose=1,
-                            callbacks=callbacks_list,
-                            )
+        if inuse_config.name == 'face':
+            history = model.fit(X_train,X_train,
+                    epochs=args.epochs,
+                    callbacks=callbacks_list,
+                    verbose=1,
+                    shuffle=True,
+                    )
+            model.save('faces.h5')
+        elif inuse_config.name == 'mnist_binary':
+            model.fit(x_train, x_train,
+                    epochs=args.epochs,
+                    batch_size=inuse_config.BATCH_SIZE,
+                    validation_data=(x_test, None))
+            model.save_weights('vae_mlp_mnist_aelight.h5')
+
+                #   validation_data=(X_test, None))
+                  
+
+                #   validation_data=(X_test, None),
+                #   validation_steps=1)
+                #   callbacks=callbacks_list) # Keep commented for now
+                # We will use callbacks list later when we have deep conv models to save on 
+                # each epoch
 
         losses = {'loss': history.history['loss'],
                     'val_loss': history.history['val_loss'],
@@ -350,40 +345,41 @@ if __name__ == '__main__':
         with open('history.pkl', 'wb') as pkl_file:
             pickle.dump(losses, pkl_file)
 
-        model.save_weights(save_weights_path)
     else: ## INFERENCE
         if load_weights_path is not None:
-            print('loading weights from: ', load_weights_path, '...')
-            model.load_weights(os.path.join(MODELS_DIR, load_weights_path), by_name=True)
-            print('weights loaded!')
+            if inuse_config.name == 'face':
+                print('loading weights from: ', load_weights_path, '...')
+                model.load_weights(os.path.join(MODELS_DIR, load_weights_path), by_name=True)
+                print('weights loaded!')
 
-            sample_im2test = train_datagen.next()[0][0]
+                idx_to_test = 0
+                sample_image = copy.deepcopy(X_train_raw[idx_to_test]).astype(np.uint8)
+                
+                sample_im2test = cv2.resize(X_train_raw[idx_to_test], (inuse_config.img_height, inuse_config.img_width))/255.
+                sample_im2test = np.expand_dims(sample_im2test, axis=0)
 
-            sample_image_resized = copy.deepcopy(sample_im2test).reshape((inuse_config.IMG_SIZE, inuse_config.IMG_SIZE, inuse_config.IMG_CHANNEL))
-            sample_image_resized_and_scaled = (sample_image_resized * 255).astype(np.uint8)
+                blob = model.predict([sample_im2test])
+                output_img = (blob[0,:,:,:] * 255).astype(np.uint8)
 
-            blob = model.predict([np.expand_dims(sample_im2test,axis=0)])[0]
+                # Recon loss
+                # MSE on 
 
-            output_img = blob.reshape((inuse_config.IMG_SIZE, inuse_config.IMG_SIZE, inuse_config.IMG_CHANNEL))
-            output_img = (output_img * 255).astype(np.uint8)
+                plt.subplot(211)
+                plt.title('sample_image')
+                plt.imshow(sample_image)
 
-            plt.subplot(211)
-            plt.title('sample_image')
-            plt.imshow(sample_image_resized_and_scaled)
+                plt.subplot(212)
+                plt.title('reconstructed image')
+                plt.imshow(output_img)
+                plt.savefig('./output_images/face_sample_reconstruction.png')
+            else:
+                # MNIST Inference
 
-            plt.subplot(212)
-            plt.title('reconstructed image')
-            plt.imshow(output_img)
-            plt.savefig('./output_images/sample_reconstruction.png')
-        # inference / generation pipeline goes here
-        # Load weights if model not already loaded
-        print('Model is already loaded')
-
-    # Note: Encoder, Decoder = model.layers[1], model.layers[2]
-    # plot_results((model.layers[1], model.layers[2]),
-    #              data,
-    #              batch_size=args.batch_size,
-    #              model_name='vae_faces')
+                # Note: Encoder, Decoder = model.layers[1], model.layers[2]
+                plot_results((model.layers[1], model.layers[2]),
+                             data,
+                             batch_size=args.batch_size,
+                             model_name='vae_faces')
     
         
 
