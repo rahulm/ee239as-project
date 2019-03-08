@@ -174,9 +174,18 @@ class dataset_constructor(Dataset):
 
 
 def train_ae_appearance_model(exp_config, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
-    face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
+    face_train_split = face_images_train_warped[:-100]
+    face_val_split = face_images_train_warped[-100:]
+    # face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
+    face_trainset = dataset_constructor(face_train_split, transform=transforms.Compose([ImgToTensor()]))
+    face_valset = dataset_constructor(face_val_split, transform=transforms.Compose([ImgToTensor()]))
 
     face_trainloader = torch.utils.data.DataLoader(face_trainset, 
+                                                    batch_size=batch_size, 
+                                                    shuffle=False, 
+                                                    num_workers=2)
+    
+    face_valloader = torch.utils.data.DataLoader(face_valset, 
                                                     batch_size=batch_size, 
                                                     shuffle=False, 
                                                     num_workers=2)
@@ -189,13 +198,21 @@ def train_ae_appearance_model(exp_config, learning_rate, num_epochs, batch_size,
                             loss_func=loss_function, 
                             model_name="Appearance AE", exp_config=exp_config)
     
-    trainer.train_model(num_epochs, face_trainloader)
+    trainer.train_model(num_epochs, face_trainloader, face_valloader)
 
 def train_ae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
-
-    landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
+    landmark_train_split = landmark_train[:-100]
+    landmark_val_split = landmark_train[-100:]
+    # landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
+    landmark_trainset = dataset_constructor(landmark_train_split, transform=transforms.Compose([LandmarkToTensor()]))
+    landmark_valset = dataset_constructor(landmark_val_split, transform=transforms.Compose([LandmarkToTensor()]))
 
     landmark_trainloader = torch.utils.data.DataLoader(landmark_trainset, 
+                                                        batch_size=batch_size, 
+                                                        shuffle=False, 
+                                                        num_workers=2)
+    
+    landmark_valloader = torch.utils.data.DataLoader(landmark_valset, 
                                                         batch_size=batch_size, 
                                                         shuffle=False, 
                                                         num_workers=2)
@@ -208,12 +225,21 @@ def train_ae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, c
                             loss_func=loss_function, 
                             model_name="Landmark AE", exp_config=exp_config)
 
-    trainer.train_model(num_epochs, landmark_trainloader)
+    trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
 
 def train_vae_appearance_model(exp_config, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
-    face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
+    face_train_split = face_images_train_warped[:-100]
+    face_val_split = face_images_train_warped[-100:]
+    # face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
+    face_trainset = dataset_constructor(face_train_split, transform=transforms.Compose([ImgToTensor()]))
+    face_valset = dataset_constructor(face_val_split, transform=transforms.Compose([ImgToTensor()]))
 
     face_trainloader = torch.utils.data.DataLoader(face_trainset, 
+                                                    batch_size=batch_size, 
+                                                    shuffle=False, 
+                                                    num_workers=2)
+    
+    face_valloader = torch.utils.data.DataLoader(face_valset, 
                                                     batch_size=batch_size, 
                                                     shuffle=False, 
                                                     num_workers=2)
@@ -226,12 +252,21 @@ def train_vae_appearance_model(exp_config, learning_rate, num_epochs, batch_size
                             recon_loss_func=loss_function,
                             model_name="Appearance VAE", exp_config=exp_config)
     
-    trainer.train_model(num_epochs, face_trainloader)
+    trainer.train_model(num_epochs, face_trainloader, face_valloader)
 
 def train_vae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
-    landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
+    landmark_train_split = landmark_train[:-100]
+    landmark_val_split = landmark_train[-100:]
+    # landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
+    landmark_trainset = dataset_constructor(landmark_train_split, transform=transforms.Compose([LandmarkToTensor()]))
+    landmark_valset = dataset_constructor(landmark_val_split, transform=transforms.Compose([LandmarkToTensor()]))
 
     landmark_trainloader = torch.utils.data.DataLoader(landmark_trainset, 
+                                                        batch_size=batch_size, 
+                                                        shuffle=False, 
+                                                        num_workers=2)
+    
+    landmark_valloader = torch.utils.data.DataLoader(landmark_valset, 
                                                         batch_size=batch_size, 
                                                         shuffle=False, 
                                                         num_workers=2)
@@ -244,7 +279,7 @@ def train_vae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, 
                             recon_loss_func=loss_function,
                             model_name="Landmark VAE", exp_config=exp_config)
 
-    trainer.train_model(num_epochs, landmark_trainloader)
+    trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
 
 
 if __name__ == '__main__':

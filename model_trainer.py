@@ -19,11 +19,23 @@ class ae_trainer(object):
         self.optim = optimizer
         self.exp_config = exp_config
         
-    def train_model(self, epochs, trainloader):
+    def train_model(self, epochs, trainloader, valloader):
         self.model.train()
         print("Beginning to train {} model".format(self.model_name))
-        num_epoch = [0 for i in range(epochs)]
         train_loss = []
+        val_loss = []
+        
+        # setup csv for train loss
+        train_loss_csv = open(os.path.join(self.exp_config.exp_metrics_dir, "train_loss.csv"), 'w', newline='')
+        train_csv_writer = csv.writer(train_loss_csv)
+        train_csv_writer.writerow(["epoch", "train_loss"])
+        train_loss_csv.flush()
+        
+        # setup csv for val loss
+        val_loss_csv = open(os.path.join(self.exp_config.exp_metrics_dir, "val_loss.csv"), 'w', newline='')
+        val_csv_writer = csv.writer(val_loss_csv)
+        val_csv_writer.writerow(["epoch", "val_loss"])
+        val_loss_csv.flush()
         
         # setup csv for train loss
         train_loss_csv = open(os.path.join(self.exp_config.exp_metrics_dir, "train_loss.csv"), 'w', newline='')
@@ -43,32 +55,57 @@ class ae_trainer(object):
                 self.optim.step()
                 training_loss += loss.item()
 
-            train_loss.append(training_loss)
-            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss/len(trainloader)))
-            
+            training_loss_norm = training_loss/len(trainloader)
+            train_loss.append(training_loss_norm)
+            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
             
             # save model checkpoint
             torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-epoch_{}.pth".format(self.model_name, epoch)))
             
-            
             # save training loss
-            csv_writer.writerow([str(epoch), "{:f}".format(training_loss)])
+            train_csv_writer.writerow([str(epoch), "{:f}".format(training_loss_norm)])
             train_loss_csv.flush()
-        
+            
+            
+            # val phase
+            self.model.eval()
+            validation_loss = 0
+            for batch_num, batch in enumerate(valloader):
+                if self.use_cuda:
+                    batch = batch.cuda()
+                else:
+                    batch = batch.cpu()
+                x_recon, mu, var = self.model(batch)
+                loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
+                validation_loss += loss.item()
+                print("Batch {} done".format(batch_num))
+            
+            validation_loss_norm = validation_loss/len(valloader)
+            val_loss.append(validation_loss_norm)
+            print('{} Model validation epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, validation_loss_norm))
+            
+            # save validation loss
+            val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
+            val_loss_csv.flush()
+            
         
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
-
-        plt.figure()
-        plt.plot(num_epoch, train_loss)
-        plt.ylabel("Training loss")
-        plt.xlabel("Number of Epochs")
-        plt.title("{} Model Training Loss vs Number of Epochs".format(self.model_name))
-        # plt.savefig('./train_loss_plots/{}_model_train_loss'.format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + '.png')
-        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-train_loss-{}.png'.format(self.model_name, curr_date_time)))
         
-        # flush and close train loss
+        
+        plt.figure()
+        plt.plot(range(epochs), train_loss, label='train')
+        plt.plot(range(epochs), val_loss, label='val')
+        plt.legend()
+        plt.ylabel("Loss")
+        plt.xlabel("Number of Epochs")
+        plt.title("{} Model Loss vs Number of Epochs".format(self.model_name))
+        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-loss-{}.png'.format(self.model_name, curr_date_time)))
+        
+        # flush and close loss
         train_loss_csv.flush()
         train_loss_csv.close()
+        val_loss_csv.flush()
+        val_loss_csv.close()
         
         
 
@@ -95,19 +132,28 @@ class vae_trainer(object):
 
         return recon_loss + KLD
 
-    def train_model(self, epochs, trainloader):
-        self.model.train()
+    def train_model(self, epochs, trainloader, valloader):
+        # self.model.train()
         print("Beginning to train {} model".format(self.model_name))
-        num_epoch = [0 for i in range(epochs)]
         train_loss = []
+        val_loss = []
         
         # setup csv for train loss
         train_loss_csv = open(os.path.join(self.exp_config.exp_metrics_dir, "train_loss.csv"), 'w', newline='')
-        csv_writer = csv.writer(train_loss_csv)
-        csv_writer.writerow(["epoch", "train_loss"])
+        train_csv_writer = csv.writer(train_loss_csv)
+        train_csv_writer.writerow(["epoch", "train_loss"])
         train_loss_csv.flush()
+        
+        # setup csv for val loss
+        val_loss_csv = open(os.path.join(self.exp_config.exp_metrics_dir, "val_loss.csv"), 'w', newline='')
+        val_csv_writer = csv.writer(val_loss_csv)
+        val_csv_writer.writerow(["epoch", "val_loss"])
+        val_loss_csv.flush()
 
         for epoch in range(epochs):
+            
+            # train phase
+            self.model.train()
             training_loss = 0
             for batch_num, batch in enumerate(trainloader):
                 if self.use_cuda:
@@ -121,29 +167,56 @@ class vae_trainer(object):
                 self.optim.step()
                 training_loss += loss.item()
                 print("Batch {} done".format(batch_num))
-
-            train_loss.append(training_loss)
-            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss/len(trainloader)))
+            
+            training_loss_norm = training_loss/len(trainloader)
+            train_loss.append(training_loss_norm)
+            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
             
             # save model checkpoint
             torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-epoch_{}.pth".format(self.model_name, epoch)))
             
             # save training loss
-            csv_writer.writerow([str(epoch), "{:f}".format(training_loss)])
+            train_csv_writer.writerow([str(epoch), "{:f}".format(training_loss_norm)])
             train_loss_csv.flush()
+            
+            
+            # val phase
+            self.model.eval()
+            validation_loss = 0
+            for batch_num, batch in enumerate(valloader):
+                if self.use_cuda:
+                    batch = batch.cuda()
+                else:
+                    batch = batch.cpu()
+                x_recon, mu, var = self.model(batch)
+                loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
+                validation_loss += loss.item()
+                print("Batch {} done".format(batch_num))
+            
+            validation_loss_norm = validation_loss/len(valloader)
+            val_loss.append(validation_loss_norm)
+            print('{} Model validation epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, validation_loss_norm))
+            
+            # save validation loss
+            val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
+            val_loss_csv.flush()
+            
         
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
         
         
         plt.figure()
-        plt.plot(num_epoch, train_loss)
-        plt.ylabel("Training loss")
+        plt.plot(range(epochs), train_loss, label='train')
+        plt.plot(range(epochs), val_loss, label='val')
+        plt.legend()
+        plt.ylabel("Loss")
         plt.xlabel("Number of Epochs")
-        plt.title("{} Model Training Loss vs Number of Epochs".format(self.model_name))
-        # plt.savefig('./train_loss_plots/{}_model_train_loss'.format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + '.png')
-        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-train_loss-{}.png'.format(self.model_name, curr_date_time)))
+        plt.title("{} Model Loss vs Number of Epochs".format(self.model_name))
+        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-loss-{}.png'.format(self.model_name, curr_date_time)))
         
-        # flush and close train loss
+        # flush and close loss
         train_loss_csv.flush()
         train_loss_csv.close()
+        val_loss_csv.flush()
+        val_loss_csv.close()
 
