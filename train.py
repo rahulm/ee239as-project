@@ -302,12 +302,12 @@ if __name__ == '__main__':
     # face_images_train = np.asarray(face_images_train)
     # face_images_test = np.asarray(face_images_test)
 
-    # face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
-    # face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
-    # print("read landmarks")
+    face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
+    face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
+    print("read landmarks")
 
-    # face_landmark_train = np.asarray(face_landmark_train)
-    # face_landmark_test = np.asarray(face_landmark_test)
+    face_landmark_train = np.asarray(face_landmark_train)
+    face_landmark_test = np.asarray(face_landmark_test)
 
 
     # face_images_train_warped = None
