@@ -51,14 +51,21 @@ class appearance_VAE(nn.Module):
             eps = torch.FloatTensor(std.size()).normal_()
         eps = Variable(eps)
         return eps.mul(std).add_(mu)
-
-    def forward(self, x):
+    
+    def get_latent_vec(self, x):
         before_sample = self.encoder(x)
         mu = self.fc1(before_sample.view(-1, 128*8*8))
         var = self.fc2(before_sample.view(-1, 128*8*8))
 
         latent_vec = self.reparametrize(mu, var)
-
+        return mu, var, latent_vec
+    
+    def recon_from_latent_vec(self, latent_vec):
         x_recon = self.decoder(latent_vec.view(-1, self.latent_dim_size, 1, 1))
+        return x_recon
+        
+    def forward(self, x):
+        mu, var, latent_vec = self.get_latent_vec(x)
+        x_recon = self.get_recon_from_latent_vec(latent_vec)
         return x_recon, mu, var
         
