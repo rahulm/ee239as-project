@@ -40,31 +40,31 @@ parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
-    parser.add_argument('--mode', required=False, metavar="train or inf",  default="train", help="train or inference")
-    parser.add_argument('--dataset', required=False, metavar="/path/to/dataset/", default='./<addyourstuff>', help='Path to dataset')
-    parser.add_argument('--name', required=False, metavar="/path/to/dataset/", default='celeb', help='Name of dataset')
-    parser.add_argument('--decoder', required=False, metavar="naive", help="decoder network style")
-    parser.add_argument('--encoder', required=False, metavar="naive", help="backbone network style")
-    parser.add_argument('--loss', required=True, metavar="mse", help="loss func")
-    parser.add_argument('--logs', required=False,default=DEFAULT_LOGS_DIR,metavar="/path/to/logs/",help='Logs and checkpoints directory (default=logs/)')
-    parser.add_argument('--res', required=False, metavar='resolution', type=int, help='Input resolution', default=28)
-    parser.add_argument('--img_height', required=False, metavar='image height', type=int, help='Input height', default=28)
-    parser.add_argument('--img_width', required=False, metavar='img_width', type=int, help='Input width', default=28)
-    parser.add_argument('--channel', required=False, metavar='resolution', type=int, help='Input resolution channel', default=3)
-    parser.add_argument('--load_weights', required=False, metavar='load_weights path', help="file to load weights from", default=None)
-    parser.add_argument('--save_weights', required=False, metavar='save_weights path', help="file to save weights from", default='vae_mlp_zhuface.h5')
-    parser.add_argument('--tensorboard',  required=False, default=False, help="Whether to use tensorboard callback or not", action='store_true')
-    parser.add_argument('--lr', required=False, default=0.0001, type=float)
-    parser.add_argument('--epochs', required=False, default=60, type=int)             
-    parser.add_argument('--gpus', required=False, default=1, type=int)
-    parser.add_argument('--batch_size', required=False, default=128, type=int, help='must be divisible by number of gpus')
-    parser.add_argument('--intermediate_dim', required=False, default=512, type=int, help='intermediate dim')
-    parser.add_argument('--latent_dim', required=False,default=2, type=int, help='latent dim')
-    parser.add_argument('--output_stride', required=False, default=16, type=int)
-    parser.add_argument('--freeze_batchnorm', required=False, type=int, default=0)
-    parser.add_argument('--initial_epoch', required=False, type=int, default=0)
-    parser.add_argument('--use_subset',  required=False, default=False, help="Whether to use tensorboard callback or not", action='store_true')
-    parser.add_argument('--opt', required=False, metavar='save_weights path', help="Optimizer to select", default='adam')
+    parser.add_argument('--mode',              required=False, default="train", help="train or inference", metavar="train or inf")
+    parser.add_argument('--dataset',           required=False, default='./<addyourstuff>', help='Path to dataset', metavar="/path/to/dataset/")
+    parser.add_argument('--name',              required=False, default='celeb', help='Name of dataset', metavar="/path/to/dataset/")
+    parser.add_argument('--decoder',           required=False, default='naive', metavar="naive", help="decoder network style")
+    parser.add_argument('--encoder',           required=False, default='naive', metavar="naive", help="backbone network style")
+    parser.add_argument('--loss',              required=False, default='ce',    metavar="mse",   help="loss func")
+    parser.add_argument('--logs',              required=False, default=DEFAULT_LOGS_DIR, metavar="/path/to/logs/", help='Logs and checkpoints directory')
+    parser.add_argument('--tensorboard',       required=False, default=False,  help="Whether to use tensorboard callback or not", action='store_true')
+    parser.add_argument('--save_weights',      required=False, default='vae_mlp_zhuface.h5', metavar='save_weights path', help="file to save weights from")
+    parser.add_argument('--load_weights',      required=False, default=None, metavar='load_weights path', help="file to load weights from")
+    parser.add_argument('--res',               required=False, default=28, metavar='resolution', type=int, help='Input resolution')
+    parser.add_argument('--img_height',        required=False, default=28, metavar='image height', type=int, help='Input height')
+    parser.add_argument('--img_width',         required=False, default=28, metavar='img_width', type=int, help='Input width')
+    parser.add_argument('--channel',           required=False, default=3, metavar='channel', type=int, help='Input resolution channel')
+    parser.add_argument('--lr',                required=False, default=0.0001, type=float)
+    parser.add_argument('--epochs',            required=False, default=60,     type=int)             
+    parser.add_argument('--gpus',              required=False, default=1,      type=int)
+    parser.add_argument('--batch_size',        required=False, default=128,    type=int, help='must be divisible by number of gpus')
+    parser.add_argument('--intermediate_dim',  required=False, default=512,    type=int, help='intermediate dim')
+    parser.add_argument('--latent_dim',        required=False, default=2,      type=int, help='latent dim')
+    parser.add_argument('--output_stride',     required=False, default=16,     type=int)
+    parser.add_argument('--freeze_batchnorm',  required=False, default=0,      type=int)
+    parser.add_argument('--initial_epoch',     required=False, default=0,      type=int)
+    parser.add_argument('--use_subset',        required=False, default=False, help="Whether to use tensorboard callback or not", action='store_true')
+    parser.add_argument('--opt',               required=False, metavar='save_weights path', help="Optimizer to select", default='adam')
 
     args = parser.parse_args()
     print('Mode: ', args.mode)
@@ -157,31 +157,33 @@ if __name__ == '__main__':
 
     print('args mode: ', args.mode)
     if args.mode == 'train':
-        model.fit(x_train,
+        history = model.fit(x_train,
             epochs=args.epochs,
             batch_size=args.batch_size,
-            validation_data=(x_test, None))
+            validation_data=(x_test, None),
+            callbacks=callbacks_list)
 
         model.save_weights('vae_mlp_mnist_aelight.h5')
 
-        losses = {'loss': history.history['loss'],
-                    'val_loss': history.history['val_loss'],
-                    'epoch': history.epoch}
+        losses = {'loss':     history.history['loss'],
+                  'val_loss': history.history['val_loss'],
+                  'epoch':    history.epoch}
         with open(args.loss + 'history.pkl', 'wb') as pkl_file:
             pickle.dump(losses, pkl_file)
 
     else: ## INFERENCE
+        # Mode should be inf here
         if load_weights_path is not None:
             print('loading weights from: ', load_weights_path, '...')
             model.load_weights(os.path.join(MODELS_DIR, load_weights_path), by_name=True)
             print('weights loaded!')
 
         
-        # Plot results
-        plot_results((model.layers[1], model.layers[2]),
-                        data,
-                        batch_size=args.batch_size,
-                        model_name=args.loss + 'vae_faces')
+    # Plot results
+    plot_results((model.layers[1], model.layers[2]),
+                    data,
+                    batch_size=args.batch_size,
+                    model_name=args.loss + 'vae_faces')
 
         # Reconstruction loss run
         
