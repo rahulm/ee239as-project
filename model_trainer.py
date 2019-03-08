@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 
 class ae_trainer(object):
-    def __init__(self, use_cuda, model, loss_func, optimizer, model_name):
+    def __init__(self, use_cuda, model, loss_func, optimizer, model_name, exp_config):
         self.model = model
         self.model_name = model_name
         self.use_cuda = use_cuda
@@ -16,6 +16,7 @@ class ae_trainer(object):
             self.model.cpu()
         self.loss_func = loss_func
         self.optim = optimizer
+        self.exp_config = exp_config
         
     def train_model(self, epochs, trainloader):
         self.model.train()
