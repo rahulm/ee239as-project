@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import datetime 
 import matplotlib.pyplot as plt
+import os
 
 class ae_trainer(object):
     def __init__(self, use_cuda, model, loss_func, optimizer, model_name):
@@ -46,7 +47,7 @@ class ae_trainer(object):
         plt.savefig('./train_loss_plots/{}_model_train_loss'.format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + '.png')
 
 class vae_trainer(object):
-    def __init__(self, use_cuda, model, recon_loss_func, optimizer, model_name):
+    def __init__(self, use_cuda, model, recon_loss_func, optimizer, model_name, exp_config):
         self.model = model
         self.model_name = model_name
         self.use_cuda = use_cuda
@@ -56,6 +57,7 @@ class vae_trainer(object):
             self.model.cpu()
         self.recon_loss_func = recon_loss_func
         self.optim = optimizer
+        self.exp_config = exp_config
     
     def vae_loss(self, x, x_recon, mu, var, recon_loss_func):
         recon_loss = recon_loss_func(x_recon, x)
@@ -91,13 +93,16 @@ class vae_trainer(object):
             train_loss.append(training_loss)
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss/len(trainloader)))
         
-        torch.save(self.model.state_dict, "./saved_weights/{}_model_weights".format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + ".pth")
+        # torch.save(self.model.state_dict, "./saved_weights/{}_model_weights".format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + ".pth")
+        curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+        torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-{}.pth".format(self.model_name, curr_date_time)))
 
         plt.plot(num_epoch, train_loss)
         plt.ylabel("Training loss")
         plt.xlabel("Number of Epochs")
         plt.title("{} Model Training Loss vs Number of Epochs".format(self.model_name))
-        plt.savefig('./train_loss_plots/{}_model_train_loss'.format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + '.png')
+        # plt.savefig('./train_loss_plots/{}_model_train_loss'.format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + '.png')
+        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-train_loss-{}.png'.format(self.model_name, curr_date_time)))
 
 
 
