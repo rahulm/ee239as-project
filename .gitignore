@@ -103,3 +103,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# input files
+images/
+landmarks/
+warped-test-images.npy
+warped-train-images.npy
