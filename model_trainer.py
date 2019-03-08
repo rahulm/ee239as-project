@@ -76,7 +76,7 @@ class vae_trainer(object):
                     batch = batch.cuda()
                 self.optim.zero_grad()
                 x_recon, mu, var = self.model(batch)
-                loss = self.vae_loss(x_recon, batch, mu, var, self.recon_loss_func)
+                loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()

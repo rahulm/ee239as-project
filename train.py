@@ -145,7 +145,7 @@ def train_vae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail
                                                     shuffle=False, 
                                                     num_workers=2)
 
-    app_model = appearance_autoencoder(latent_dim_size=50)
+    app_model = appearance_VAE(latent_dim_size=50)
     optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
@@ -163,7 +163,7 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
                                                         shuffle=False, 
                                                         num_workers=2)
 
-    lm_model = landmark_autoencoder(latent_dim_size=10)
+    lm_model = landmark_VAE(latent_dim_size=10)
     optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
@@ -178,17 +178,20 @@ if __name__ == '__main__':
     args = parser.parse_args()
     args.cuda = torch.cuda.is_available()
     
-    # if args.cuda:
-    #     torch.cuda.set_device(args.device)
+    print('args.cuda={}'.format(args.cuda))
+    if args.cuda:
+        torch.cuda.set_device(args.device)
+        print('args.device={}'.format(args.device))
+        
 
     if not os.path.exists('./saved_weights'):
         os.makedirs('./saved_weights')
 
-    if not os.path.exists('./train_plots'):
-        os.makedirs('./train_plots')
+    if not os.path.exists('./train_loss_plots'):
+        os.makedirs('./train_loss_plots')
 
-    # if args.cuda:
-    #     torch.cuda.manual_seed(args.seed)
+    if args.cuda:
+        torch.cuda.manual_seed(args.seed)
 
     face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
     face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
