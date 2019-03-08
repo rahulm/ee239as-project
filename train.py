@@ -22,17 +22,23 @@ from landmark_vae import landmark_VAE
 from appearance_vae import appearance_VAE
 
 
-def setup_custom_logging():
+# some experiment logging setup
+ALL_EXPERIMENTS_DIR = "experiments"
+
+def setup_custom_logging(exp_name=""):
     import datetime
     import sys
     
-    if not os.path.exists('logs'):
-        os.makedirs('logs')
-    
     curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     
-    logfilename = os.path.join('logs', "log-{}.txt".format(curr_date_time))
-    outfile = open(logfilename, 'w')
+    # make current experiment directory
+    curr_exp_dt_name = "{}-experiment{}".format(curr_date_time, ("-"+exp_name) if (exp_name != "") else "")
+    curr_exp_dir = os.path.join(ALL_EXPERIMENTS_DIR, curr_exp_dt_name)
+    if not os.path.exists(curr_exp_dir):
+        os.makedirs(curr_exp_dir)
+    
+    curr_exp_log = os.path.join(curr_exp_dir, "log.txt")
+    outfile = open(curr_exp_log, 'w')
     
     class CustomLogging:
         def __init__(self, orig_stream):
@@ -48,7 +54,8 @@ def setup_custom_logging():
             self.fileout.flush()
     
     sys.stdout = CustomLogging(sys.stdout)
-    return logfilename
+    
+    return curr_exp_dir
 
 def get_args(print_args=False):
     parser = argparse.ArgumentParser()
@@ -59,8 +66,8 @@ def get_args(print_args=False):
         help="attempts to enable cuda training, if cuda available")
     parser.add_argument('--device', type=int, default=0,
         help="Device to use for cuda, only applicable if cuda is available and --use_cuda is set.")
-    parser.add_argument('--image_dir', type=str, default='./images/')
-    parser.add_argument('--landmark_dir', type=str, default='./landmarks/')
+    parser.add_argument('--image_dir', type=str, default='images')
+    parser.add_argument('--landmark_dir', type=str, default='landmarks')
     parser.add_argument('--cache_dir', type=str, default='cache')
     parser.add_argument('--appear_lr', type=float, default=7e-4)
     parser.add_argument('--landmark_lr', type=float, default=1e-4)
@@ -218,8 +225,8 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
 
 if __name__ == '__main__':
     
-    logfile_name = setup_custom_logging()
-    print("Logging to {}\n".format(logfile_name))
+    curr_exp_dir = setup_custom_logging()
+    print("Logging to {}\n".format(curr_exp_dir))
     
     args = get_args(print_args=True)
     
