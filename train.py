@@ -295,46 +295,46 @@ if __name__ == '__main__':
         torch.cuda.manual_seed(args.seed)
         print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
 
-    face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
-    face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
-    print("read images")
+    # face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
+    # face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
+    # print("read images")
 
-    face_images_train = np.asarray(face_images_train)
-    face_images_test = np.asarray(face_images_test)
+    # face_images_train = np.asarray(face_images_train)
+    # face_images_test = np.asarray(face_images_test)
 
-    face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
-    face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
-    print("read landmarks")
+    # face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
+    # face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
+    # print("read landmarks")
 
-    face_landmark_train = np.asarray(face_landmark_train)
-    face_landmark_test = np.asarray(face_landmark_test)
+    # face_landmark_train = np.asarray(face_landmark_train)
+    # face_landmark_test = np.asarray(face_landmark_test)
 
 
-    face_images_train_warped = None
-    face_images_test_warped = None
+    # face_images_train_warped = None
+    # face_images_test_warped = None
 
-    if not os.path.exists('./warped-train-images.npy') or not os.path.exists('./warped-test-images.npy'):
+    # if not os.path.exists('./warped-train-images.npy') or not os.path.exists('./warped-test-images.npy'):
 
-        mean_train_landmark = np.mean(face_landmark_train, axis=0)
-        mean_test_landmark = np.mean(face_landmark_test, axis=0)
-        print("Warping training images")
-        face_images_train_warped = np.copy(face_images_train)
-        for i in range(len(face_images_train)):
-            face_images_train_warped[i] = warp(np.copy(face_images_train_warped[i]), face_landmark_train[i], mean_train_landmark)
-        np.save("warped-train-images.npy", face_images_train_warped)
+        # mean_train_landmark = np.mean(face_landmark_train, axis=0)
+        # mean_test_landmark = np.mean(face_landmark_test, axis=0)
+        # print("Warping training images")
+        # face_images_train_warped = np.copy(face_images_train)
+        # for i in range(len(face_images_train)):
+            # face_images_train_warped[i] = warp(np.copy(face_images_train_warped[i]), face_landmark_train[i], mean_train_landmark)
+        # np.save("warped-train-images.npy", face_images_train_warped)
 
-        print("Warping testing images")
-        face_images_test_warped = np.copy(face_images_test)
-        for i in range(len(face_images_test)):
-            face_images_test_warped[i] = warp(np.copy(face_images_test_warped[i]), face_landmark_test[i], mean_train_landmark)
-        np.save("warped-test-images.npy", face_images_test_warped)
-    else:
-        all_face_images_warped = np.load('all-warped-images.npy')
-        face_images_train_warped = all_face_images_warped[:-100]
-        face_images_test_warped = all_face_images_warped[-100:]
-        # face_images_train_warped = np.load("./warped-train-images.npy")
-        # face_images_test_warped = np.load("./warped-test-images.npy")
-        print("Read cached warped images")
+        # print("Warping testing images")
+        # face_images_test_warped = np.copy(face_images_test)
+        # for i in range(len(face_images_test)):
+            # face_images_test_warped[i] = warp(np.copy(face_images_test_warped[i]), face_landmark_test[i], mean_train_landmark)
+        # np.save("warped-test-images.npy", face_images_test_warped)
+    # else:
+    all_face_images_warped = np.load('all-warped-images.npy')
+    face_images_train_warped = all_face_images_warped[:-100]
+    face_images_test_warped = all_face_images_warped[-100:]
+    # face_images_train_warped = np.load("./warped-train-images.npy")
+    # face_images_test_warped = np.load("./warped-test-images.npy")
+    print("Read cached warped images")
 
 
     #   Train Autoencoders
