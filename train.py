@@ -100,7 +100,7 @@ class dataset_constructor(Dataset):
 
 
 
-def train_ae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail, face_images_train_warped):
+def train_ae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
     face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
 
     face_trainloader = torch.utils.data.DataLoader(face_trainset, 
@@ -113,12 +113,12 @@ def train_ae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail,
     trainer = ae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=app_model, 
-                            loss_func=nn.MSELoss(), 
+                            loss_func=loss_function, 
                             model_name="Appearance AE")
     
     trainer.train_model(num_epochs, face_trainloader)
 
-def train_ae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, landmark_train):
+def train_ae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
 
     landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
 
@@ -132,12 +132,12 @@ def train_ae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, l
     trainer = ae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=lm_model, 
-                            loss_func=nn.MSELoss(), 
+                            loss_func=loss_function, 
                             model_name="Landmark AE")
 
     trainer.train_model(num_epochs, landmark_trainloader)
 
-def train_vae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail, face_images_train_warped):
+def train_vae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
     face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
 
     face_trainloader = torch.utils.data.DataLoader(face_trainset, 
@@ -150,12 +150,12 @@ def train_vae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=app_model, 
-                            recon_loss_func=nn.BCELoss(),
+                            recon_loss_func=loss_function,
                             model_name="Appearance VAE")
     
     trainer.train_model(num_epochs, face_trainloader)
 
-def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, landmark_train):
+def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
     landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
 
     landmark_trainloader = torch.utils.data.DataLoader(landmark_trainset, 
@@ -168,7 +168,7 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=lm_model, 
-                            recon_loss_func=nn.BCELoss(),
+                            recon_loss_func=loss_function,
                             model_name="Landmark VAE")
 
     trainer.train_model(num_epochs, landmark_trainloader)
@@ -230,10 +230,10 @@ if __name__ == '__main__':
 
 
     #   Train Autoencoders
-    # train_ae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.cuda, face_images_train_warped)
-    # train_ae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.cuda, face_landmark_train)
+    # train_ae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.cuda, nn.MSELoss(), face_images_train_warped)
+    # train_ae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.cuda, nn.MSELoss(), face_landmark_train)
 
     #   Train Variational Autoencoders
-    train_vae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.cuda, face_images_train_warped)
-    train_vae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.cuda, face_landmark_train)
+    train_vae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.cuda, nn.BCELoss(), face_images_train_warped)
+    train_vae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.cuda, nn.BCELoss(), face_landmark_train)
 
