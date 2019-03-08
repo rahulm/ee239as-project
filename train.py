@@ -37,6 +37,36 @@ parser.add_argument('--log', type=str, default='./results/log/')
 parser.add_argument('--appear_lr', type=float, default=7e-4)
 parser.add_argument('--landmark_lr', type=float, default=1e-4)
 
+
+def setup_custom_logging():
+    import datetime
+    import sys
+    
+    if not os.path.exists('logs'):
+        os.makedirs('logs')
+    
+    curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+    
+    logfilename = os.path.join('logs', "log-{}.txt".format(curr_date_time))
+    outfile = open(logfilename, 'w')
+    
+    class CustomLogging:
+        def __init__(self, orig_stream):
+            self.orig_stream = orig_stream
+            self.fileout = outfile
+        def write(self, data):
+            self.orig_stream.write(data)
+            self.orig_stream.flush()
+            self.fileout.write(data)
+            self.fileout.flush()
+        def flush(self):
+            self.orig_stream.flush()
+            self.fileout.flush()
+    
+    sys.stdout = CustomLogging(sys.stdout)
+    return logfilename
+
+
 # Read Dataset
 class data_reader(object):
     def __init__(self, root_dir, file_str_len, origin_name, file_format):
@@ -175,6 +205,10 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
 
 
 if __name__ == '__main__':
+    
+    logfile_name = setup_custom_logging()
+    print("Logging to {}\n".format(logfile_name))
+    
     args = parser.parse_args()
     args.cuda = torch.cuda.is_available()
     
