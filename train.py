@@ -24,7 +24,31 @@ from appearance_vae import appearance_VAE
 
 # some experiment logging setup
 ALL_EXPERIMENTS_DIR = "experiments"
+EXP_LOSS_PLOTS_DIR = "loss_plots"
+EXP_METRICS_DIR = "metrics"
+EXP_MODELS_DIR = "models"
 
+class ExperimentConfig:
+    def __init__(self, exp_name):
+        self.exp_name = exp_name
+        self.exp_dir = os.path.join(ALL_EXPERIMENTS_DIR, self.exp_name)
+        self.exp_loss_plots_dir = os.path.join(self.exp_dir, EXP_LOSS_PLOTS_DIR)
+        self.exp_metrics_dir = os.path.join(self.exp_dir, EXP_METRICS_DIR)
+        self.exp_models_dir = os.path.join(self.exp_dir, EXP_MODELS_DIR)
+        
+        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir]
+        for dir in self.dirs:
+            if not os.path.exists(dir):
+                os.makedirs(dir)
+        
+        self.str_repr = "ExperimentConfig for experiment {}\n".format(self.exp_name)
+        for dir in self.dirs:
+            self.str_repr += ("\t" + dir + "\n")
+        self.str_repr += "\n"
+        
+    def __str__(self):
+        return self.str_repr
+        
 def setup_custom_logging(exp_name=""):
     import datetime
     import sys
@@ -33,11 +57,9 @@ def setup_custom_logging(exp_name=""):
     
     # make current experiment directory
     curr_exp_dt_name = "{}-experiment{}".format(curr_date_time, ("-"+exp_name) if (exp_name != "") else "")
-    curr_exp_dir = os.path.join(ALL_EXPERIMENTS_DIR, curr_exp_dt_name)
-    if not os.path.exists(curr_exp_dir):
-        os.makedirs(curr_exp_dir)
+    exp_config = ExperimentConfig(curr_exp_dt_name)
     
-    curr_exp_log = os.path.join(curr_exp_dir, "log.txt")
+    curr_exp_log = os.path.join(exp_config.exp_dir, "log.txt")
     outfile = open(curr_exp_log, 'w')
     
     class CustomLogging:
@@ -55,7 +77,7 @@ def setup_custom_logging(exp_name=""):
     
     sys.stdout = CustomLogging(sys.stdout)
     
-    return curr_exp_dir
+    return exp_config
 
 def get_args(print_args=False):
     parser = argparse.ArgumentParser()
@@ -108,9 +130,11 @@ class data_reader(object):
                 name = name[len(name)-self.file_str_len:]
             try:
                 if read_type == 'image':
-                    data = io.imread(self.root_dir + name + self.file_format)
+                    # data = io.imread(self.root_dir + name + self.file_format)
+                    data = io.imread(os.path.join(self.root_dir, name + self.file_format))
                 elif read_type == 'landmark':
-                    mat_data = sio.loadmat(self.root_dir + name + self.file_format)
+                    # mat_data = sio.loadmat(self.root_dir + name + self.file_format)
+                    mat_data = sio.loadmat(os.path.join(self.root_dir, name + self.file_format))
 
                     data = mat_data['lms']
                 dataset.append(data)
@@ -225,8 +249,8 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
 
 if __name__ == '__main__':
     
-    curr_exp_dir = setup_custom_logging()
-    print("Logging to {}\n".format(curr_exp_dir))
+    exp_config = setup_custom_logging()
+    print(exp_config)
     
     args = get_args(print_args=True)
     
@@ -235,24 +259,24 @@ if __name__ == '__main__':
         print('Setting torch.cuda.set_device({})'.format(args.device))
         torch.cuda.manual_seed(args.seed)
         print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
-        
 
-    if not os.path.exists('./saved_weights'):
-        os.makedirs('./saved_weights')
+    # # continue setting up experiment
+    # if not os.path.exists('./saved_weights'):
+        # os.makedirs('./saved_weights')
 
-    if not os.path.exists('./train_loss_plots'):
-        os.makedirs('./train_loss_plots')
-
-    
+    # if not os.path.exists('./train_loss_plots'):
+        # os.makedirs('./train_loss_plots')
 
     face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
     face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
+    print("read images")
 
     face_images_train = np.asarray(face_images_train)
     face_images_test = np.asarray(face_images_test)
 
     face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
     face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
+    print("read landmarks")
 
     face_landmark_train = np.asarray(face_landmark_train)
     face_landmark_test = np.asarray(face_landmark_test)
@@ -279,6 +303,7 @@ if __name__ == '__main__':
     else:
         face_images_train_warped = np.load("./warped-train-images.npy")
         face_images_test_warped = np.load("./warped-test-images.npy")
+        print("Read cached warped images")
 
 
     #   Train Autoencoders
