@@ -329,8 +329,11 @@ if __name__ == '__main__':
             face_images_test_warped[i] = warp(np.copy(face_images_test_warped[i]), face_landmark_test[i], mean_train_landmark)
         np.save("warped-test-images.npy", face_images_test_warped)
     else:
-        face_images_train_warped = np.load("./warped-train-images.npy")
-        face_images_test_warped = np.load("./warped-test-images.npy")
+        all_face_images_warped = np.load('all-warped-images.npy')
+        face_images_train_warped = all_face_images_warped[:-100]
+        face_images_test_warped = all_face_images_warped[-100:]
+        # face_images_train_warped = np.load("./warped-train-images.npy")
+        # face_images_test_warped = np.load("./warped-test-images.npy")
         print("Read cached warped images")
 
 
