@@ -17,7 +17,9 @@ def plot_results(models,
     encoder, decoder = models
     x_test, y_test = data
     # os.makedirs(model_name, exist_ok=True)
-    os.makedirs(model_name)
+    if not os.path.isdir(model_name):
+        os.mkdir(model_name)
+    
 
     filename = os.path.join(model_name, "vae_mean.png")
     # display a 2D plot of the digit classes in the latent space

@@ -5,24 +5,20 @@ class Config(object):
     
 
     name = ''           # This will get hit inside get_model inside model.py
-    latent_dim = 2
-    intermediate_dim = 512
 
     OUTPUT_STRIDE = 16
     ENCODER = ''
     DECODER = ''
 
-    
-
-
-
-    def __init__(self, name, IMG_SIZE, IMG_CHANNEL, BATCH_SIZE, DATASET_SIZE, img_width=None, img_height=None, encoder='naive', dataset_root=None):
+    def __init__(self, name, latent_dim, intermediate_dim, IMG_SIZE, IMG_CHANNEL, BATCH_SIZE, DATASET_SIZE, img_width=None, img_height=None, encoder='naive', dataset_root=None):
         """
         @OUTPUT_STRIDE: output stride of base network 
         STRIDE: output stride of base network where openpose keypoint network connects
         BATCH_SIZE: Batch size
         IMG_SIZE: Resolution of input image to network
         """
+        self.latent_dim = latent_dim
+        self.intermediate_dim = intermediate_dim
         
         # For training:
         self.name = name
