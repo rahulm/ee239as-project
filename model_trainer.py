@@ -36,12 +36,6 @@ class ae_trainer(object):
         val_csv_writer = csv.writer(val_loss_csv)
         val_csv_writer.writerow(["epoch", "val_loss"])
         val_loss_csv.flush()
-        
-        # setup csv for train loss
-        train_loss_csv = open(os.path.join(self.exp_config.exp_metrics_dir, "train_loss.csv"), 'w', newline='')
-        csv_writer = csv.writer(train_loss_csv)
-        csv_writer.writerow(["epoch", "train_loss"])
-        train_loss_csv.flush()
 
         for epoch in range(epochs):
             training_loss = 0
