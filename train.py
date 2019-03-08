@@ -22,8 +22,8 @@ from landmark_vae import landmark_VAE
 from appearance_vae import appearance_VAE
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--epochs', type=int, default=72)
-parser.add_argument('--batch_size', type=int, default=1)
+parser.add_argument('--epochs', type=int, default=70)
+parser.add_argument('--batch_size', type=int, default=32)
 parser.add_argument('--seed', type=int, default=12345)
 parser.add_argument('--device', type=int, default=0)
 parser.add_argument('--image_dir', type=str, default='./images/')
