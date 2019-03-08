@@ -3,9 +3,9 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 class appearance_VAE(nn.Module):
-    def __init__(self, latent_dim_size):
+    def __init__(self, latent_dim_size, use_cuda=False):
         super(appearance_VAE, self).__init__()
-
+        self.use_cuda = use_cuda
         self.latent_dim_size = latent_dim_size
 
         self.encoder = nn.Sequential(
@@ -44,7 +44,8 @@ class appearance_VAE(nn.Module):
 
     def reparametrize(self, mu, var):
         std = var.mul(0.5).exp_()
-        if torch.cuda.is_available():
+        # if torch.cuda.is_available():
+        if self.use_cuda:
             eps = torch.cuda.FloatTensor(std.size()).normal_()
         else:
             eps = torch.FloatTensor(std.size()).normal_()

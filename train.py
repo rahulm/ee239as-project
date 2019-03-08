@@ -21,22 +21,6 @@ from landmark_ae import landmark_autoencoder
 from landmark_vae import landmark_VAE
 from appearance_vae import appearance_VAE
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--epochs', type=int, default=70)
-parser.add_argument('--batch_size', type=int, default=32)
-parser.add_argument('--seed', type=int, default=12345)
-parser.add_argument('--device', type=int, default=0)
-parser.add_argument('--image_dir', type=str, default='./images/')
-parser.add_argument('--landmark_dir', type=str, default='./landmarks/')
-parser.add_argument('--male_img_dir', type=str, default='./male_images/')
-parser.add_argument('--female_img_dir', type=str, default='./female_images/')
-parser.add_argument('--male_landmark', type=str, default='./male_landmarks/')
-parser.add_argument('--female_landmark', type=str, default='./female_landmarks/')
-parser.add_argument('--path', type=str, default='./results/model/')
-parser.add_argument('--log', type=str, default='./results/log/')
-parser.add_argument('--appear_lr', type=float, default=7e-4)
-parser.add_argument('--landmark_lr', type=float, default=1e-4)
-
 
 def setup_custom_logging():
     import datetime
@@ -65,6 +49,34 @@ def setup_custom_logging():
     
     sys.stdout = CustomLogging(sys.stdout)
     return logfilename
+
+def get_args(print_args=False):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--epochs', type=int, default=70)
+    parser.add_argument('--batch_size', type=int, default=32)
+    parser.add_argument('--seed', type=int, default=12345)
+    parser.add_argument('--use_cuda', action='store_true', default=False,
+        help="attempts to enable cuda training, if cuda available")
+    parser.add_argument('--device', type=int, default=0,
+        help="Device to use for cuda, only applicable if cuda is available and --use_cuda is set.")
+    parser.add_argument('--image_dir', type=str, default='./images/')
+    parser.add_argument('--landmark_dir', type=str, default='./landmarks/')
+    parser.add_argument('--cache_dir', type=str, default='cache')
+    parser.add_argument('--appear_lr', type=float, default=7e-4)
+    parser.add_argument('--landmark_lr', type=float, default=1e-4)
+    
+    args = parser.parse_args()
+    
+    if args.use_cuda and not torch.cuda.is_available():
+        args.use_cuda = False
+        print("args.use_cuda set to False because cuda is not available")
+    
+    if print_args:
+        print("Arguments:")
+        print(args)
+        print('\n')
+    
+    return args
 
 
 # Read Dataset
@@ -175,7 +187,7 @@ def train_vae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail
                                                     shuffle=False, 
                                                     num_workers=2)
 
-    app_model = appearance_VAE(latent_dim_size=50)
+    app_model = appearance_VAE(latent_dim_size=50, use_cuda=cuda_avail)
     optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
@@ -193,7 +205,7 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
                                                         shuffle=False, 
                                                         num_workers=2)
 
-    lm_model = landmark_VAE(latent_dim_size=10)
+    lm_model = landmark_VAE(latent_dim_size=10, use_cuda=cuda_avail)
     optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
@@ -209,13 +221,13 @@ if __name__ == '__main__':
     logfile_name = setup_custom_logging()
     print("Logging to {}\n".format(logfile_name))
     
-    args = parser.parse_args()
-    args.cuda = torch.cuda.is_available()
+    args = get_args(print_args=True)
     
-    print('args.cuda={}'.format(args.cuda))
-    if args.cuda:
+    if args.use_cuda:
         torch.cuda.set_device(args.device)
-        print('args.device={}'.format(args.device))
+        print('Setting torch.cuda.set_device({})'.format(args.device))
+        torch.cuda.manual_seed(args.seed)
+        print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
         
 
     if not os.path.exists('./saved_weights'):
@@ -224,8 +236,7 @@ if __name__ == '__main__':
     if not os.path.exists('./train_loss_plots'):
         os.makedirs('./train_loss_plots')
 
-    if args.cuda:
-        torch.cuda.manual_seed(args.seed)
+    
 
     face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
     face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
@@ -264,10 +275,10 @@ if __name__ == '__main__':
 
 
     #   Train Autoencoders
-    # train_ae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.cuda, nn.MSELoss(), face_images_train_warped)
-    # train_ae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.cuda, nn.MSELoss(), face_landmark_train)
+    # train_ae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_images_train_warped)
+    # train_ae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_landmark_train)
 
     #   Train Variational Autoencoders
-    train_vae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.cuda, nn.BCELoss(), face_images_train_warped)
-    train_vae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.cuda, nn.BCELoss(), face_landmark_train)
+    train_vae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.BCELoss(), face_images_train_warped)
+    train_vae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.BCELoss(), face_landmark_train)
 

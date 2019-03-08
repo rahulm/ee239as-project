@@ -11,6 +11,8 @@ class ae_trainer(object):
         self.use_cuda = use_cuda
         if use_cuda:
             self.model.cuda()
+        else:
+            self.model.cpu()
         self.loss_func = loss_func
         self.optim = optimizer
         
@@ -50,6 +52,8 @@ class vae_trainer(object):
         self.use_cuda = use_cuda
         if use_cuda:
             self.model.cuda()
+        else:
+            self.model.cpu()
         self.recon_loss_func = recon_loss_func
         self.optim = optimizer
     
@@ -74,6 +78,8 @@ class vae_trainer(object):
             for batch_num, batch in enumerate(trainloader):
                 if self.use_cuda:
                     batch = batch.cuda()
+                else:
+                    batch = batch.cpu()
                 self.optim.zero_grad()
                 x_recon, mu, var = self.model(batch)
                 loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
