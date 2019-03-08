@@ -173,7 +173,7 @@ class dataset_constructor(Dataset):
 
 
 
-def train_ae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
+def train_ae_appearance_model(exp_config, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
     face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
 
     face_trainloader = torch.utils.data.DataLoader(face_trainset, 
@@ -187,11 +187,11 @@ def train_ae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail,
                             use_cuda=cuda_avail,
                             model=app_model, 
                             loss_func=loss_function, 
-                            model_name="Appearance AE")
+                            model_name="Appearance AE", exp_config=exp_config)
     
     trainer.train_model(num_epochs, face_trainloader)
 
-def train_ae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
+def train_ae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
 
     landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
 
@@ -206,7 +206,7 @@ def train_ae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, l
                             use_cuda=cuda_avail,
                             model=lm_model, 
                             loss_func=loss_function, 
-                            model_name="Landmark AE")
+                            model_name="Landmark AE", exp_config=exp_config)
 
     trainer.train_model(num_epochs, landmark_trainloader)
 
@@ -260,13 +260,6 @@ if __name__ == '__main__':
         torch.cuda.manual_seed(args.seed)
         print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
 
-    # # continue setting up experiment
-    # if not os.path.exists('./saved_weights'):
-        # os.makedirs('./saved_weights')
-
-    # if not os.path.exists('./train_loss_plots'):
-        # os.makedirs('./train_loss_plots')
-
     face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
     face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
     print("read images")
@@ -307,8 +300,8 @@ if __name__ == '__main__':
 
 
     #   Train Autoencoders
-    # train_ae_appearance_model(args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_images_train_warped)
-    # train_ae_landmark_model(args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_landmark_train)
+    # train_ae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_images_train_warped)
+    # train_ae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_landmark_train)
 
     #   Train Variational Autoencoders
     train_vae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.BCELoss(), face_images_train_warped)
