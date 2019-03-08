@@ -98,15 +98,7 @@ class dataset_constructor(Dataset):
             sample_data = self.transform(sample_data)
         return sample_data
 
-def vae_loss(x, x_recon, mu, var, recon_loss_func):
-    recon_loss = recon_loss_func(x_recon, x)
 
-    # https://arxiv.org/abs/1312.6114 (Appendix B)
-    # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
-    KLD_element = mu.pow(2).add_(var.exp()).mul_(-1).add_(1).add_(var)
-    KLD = torch.sum(KLD_element).mul_(-0.5)
-
-    return recon_loss + KLD
 
 def train_ae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail, face_images_train_warped):
     face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
@@ -158,7 +150,6 @@ def train_vae_appearance_model(learning_rate, num_epochs, batch_size, cuda_avail
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=app_model, 
-                            loss_func=vae_loss,
                             recon_loss_func=nn.BCELoss(),
                             model_name="Appearance VAE")
     
@@ -177,7 +168,6 @@ def train_vae_landmark_model(learning_rate, num_epochs, batch_size, cuda_avail, 
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=lm_model, 
-                            loss_func=vae_loss, 
                             recon_loss_func=nn.BCELoss(),
                             model_name="Landmark VAE")
 

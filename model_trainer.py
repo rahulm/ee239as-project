@@ -44,16 +44,25 @@ class ae_trainer(object):
         plt.savefig('./train_loss_plots/{}_model_train_loss'.format(self.model_name) + datetime.datetime.now().strftime("%d%B%Y-%H_%M") + '.png')
 
 class vae_trainer(object):
-    def __init__(self, use_cuda, model, loss_func, recon_loss_func, optimizer, model_name):
+    def __init__(self, use_cuda, model, recon_loss_func, optimizer, model_name):
         self.model = model
         self.model_name = model_name
         self.use_cuda = use_cuda
         if use_cuda:
             self.model.cuda()
-        self.loss_func = loss_func
         self.recon_loss_func = recon_loss_func
         self.optim = optimizer
-        
+    
+    def vae_loss(self, x, x_recon, mu, var, recon_loss_func):
+        recon_loss = recon_loss_func(x_recon, x)
+
+        # https://arxiv.org/abs/1312.6114 (Appendix B)
+        # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
+        KLD_element = mu.pow(2).add_(var.exp()).mul_(-1).add_(1).add_(var)
+        KLD = torch.sum(KLD_element).mul_(-0.5)
+
+        return recon_loss + KLD
+
     def train_model(self, epochs, trainloader):
         self.model.train()
         print("Beginning to train {} model".format(self.model_name))
@@ -67,7 +76,7 @@ class vae_trainer(object):
                     batch = batch.cuda()
                 self.optim.zero_grad()
                 x_recon, mu, var = self.model(batch)
-                loss = self.loss_func(x_recon, batch, mu, var, self.recon_loss_func)
+                loss = self.vae_loss(x_recon, batch, mu, var, self.recon_loss_func)
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()
