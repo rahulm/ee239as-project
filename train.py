@@ -261,11 +261,11 @@ if __name__ == '__main__':
         print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
 
     # # continue setting up experiment
-    # if not os.path.exists('./saved_weights'):
-        # os.makedirs('./saved_weights')
+    if not os.path.exists('./saved_weights'):
+        os.makedirs('./saved_weights')
 
-    # if not os.path.exists('./train_loss_plots'):
-        # os.makedirs('./train_loss_plots')
+    if not os.path.exists('./train_loss_plots'):
+        os.makedirs('./train_loss_plots')
 
     face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
     face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
