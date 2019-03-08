@@ -60,7 +60,7 @@ class appearance_VAE(nn.Module):
         latent_vec = self.reparametrize(mu, var)
         return mu, var, latent_vec
     
-    def recon_from_latent_vec(self, latent_vec):
+    def get_recon_from_latent_vec(self, latent_vec):
         x_recon = self.decoder(latent_vec.view(-1, self.latent_dim_size, 1, 1))
         return x_recon
         
