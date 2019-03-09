@@ -69,8 +69,8 @@ class ae_trainer(object):
                     batch = batch.cuda()
                 else:
                     batch = batch.cpu()
-                x_recon, mu, var = self.model(batch)
-                loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
+                x_recon = self.model(batch)
+                loss = self.loss_func(x_recon, batch)
                 validation_loss += loss.item()
                 print("Batch {} done".format(batch_num))
             
