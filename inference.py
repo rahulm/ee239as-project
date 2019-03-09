@@ -1,9 +1,11 @@
 from train import ImgToTensor
 import numpy as np
 from appearance_vae import appearance_VAE
+from appearance_ae import appearance_autoencoder
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 
 
 all_face_images_warped = np.load('all-warped-images.npy')
@@ -12,7 +14,7 @@ face_images_test_warped = all_face_images_warped[-100:]
 
 #   Inference
 app_vae = appearance_VAE(latent_dim_size=50)
-app_vae.load_state_dict(torch.load("./experiments/2019_03_08-01_37_45-experiment/models/Appearance-VAE-weights-epoch_4.pth", map_location=lambda storage, loc: storage)())
+app_vae.load_state_dict(torch.load("./experiments/2019_03_08-01_37_45-experiment/models/Appearance-VAE-weights-epoch_5.pth", map_location=lambda storage, loc: storage)())
 
 app_vae.eval()
 selected_img = app_vae(ImgToTensor()(np.copy(face_images_train_warped[12])).unsqueeze(0))
