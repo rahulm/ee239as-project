@@ -1,0 +1,318 @@
+ExperimentConfig for experiment 2019_03_08-20_05_14-experiment
+	experiments\2019_03_08-20_05_14-experiment
+	experiments\2019_03_08-20_05_14-experiment\loss_plots
+	experiments\2019_03_08-20_05_14-experiment\metrics
+	experiments\2019_03_08-20_05_14-experiment\models
+
+
+Arguments:
+Namespace(appear_lr=0.0007, batch_size=128, cache_dir='cache', device=0, epochs=50, image_dir='images', landmark_dir='landmarks', landmark_lr=0.0001, seed=12345, use_cuda=True)
+
+
+Setting torch.cuda.set_device(0)
+Setting torch.cuda.manual_seed(12345)
+
+read landmarks
+Read cached warped images
+Beginning to train Appearance-AE model
+Appearance-AE Model training epoch 0, Loss: 0.143968
+Batch 0 done
+Appearance-AE Model validation epoch 0, Loss: 0.143924
+Appearance-AE Model training epoch 1, Loss: 0.142719
+Batch 0 done
+Appearance-AE Model validation epoch 1, Loss: 0.142358
+Appearance-AE Model training epoch 2, Loss: 0.140254
+Batch 0 done
+Appearance-AE Model validation epoch 2, Loss: 0.136708
+Appearance-AE Model training epoch 3, Loss: 0.111683
+Batch 0 done
+Appearance-AE Model validation epoch 3, Loss: 0.091587
+Appearance-AE Model training epoch 4, Loss: 0.064985
+Batch 0 done
+Appearance-AE Model validation epoch 4, Loss: 0.046030
+Appearance-AE Model training epoch 5, Loss: 0.035257
+Batch 0 done
+Appearance-AE Model validation epoch 5, Loss: 0.027719
+Appearance-AE Model training epoch 6, Loss: 0.026255
+Batch 0 done
+Appearance-AE Model validation epoch 6, Loss: 0.023268
+Appearance-AE Model training epoch 7, Loss: 0.021608
+Batch 0 done
+Appearance-AE Model validation epoch 7, Loss: 0.020653
+Appearance-AE Model training epoch 8, Loss: 0.019257
+Batch 0 done
+Appearance-AE Model validation epoch 8, Loss: 0.018936
+Appearance-AE Model training epoch 9, Loss: 0.018407
+Batch 0 done
+Appearance-AE Model validation epoch 9, Loss: 0.018449
+Appearance-AE Model training epoch 10, Loss: 0.017969
+Batch 0 done
+Appearance-AE Model validation epoch 10, Loss: 0.017966
+Appearance-AE Model training epoch 11, Loss: 0.017426
+Batch 0 done
+Appearance-AE Model validation epoch 11, Loss: 0.017295
+Appearance-AE Model training epoch 12, Loss: 0.016886
+Batch 0 done
+Appearance-AE Model validation epoch 12, Loss: 0.016871
+Appearance-AE Model training epoch 13, Loss: 0.016426
+Batch 0 done
+Appearance-AE Model validation epoch 13, Loss: 0.016496
+Appearance-AE Model training epoch 14, Loss: 0.016028
+Batch 0 done
+Appearance-AE Model validation epoch 14, Loss: 0.016190
+Appearance-AE Model training epoch 15, Loss: 0.015713
+Batch 0 done
+Appearance-AE Model validation epoch 15, Loss: 0.015833
+Appearance-AE Model training epoch 16, Loss: 0.015472
+Batch 0 done
+Appearance-AE Model validation epoch 16, Loss: 0.015633
+Appearance-AE Model training epoch 17, Loss: 0.015333
+Batch 0 done
+Appearance-AE Model validation epoch 17, Loss: 0.015548
+Appearance-AE Model training epoch 18, Loss: 0.015217
+Batch 0 done
+Appearance-AE Model validation epoch 18, Loss: 0.015431
+Appearance-AE Model training epoch 19, Loss: 0.015071
+Batch 0 done
+Appearance-AE Model validation epoch 19, Loss: 0.015242
+Appearance-AE Model training epoch 20, Loss: 0.014938
+Batch 0 done
+Appearance-AE Model validation epoch 20, Loss: 0.015117
+Appearance-AE Model training epoch 21, Loss: 0.014844
+Batch 0 done
+Appearance-AE Model validation epoch 21, Loss: 0.015042
+Appearance-AE Model training epoch 22, Loss: 0.014750
+Batch 0 done
+Appearance-AE Model validation epoch 22, Loss: 0.014940
+Appearance-AE Model training epoch 23, Loss: 0.014646
+Batch 0 done
+Appearance-AE Model validation epoch 23, Loss: 0.014821
+Appearance-AE Model training epoch 24, Loss: 0.014543
+Batch 0 done
+Appearance-AE Model validation epoch 24, Loss: 0.014707
+Appearance-AE Model training epoch 25, Loss: 0.014448
+Batch 0 done
+Appearance-AE Model validation epoch 25, Loss: 0.014609
+Appearance-AE Model training epoch 26, Loss: 0.014356
+Batch 0 done
+Appearance-AE Model validation epoch 26, Loss: 0.014495
+Appearance-AE Model training epoch 27, Loss: 0.014262
+Batch 0 done
+Appearance-AE Model validation epoch 27, Loss: 0.014376
+Appearance-AE Model training epoch 28, Loss: 0.014156
+Batch 0 done
+Appearance-AE Model validation epoch 28, Loss: 0.014255
+Appearance-AE Model training epoch 29, Loss: 0.014024
+Batch 0 done
+Appearance-AE Model validation epoch 29, Loss: 0.014078
+Appearance-AE Model training epoch 30, Loss: 0.013825
+Batch 0 done
+Appearance-AE Model validation epoch 30, Loss: 0.013781
+Appearance-AE Model training epoch 31, Loss: 0.013477
+Batch 0 done
+Appearance-AE Model validation epoch 31, Loss: 0.013298
+Appearance-AE Model training epoch 32, Loss: 0.012943
+Batch 0 done
+Appearance-AE Model validation epoch 32, Loss: 0.012735
+Appearance-AE Model training epoch 33, Loss: 0.012187
+Batch 0 done
+Appearance-AE Model validation epoch 33, Loss: 0.011924
+Appearance-AE Model training epoch 34, Loss: 0.011196
+Batch 0 done
+Appearance-AE Model validation epoch 34, Loss: 0.010959
+Appearance-AE Model training epoch 35, Loss: 0.010131
+Batch 0 done
+Appearance-AE Model validation epoch 35, Loss: 0.010147
+Appearance-AE Model training epoch 36, Loss: 0.009232
+Batch 0 done
+Appearance-AE Model validation epoch 36, Loss: 0.009395
+Appearance-AE Model training epoch 37, Loss: 0.008540
+Batch 0 done
+Appearance-AE Model validation epoch 37, Loss: 0.008849
+Appearance-AE Model training epoch 38, Loss: 0.008160
+Batch 0 done
+Appearance-AE Model validation epoch 38, Loss: 0.008428
+Appearance-AE Model training epoch 39, Loss: 0.007757
+Batch 0 done
+Appearance-AE Model validation epoch 39, Loss: 0.008157
+Appearance-AE Model training epoch 40, Loss: 0.007436
+Batch 0 done
+Appearance-AE Model validation epoch 40, Loss: 0.007821
+Appearance-AE Model training epoch 41, Loss: 0.007332
+Batch 0 done
+Appearance-AE Model validation epoch 41, Loss: 0.007545
+Appearance-AE Model training epoch 42, Loss: 0.006974
+Batch 0 done
+Appearance-AE Model validation epoch 42, Loss: 0.007303
+Appearance-AE Model training epoch 43, Loss: 0.006816
+Batch 0 done
+Appearance-AE Model validation epoch 43, Loss: 0.007122
+Appearance-AE Model training epoch 44, Loss: 0.006650
+Batch 0 done
+Appearance-AE Model validation epoch 44, Loss: 0.006969
+Appearance-AE Model training epoch 45, Loss: 0.006491
+Batch 0 done
+Appearance-AE Model validation epoch 45, Loss: 0.006873
+Appearance-AE Model training epoch 46, Loss: 0.006364
+Batch 0 done
+Appearance-AE Model validation epoch 46, Loss: 0.006762
+Appearance-AE Model training epoch 47, Loss: 0.006282
+Batch 0 done
+Appearance-AE Model validation epoch 47, Loss: 0.006732
+Appearance-AE Model training epoch 48, Loss: 0.006368
+Batch 0 done
+Appearance-AE Model validation epoch 48, Loss: 0.006749
+Appearance-AE Model training epoch 49, Loss: 0.006240
+Batch 0 done
+Appearance-AE Model validation epoch 49, Loss: 0.006588
+Beginning to train Landmark-AE model
+Landmark-AE Model training epoch 0, Loss: 0.049961
+Batch 0 done
+Landmark-AE Model validation epoch 0, Loss: 0.050222
+Landmark-AE Model training epoch 1, Loss: 0.049448
+Batch 0 done
+Landmark-AE Model validation epoch 1, Loss: 0.049732
+Landmark-AE Model training epoch 2, Loss: 0.048963
+Batch 0 done
+Landmark-AE Model validation epoch 2, Loss: 0.049250
+Landmark-AE Model training epoch 3, Loss: 0.048479
+Batch 0 done
+Landmark-AE Model validation epoch 3, Loss: 0.048756
+Landmark-AE Model training epoch 4, Loss: 0.047973
+Batch 0 done
+Landmark-AE Model validation epoch 4, Loss: 0.048231
+Landmark-AE Model training epoch 5, Loss: 0.047429
+Batch 0 done
+Landmark-AE Model validation epoch 5, Loss: 0.047656
+Landmark-AE Model training epoch 6, Loss: 0.046819
+Batch 0 done
+Landmark-AE Model validation epoch 6, Loss: 0.046990
+Landmark-AE Model training epoch 7, Loss: 0.046114
+Batch 0 done
+Landmark-AE Model validation epoch 7, Loss: 0.046228
+Landmark-AE Model training epoch 8, Loss: 0.045305
+Batch 0 done
+Landmark-AE Model validation epoch 8, Loss: 0.045354
+Landmark-AE Model training epoch 9, Loss: 0.044366
+Batch 0 done
+Landmark-AE Model validation epoch 9, Loss: 0.044301
+Landmark-AE Model training epoch 10, Loss: 0.043211
+Batch 0 done
+Landmark-AE Model validation epoch 10, Loss: 0.043015
+Landmark-AE Model training epoch 11, Loss: 0.041829
+Batch 0 done
+Landmark-AE Model validation epoch 11, Loss: 0.041503
+Landmark-AE Model training epoch 12, Loss: 0.040219
+Batch 0 done
+Landmark-AE Model validation epoch 12, Loss: 0.039765
+Landmark-AE Model training epoch 13, Loss: 0.038390
+Batch 0 done
+Landmark-AE Model validation epoch 13, Loss: 0.037819
+Landmark-AE Model training epoch 14, Loss: 0.036346
+Batch 0 done
+Landmark-AE Model validation epoch 14, Loss: 0.035604
+Landmark-AE Model training epoch 15, Loss: 0.033981
+Batch 0 done
+Landmark-AE Model validation epoch 15, Loss: 0.033068
+Landmark-AE Model training epoch 16, Loss: 0.031370
+Batch 0 done
+Landmark-AE Model validation epoch 16, Loss: 0.030378
+Landmark-AE Model training epoch 17, Loss: 0.028646
+Batch 0 done
+Landmark-AE Model validation epoch 17, Loss: 0.027613
+Landmark-AE Model training epoch 18, Loss: 0.025871
+Batch 0 done
+Landmark-AE Model validation epoch 18, Loss: 0.024835
+Landmark-AE Model training epoch 19, Loss: 0.023116
+Batch 0 done
+Landmark-AE Model validation epoch 19, Loss: 0.022118
+Landmark-AE Model training epoch 20, Loss: 0.020450
+Batch 0 done
+Landmark-AE Model validation epoch 20, Loss: 0.019526
+Landmark-AE Model training epoch 21, Loss: 0.017937
+Batch 0 done
+Landmark-AE Model validation epoch 21, Loss: 0.017123
+Landmark-AE Model training epoch 22, Loss: 0.015635
+Batch 0 done
+Landmark-AE Model validation epoch 22, Loss: 0.014957
+Landmark-AE Model training epoch 23, Loss: 0.013584
+Batch 0 done
+Landmark-AE Model validation epoch 23, Loss: 0.013054
+Landmark-AE Model training epoch 24, Loss: 0.011798
+Batch 0 done
+Landmark-AE Model validation epoch 24, Loss: 0.011410
+Landmark-AE Model training epoch 25, Loss: 0.010260
+Batch 0 done
+Landmark-AE Model validation epoch 25, Loss: 0.010004
+Landmark-AE Model training epoch 26, Loss: 0.008962
+Batch 0 done
+Landmark-AE Model validation epoch 26, Loss: 0.008836
+Landmark-AE Model training epoch 27, Loss: 0.007888
+Batch 0 done
+Landmark-AE Model validation epoch 27, Loss: 0.007875
+Landmark-AE Model training epoch 28, Loss: 0.007006
+Batch 0 done
+Landmark-AE Model validation epoch 28, Loss: 0.007085
+Landmark-AE Model training epoch 29, Loss: 0.006280
+Batch 0 done
+Landmark-AE Model validation epoch 29, Loss: 0.006434
+Landmark-AE Model training epoch 30, Loss: 0.005681
+Batch 0 done
+Landmark-AE Model validation epoch 30, Loss: 0.005895
+Landmark-AE Model training epoch 31, Loss: 0.005184
+Batch 0 done
+Landmark-AE Model validation epoch 31, Loss: 0.005447
+Landmark-AE Model training epoch 32, Loss: 0.004772
+Batch 0 done
+Landmark-AE Model validation epoch 32, Loss: 0.005074
+Landmark-AE Model training epoch 33, Loss: 0.004430
+Batch 0 done
+Landmark-AE Model validation epoch 33, Loss: 0.004766
+Landmark-AE Model training epoch 34, Loss: 0.004147
+Batch 0 done
+Landmark-AE Model validation epoch 34, Loss: 0.004510
+Landmark-AE Model training epoch 35, Loss: 0.003912
+Batch 0 done
+Landmark-AE Model validation epoch 35, Loss: 0.004298
+Landmark-AE Model training epoch 36, Loss: 0.003718
+Batch 0 done
+Landmark-AE Model validation epoch 36, Loss: 0.004121
+Landmark-AE Model training epoch 37, Loss: 0.003556
+Batch 0 done
+Landmark-AE Model validation epoch 37, Loss: 0.003974
+Landmark-AE Model training epoch 38, Loss: 0.003421
+Batch 0 done
+Landmark-AE Model validation epoch 38, Loss: 0.003849
+Landmark-AE Model training epoch 39, Loss: 0.003306
+Batch 0 done
+Landmark-AE Model validation epoch 39, Loss: 0.003744
+Landmark-AE Model training epoch 40, Loss: 0.003210
+Batch 0 done
+Landmark-AE Model validation epoch 40, Loss: 0.003655
+Landmark-AE Model training epoch 41, Loss: 0.003128
+Batch 0 done
+Landmark-AE Model validation epoch 41, Loss: 0.003579
+Landmark-AE Model training epoch 42, Loss: 0.003059
+Batch 0 done
+Landmark-AE Model validation epoch 42, Loss: 0.003515
+Landmark-AE Model training epoch 43, Loss: 0.003000
+Batch 0 done
+Landmark-AE Model validation epoch 43, Loss: 0.003460
+Landmark-AE Model training epoch 44, Loss: 0.002949
+Batch 0 done
+Landmark-AE Model validation epoch 44, Loss: 0.003413
+Landmark-AE Model training epoch 45, Loss: 0.002906
+Batch 0 done
+Landmark-AE Model validation epoch 45, Loss: 0.003372
+Landmark-AE Model training epoch 46, Loss: 0.002869
+Batch 0 done
+Landmark-AE Model validation epoch 46, Loss: 0.003338
+Landmark-AE Model training epoch 47, Loss: 0.002838
+Batch 0 done
+Landmark-AE Model validation epoch 47, Loss: 0.003308
+Landmark-AE Model training epoch 48, Loss: 0.002810
+Batch 0 done
+Landmark-AE Model validation epoch 48, Loss: 0.003282
+Landmark-AE Model training epoch 49, Loss: 0.002787
+Batch 0 done
+Landmark-AE Model validation epoch 49, Loss: 0.003260
