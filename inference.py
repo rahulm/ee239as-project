@@ -7,6 +7,12 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--weights', type=str, required=True,
+    help="path to model weights to perform inference with")
+args = parser.parse_args()
+
 
 all_face_images_warped = np.load('all-warped-images.npy')
 face_images_train_warped = all_face_images_warped[:-100]
@@ -14,7 +20,8 @@ face_images_test_warped = all_face_images_warped[-100:]
 
 #   Inference
 app_vae = appearance_VAE(latent_dim_size=50)
-app_vae.load_state_dict(torch.load("./experiments/2019_03_08-01_37_45-experiment/models/Appearance-VAE-weights-epoch_5.pth", map_location=lambda storage, loc: storage)())
+# app_vae.load_state_dict(torch.load("./experiments/2019_03_08-01_37_45-experiment/models/Appearance-VAE-weights-epoch_5.pth", map_location=lambda storage, loc: storage)())
+app_vae.load_state_dict(torch.load(args.weights, map_location=lambda storage, loc: storage)())
 
 app_vae.eval()
 selected_img = app_vae(ImgToTensor()(np.copy(face_images_train_warped[12])).unsqueeze(0))
