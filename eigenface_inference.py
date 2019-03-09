@@ -1,4 +1,4 @@
-from train_eigenfaces import ImgToTensor
+from eigenface_train import ImgToTensor
 import numpy as np
 from appearance_vae import appearance_VAE
 from appearance_ae import appearance_autoencoder
