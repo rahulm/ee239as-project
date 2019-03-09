@@ -23,11 +23,21 @@ app_vae = appearance_VAE(latent_dim_size=50)
 # app_vae.load_state_dict(torch.load("./experiments/2019_03_08-01_37_45-experiment/models/Appearance-VAE-weights-epoch_5.pth", map_location=lambda storage, loc: storage)())
 app_vae.load_state_dict(torch.load(args.weights, map_location=lambda storage, loc: storage)())
 
-app_vae.eval()
-selected_img = app_vae(ImgToTensor()(np.copy(face_images_train_warped[12])).unsqueeze(0))
-sample_app_recon = selected_img[0].squeeze().data.cpu().numpy().transpose((1, 2, 0))
 
-plt.imshow(sample_app_recon)
+# img_ind = 12
+img_ind = np.random.randint(0, high=len(all_face_images_warped)+1)
+sample_img = np.copy(all_face_images_warped[img_ind])
+# sample_img = np.copy(face_images_train_warped[12])
+
+app_vae.eval()
+sample_img_recon_batch = app_vae(ImgToTensor()(sample_img).unsqueeze(0))
+sample_img_recon = sample_img_recon_batch[0].squeeze().data.cpu().numpy().transpose((1, 2, 0))
+
+fig = plt.figure()
+fig.add_subplot(1, 2, 1)
+plt.imshow(sample_img)
+fig.add_subplot(1, 2, 2)
+plt.imshow(sample_img_recon)
 plt.show()
 
 
