@@ -20,7 +20,6 @@ class ae_trainer(object):
         self.exp_config = exp_config
         
     def train_model(self, epochs, trainloader, valloader):
-        self.model.train()
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
         val_loss = []
@@ -38,6 +37,7 @@ class ae_trainer(object):
         val_loss_csv.flush()
 
         for epoch in range(epochs):
+            self.model.train()
             training_loss = 0
             for batch_num, batch in enumerate(trainloader):
                 if self.use_cuda:

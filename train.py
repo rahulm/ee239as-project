@@ -196,7 +196,7 @@ def train_ae_appearance_model(exp_config, learning_rate, num_epochs, batch_size,
                             use_cuda=cuda_avail,
                             model=app_model, 
                             loss_func=loss_function, 
-                            model_name="Appearance AE", exp_config=exp_config)
+                            model_name="Appearance-AE", exp_config=exp_config)
     
     trainer.train_model(num_epochs, face_trainloader, face_valloader)
 
@@ -223,7 +223,7 @@ def train_ae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, c
                             use_cuda=cuda_avail,
                             model=lm_model, 
                             loss_func=loss_function, 
-                            model_name="Landmark AE", exp_config=exp_config)
+                            model_name="Landmark-AE", exp_config=exp_config)
 
     trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
 
@@ -250,7 +250,7 @@ def train_vae_appearance_model(exp_config, learning_rate, num_epochs, batch_size
                             use_cuda=cuda_avail,
                             model=app_model, 
                             recon_loss_func=loss_function,
-                            model_name="Appearance VAE", exp_config=exp_config)
+                            model_name="Appearance-VAE", exp_config=exp_config)
     
     trainer.train_model(num_epochs, face_trainloader, face_valloader)
 
@@ -277,7 +277,7 @@ def train_vae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, 
                             use_cuda=cuda_avail,
                             model=lm_model, 
                             recon_loss_func=loss_function,
-                            model_name="Landmark VAE", exp_config=exp_config)
+                            model_name="Landmark-VAE", exp_config=exp_config)
 
     trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
 
