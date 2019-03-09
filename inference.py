@@ -7,20 +7,23 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
+# read arguments
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--weights', type=str, required=True,
     help="path to model weights to perform inference with")
 parser.add_argument('--model', type=str, required=True,
     help="model type, either 'ae' or 'vae'")
+parser.add_argument('--num_imgs', type=int, default=5,
+    help="number of random images to sample and reconstruct.")
 args = parser.parse_args()
 
-
+# read images
 all_face_images_warped = np.load('all-warped-images.npy')
 face_images_train_warped = all_face_images_warped[:-100]
 face_images_test_warped = all_face_images_warped[-100:]
 
-#   Inference
+# get model and weights
 if args.model == 'ae':
     app_model = appearance_autoencoder(latent_dim_size=50)
 elif args.model == 'vae':
@@ -30,31 +33,26 @@ else:
 app_model.load_state_dict(torch.load(args.weights, map_location=lambda storage, loc: storage)())
 
 
-# img_ind = 12
-img_ind = np.random.randint(0, high=len(all_face_images_warped)+1)
-# img_ind = 950
-sample_img = np.copy(all_face_images_warped[img_ind])
-# sample_img = np.copy(face_images_train_warped[12])
+# get original images
+num_imgs = args.num_imgs
+img_inds = np.random.choice(np.arange(len(all_face_images_warped)), size=num_imgs, replace=False)
+sample_imgs = np.copy(all_face_images_warped[img_inds])
+sample_img_tensors = []
+for i in range(num_imgs):
+    sample_img_tensors.append(ImgToTensor()(sample_imgs[i]))
+sample_img_tensors = torch.stack(sample_img_tensors)
 
+# recon
 app_model.eval()
-sample_img_recon_batch = app_model(ImgToTensor()(sample_img).unsqueeze(0))
-sample_img_recon = sample_img_recon_batch[0].squeeze().data.cpu().numpy().transpose((1, 2, 0))
+sample_img_recons = app_model(sample_img_tensors).data.cpu().numpy().transpose((0, 2, 3, 1))
 
+# plot
 fig = plt.figure()
-fig.add_subplot(1, 2, 1)
-plt.imshow(sample_img)
-fig.add_subplot(1, 2, 2)
-plt.imshow(sample_img_recon)
+rows = num_imgs
+cols = 2
+for i in range(num_imgs):
+    fig.add_subplot(rows, cols, (i*2)+1)
+    plt.imshow(sample_imgs[i])
+    fig.add_subplot(rows, cols, (i*2)+2)
+    plt.imshow(sample_img_recons[i])
 plt.show()
-
-
-#   Inference with old AE
-# app_model = appearance_autoencoder(latent_dim_size=50)
-# app_model.load_state_dict(torch.load("appearance_model_weights31October2018-13_53.pth", map_location=lambda storage, loc: storage)())
-
-# app_model.eval()
-# selected_img = app_model(ImgToTensor()(np.copy(face_images_test_warped[12])).unsqueeze(0))
-# sample_app_recon = selected_img.squeeze().data.cpu().numpy().transpose((1, 2, 0))
-
-# plt.imshow(sample_app_recon)
-# plt.show()
