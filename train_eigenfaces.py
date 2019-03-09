@@ -295,11 +295,11 @@ def train_vae_landmark_model(exp_config, learning_rate, num_epochs, batch_size, 
 
 
 if __name__ == '__main__':
+    args = get_args(print_args=True)
     
     exp_config = setup_custom_logging()
-    print(exp_config)
-    
-    args = get_args(print_args=True)
+    print("args\n{}\n".format(args))
+    print("ExperimentConfig\n{}\n".format(exp_config))    
     
     if args.use_cuda:
         torch.cuda.set_device(args.device)
