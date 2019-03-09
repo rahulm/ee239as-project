@@ -1,0 +1,1318 @@
+ExperimentConfig for experiment 2019_03_08-19_33_23-experiment
+	experiments\2019_03_08-19_33_23-experiment
+	experiments\2019_03_08-19_33_23-experiment\loss_plots
+	experiments\2019_03_08-19_33_23-experiment\metrics
+	experiments\2019_03_08-19_33_23-experiment\models
+
+
+Arguments:
+Namespace(appear_lr=0.0007, batch_size=256, cache_dir='cache', device=0, epochs=100, image_dir='images', landmark_dir='landmarks', landmark_lr=0.0001, seed=12345, use_cuda=True)
+
+
+Setting torch.cuda.set_device(0)
+Setting torch.cuda.manual_seed(12345)
+
+read landmarks
+Read cached warped images
+Beginning to train Appearance-VAE model
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 0, Loss: 4.452474
+Batch 0 done
+Appearance-VAE Model validation epoch 0, Loss: 0.697273
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 1, Loss: 0.697062
+Batch 0 done
+Appearance-VAE Model validation epoch 1, Loss: 0.692660
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 2, Loss: 0.691768
+Batch 0 done
+Appearance-VAE Model validation epoch 2, Loss: 0.688399
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 3, Loss: 0.685390
+Batch 0 done
+Appearance-VAE Model validation epoch 3, Loss: 0.677956
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 4, Loss: 0.669726
+Batch 0 done
+Appearance-VAE Model validation epoch 4, Loss: 0.652723
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 5, Loss: 0.636285
+Batch 0 done
+Appearance-VAE Model validation epoch 5, Loss: 0.613255
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 6, Loss: 0.604588
+Batch 0 done
+Appearance-VAE Model validation epoch 6, Loss: 0.603773
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 7, Loss: 0.590311
+Batch 0 done
+Appearance-VAE Model validation epoch 7, Loss: 0.572293
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 8, Loss: 0.563976
+Batch 0 done
+Appearance-VAE Model validation epoch 8, Loss: 0.555108
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 9, Loss: 0.544524
+Batch 0 done
+Appearance-VAE Model validation epoch 9, Loss: 0.536482
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 10, Loss: 0.522747
+Batch 0 done
+Appearance-VAE Model validation epoch 10, Loss: 0.513599
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 11, Loss: 0.501213
+Batch 0 done
+Appearance-VAE Model validation epoch 11, Loss: 0.489548
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 12, Loss: 0.478378
+Batch 0 done
+Appearance-VAE Model validation epoch 12, Loss: 0.467009
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 13, Loss: 0.453733
+Batch 0 done
+Appearance-VAE Model validation epoch 13, Loss: 0.444139
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 14, Loss: 0.434219
+Batch 0 done
+Appearance-VAE Model validation epoch 14, Loss: 0.423131
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 15, Loss: 0.416962
+Batch 0 done
+Appearance-VAE Model validation epoch 15, Loss: 0.409847
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 16, Loss: 0.406328
+Batch 0 done
+Appearance-VAE Model validation epoch 16, Loss: 0.402949
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 17, Loss: 0.399798
+Batch 0 done
+Appearance-VAE Model validation epoch 17, Loss: 0.397407
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 18, Loss: 0.394862
+Batch 0 done
+Appearance-VAE Model validation epoch 18, Loss: 0.392470
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 19, Loss: 0.390182
+Batch 0 done
+Appearance-VAE Model validation epoch 19, Loss: 0.387473
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 20, Loss: 0.385588
+Batch 0 done
+Appearance-VAE Model validation epoch 20, Loss: 0.383188
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 21, Loss: 0.381218
+Batch 0 done
+Appearance-VAE Model validation epoch 21, Loss: 0.378603
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 22, Loss: 0.376885
+Batch 0 done
+Appearance-VAE Model validation epoch 22, Loss: 0.374410
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 23, Loss: 0.373196
+Batch 0 done
+Appearance-VAE Model validation epoch 23, Loss: 0.370205
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 24, Loss: 0.369471
+Batch 0 done
+Appearance-VAE Model validation epoch 24, Loss: 0.366248
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 25, Loss: 0.365855
+Batch 0 done
+Appearance-VAE Model validation epoch 25, Loss: 0.363550
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 26, Loss: 0.363768
+Batch 0 done
+Appearance-VAE Model validation epoch 26, Loss: 0.361646
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 27, Loss: 0.360894
+Batch 0 done
+Appearance-VAE Model validation epoch 27, Loss: 0.359900
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 28, Loss: 0.359693
+Batch 0 done
+Appearance-VAE Model validation epoch 28, Loss: 0.358330
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 29, Loss: 0.357981
+Batch 0 done
+Appearance-VAE Model validation epoch 29, Loss: 0.356514
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 30, Loss: 0.357096
+Batch 0 done
+Appearance-VAE Model validation epoch 30, Loss: 0.355915
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 31, Loss: 0.356291
+Batch 0 done
+Appearance-VAE Model validation epoch 31, Loss: 0.355627
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 32, Loss: 0.355057
+Batch 0 done
+Appearance-VAE Model validation epoch 32, Loss: 0.354329
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 33, Loss: 0.354443
+Batch 0 done
+Appearance-VAE Model validation epoch 33, Loss: 0.353687
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 34, Loss: 0.353866
+Batch 0 done
+Appearance-VAE Model validation epoch 34, Loss: 0.353450
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 35, Loss: 0.353584
+Batch 0 done
+Appearance-VAE Model validation epoch 35, Loss: 0.353388
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 36, Loss: 0.352898
+Batch 0 done
+Appearance-VAE Model validation epoch 36, Loss: 0.351999
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 37, Loss: 0.352407
+Batch 0 done
+Appearance-VAE Model validation epoch 37, Loss: 0.351790
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 38, Loss: 0.352008
+Batch 0 done
+Appearance-VAE Model validation epoch 38, Loss: 0.351637
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 39, Loss: 0.351697
+Batch 0 done
+Appearance-VAE Model validation epoch 39, Loss: 0.350999
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 40, Loss: 0.351388
+Batch 0 done
+Appearance-VAE Model validation epoch 40, Loss: 0.350132
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 41, Loss: 0.350805
+Batch 0 done
+Appearance-VAE Model validation epoch 41, Loss: 0.350494
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 42, Loss: 0.350830
+Batch 0 done
+Appearance-VAE Model validation epoch 42, Loss: 0.349590
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 43, Loss: 0.350295
+Batch 0 done
+Appearance-VAE Model validation epoch 43, Loss: 0.349926
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 44, Loss: 0.350461
+Batch 0 done
+Appearance-VAE Model validation epoch 44, Loss: 0.349844
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 45, Loss: 0.350153
+Batch 0 done
+Appearance-VAE Model validation epoch 45, Loss: 0.348705
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 46, Loss: 0.349881
+Batch 0 done
+Appearance-VAE Model validation epoch 46, Loss: 0.349250
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 47, Loss: 0.349674
+Batch 0 done
+Appearance-VAE Model validation epoch 47, Loss: 0.348531
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 48, Loss: 0.349488
+Batch 0 done
+Appearance-VAE Model validation epoch 48, Loss: 0.349003
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 49, Loss: 0.349072
+Batch 0 done
+Appearance-VAE Model validation epoch 49, Loss: 0.348251
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 50, Loss: 0.348968
+Batch 0 done
+Appearance-VAE Model validation epoch 50, Loss: 0.348812
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 51, Loss: 0.349003
+Batch 0 done
+Appearance-VAE Model validation epoch 51, Loss: 0.347954
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 52, Loss: 0.348598
+Batch 0 done
+Appearance-VAE Model validation epoch 52, Loss: 0.348307
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 53, Loss: 0.348667
+Batch 0 done
+Appearance-VAE Model validation epoch 53, Loss: 0.348073
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 54, Loss: 0.348112
+Batch 0 done
+Appearance-VAE Model validation epoch 54, Loss: 0.347317
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 55, Loss: 0.348072
+Batch 0 done
+Appearance-VAE Model validation epoch 55, Loss: 0.347582
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 56, Loss: 0.347996
+Batch 0 done
+Appearance-VAE Model validation epoch 56, Loss: 0.347865
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 57, Loss: 0.348367
+Batch 0 done
+Appearance-VAE Model validation epoch 57, Loss: 0.347931
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 58, Loss: 0.348353
+Batch 0 done
+Appearance-VAE Model validation epoch 58, Loss: 0.346497
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 59, Loss: 0.347877
+Batch 0 done
+Appearance-VAE Model validation epoch 59, Loss: 0.347233
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 60, Loss: 0.347967
+Batch 0 done
+Appearance-VAE Model validation epoch 60, Loss: 0.349190
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 61, Loss: 0.347921
+Batch 0 done
+Appearance-VAE Model validation epoch 61, Loss: 0.347209
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 62, Loss: 0.348423
+Batch 0 done
+Appearance-VAE Model validation epoch 62, Loss: 0.346505
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 63, Loss: 0.347731
+Batch 0 done
+Appearance-VAE Model validation epoch 63, Loss: 0.346202
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 64, Loss: 0.347338
+Batch 0 done
+Appearance-VAE Model validation epoch 64, Loss: 0.346341
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 65, Loss: 0.347197
+Batch 0 done
+Appearance-VAE Model validation epoch 65, Loss: 0.346629
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 66, Loss: 0.347343
+Batch 0 done
+Appearance-VAE Model validation epoch 66, Loss: 0.346479
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 67, Loss: 0.346545
+Batch 0 done
+Appearance-VAE Model validation epoch 67, Loss: 0.346470
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 68, Loss: 0.346986
+Batch 0 done
+Appearance-VAE Model validation epoch 68, Loss: 0.347138
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 69, Loss: 0.346726
+Batch 0 done
+Appearance-VAE Model validation epoch 69, Loss: 0.346314
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 70, Loss: 0.347127
+Batch 0 done
+Appearance-VAE Model validation epoch 70, Loss: 0.347232
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 71, Loss: 0.347110
+Batch 0 done
+Appearance-VAE Model validation epoch 71, Loss: 0.346766
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 72, Loss: 0.346913
+Batch 0 done
+Appearance-VAE Model validation epoch 72, Loss: 0.346057
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 73, Loss: 0.346469
+Batch 0 done
+Appearance-VAE Model validation epoch 73, Loss: 0.345457
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 74, Loss: 0.346165
+Batch 0 done
+Appearance-VAE Model validation epoch 74, Loss: 0.346810
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 75, Loss: 0.346494
+Batch 0 done
+Appearance-VAE Model validation epoch 75, Loss: 0.346112
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 76, Loss: 0.346536
+Batch 0 done
+Appearance-VAE Model validation epoch 76, Loss: 0.345018
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 77, Loss: 0.346360
+Batch 0 done
+Appearance-VAE Model validation epoch 77, Loss: 0.346258
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 78, Loss: 0.347079
+Batch 0 done
+Appearance-VAE Model validation epoch 78, Loss: 0.346192
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 79, Loss: 0.345804
+Batch 0 done
+Appearance-VAE Model validation epoch 79, Loss: 0.345723
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 80, Loss: 0.346025
+Batch 0 done
+Appearance-VAE Model validation epoch 80, Loss: 0.345512
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 81, Loss: 0.346194
+Batch 0 done
+Appearance-VAE Model validation epoch 81, Loss: 0.346004
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 82, Loss: 0.346246
+Batch 0 done
+Appearance-VAE Model validation epoch 82, Loss: 0.345281
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 83, Loss: 0.346446
+Batch 0 done
+Appearance-VAE Model validation epoch 83, Loss: 0.345635
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 84, Loss: 0.345835
+Batch 0 done
+Appearance-VAE Model validation epoch 84, Loss: 0.344552
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 85, Loss: 0.346306
+Batch 0 done
+Appearance-VAE Model validation epoch 85, Loss: 0.345623
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 86, Loss: 0.345806
+Batch 0 done
+Appearance-VAE Model validation epoch 86, Loss: 0.346268
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 87, Loss: 0.345664
+Batch 0 done
+Appearance-VAE Model validation epoch 87, Loss: 0.345277
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 88, Loss: 0.346088
+Batch 0 done
+Appearance-VAE Model validation epoch 88, Loss: 0.345046
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 89, Loss: 0.345805
+Batch 0 done
+Appearance-VAE Model validation epoch 89, Loss: 0.346192
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 90, Loss: 0.346186
+Batch 0 done
+Appearance-VAE Model validation epoch 90, Loss: 0.346093
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 91, Loss: 0.346021
+Batch 0 done
+Appearance-VAE Model validation epoch 91, Loss: 0.344616
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 92, Loss: 0.344994
+Batch 0 done
+Appearance-VAE Model validation epoch 92, Loss: 0.344571
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 93, Loss: 0.345676
+Batch 0 done
+Appearance-VAE Model validation epoch 93, Loss: 0.345518
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 94, Loss: 0.345965
+Batch 0 done
+Appearance-VAE Model validation epoch 94, Loss: 0.345300
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 95, Loss: 0.345415
+Batch 0 done
+Appearance-VAE Model validation epoch 95, Loss: 0.345745
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 96, Loss: 0.346020
+Batch 0 done
+Appearance-VAE Model validation epoch 96, Loss: 0.345057
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 97, Loss: 0.345293
+Batch 0 done
+Appearance-VAE Model validation epoch 97, Loss: 0.345241
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 98, Loss: 0.345531
+Batch 0 done
+Appearance-VAE Model validation epoch 98, Loss: 0.344624
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-VAE Model training epoch 99, Loss: 0.344959
+Batch 0 done
+Appearance-VAE Model validation epoch 99, Loss: 0.344538
+Beginning to train Landmark-VAE model
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 0, Loss: 9.925571
+Batch 0 done
+Landmark-VAE Model validation epoch 0, Loss: 3.764144
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 1, Loss: 7.140857
+Batch 0 done
+Landmark-VAE Model validation epoch 1, Loss: 2.810335
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 2, Loss: 5.137017
+Batch 0 done
+Landmark-VAE Model validation epoch 2, Loss: 2.149179
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 3, Loss: 3.738068
+Batch 0 done
+Landmark-VAE Model validation epoch 3, Loss: 1.680918
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 4, Loss: 2.742514
+Batch 0 done
+Landmark-VAE Model validation epoch 4, Loss: 1.342787
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 5, Loss: 2.022679
+Batch 0 done
+Landmark-VAE Model validation epoch 5, Loss: 1.096205
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 6, Loss: 1.493408
+Batch 0 done
+Landmark-VAE Model validation epoch 6, Loss: 0.913761
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 7, Loss: 1.112281
+Batch 0 done
+Landmark-VAE Model validation epoch 7, Loss: 0.797556
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 8, Loss: 0.883215
+Batch 0 done
+Landmark-VAE Model validation epoch 8, Loss: 0.738603
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 9, Loss: 0.774870
+Batch 0 done
+Landmark-VAE Model validation epoch 9, Loss: 0.712390
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 10, Loss: 0.727291
+Batch 0 done
+Landmark-VAE Model validation epoch 10, Loss: 0.699721
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 11, Loss: 0.706510
+Batch 0 done
+Landmark-VAE Model validation epoch 11, Loss: 0.694557
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 12, Loss: 0.697396
+Batch 0 done
+Landmark-VAE Model validation epoch 12, Loss: 0.691261
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 13, Loss: 0.692647
+Batch 0 done
+Landmark-VAE Model validation epoch 13, Loss: 0.688978
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 14, Loss: 0.690141
+Batch 0 done
+Landmark-VAE Model validation epoch 14, Loss: 0.688354
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 15, Loss: 0.688626
+Batch 0 done
+Landmark-VAE Model validation epoch 15, Loss: 0.686655
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 16, Loss: 0.687033
+Batch 0 done
+Landmark-VAE Model validation epoch 16, Loss: 0.684971
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 17, Loss: 0.685460
+Batch 0 done
+Landmark-VAE Model validation epoch 17, Loss: 0.684066
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 18, Loss: 0.683889
+Batch 0 done
+Landmark-VAE Model validation epoch 18, Loss: 0.682366
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 19, Loss: 0.682655
+Batch 0 done
+Landmark-VAE Model validation epoch 19, Loss: 0.681684
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 20, Loss: 0.681005
+Batch 0 done
+Landmark-VAE Model validation epoch 20, Loss: 0.679866
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 21, Loss: 0.680316
+Batch 0 done
+Landmark-VAE Model validation epoch 21, Loss: 0.680081
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 22, Loss: 0.679210
+Batch 0 done
+Landmark-VAE Model validation epoch 22, Loss: 0.677742
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 23, Loss: 0.678126
+Batch 0 done
+Landmark-VAE Model validation epoch 23, Loss: 0.677236
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 24, Loss: 0.676766
+Batch 0 done
+Landmark-VAE Model validation epoch 24, Loss: 0.675544
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 25, Loss: 0.676102
+Batch 0 done
+Landmark-VAE Model validation epoch 25, Loss: 0.674947
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 26, Loss: 0.674855
+Batch 0 done
+Landmark-VAE Model validation epoch 26, Loss: 0.674002
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 27, Loss: 0.674157
+Batch 0 done
+Landmark-VAE Model validation epoch 27, Loss: 0.673610
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 28, Loss: 0.673186
+Batch 0 done
+Landmark-VAE Model validation epoch 28, Loss: 0.671392
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 29, Loss: 0.672079
+Batch 0 done
+Landmark-VAE Model validation epoch 29, Loss: 0.671511
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 30, Loss: 0.671078
+Batch 0 done
+Landmark-VAE Model validation epoch 30, Loss: 0.669434
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 31, Loss: 0.669996
+Batch 0 done
+Landmark-VAE Model validation epoch 31, Loss: 0.669840
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 32, Loss: 0.669348
+Batch 0 done
+Landmark-VAE Model validation epoch 32, Loss: 0.668371
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 33, Loss: 0.668258
+Batch 0 done
+Landmark-VAE Model validation epoch 33, Loss: 0.668356
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 34, Loss: 0.667494
+Batch 0 done
+Landmark-VAE Model validation epoch 34, Loss: 0.667185
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 35, Loss: 0.666806
+Batch 0 done
+Landmark-VAE Model validation epoch 35, Loss: 0.666708
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 36, Loss: 0.665861
+Batch 0 done
+Landmark-VAE Model validation epoch 36, Loss: 0.665731
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 37, Loss: 0.664642
+Batch 0 done
+Landmark-VAE Model validation epoch 37, Loss: 0.664612
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 38, Loss: 0.663850
+Batch 0 done
+Landmark-VAE Model validation epoch 38, Loss: 0.662739
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 39, Loss: 0.663119
+Batch 0 done
+Landmark-VAE Model validation epoch 39, Loss: 0.663024
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 40, Loss: 0.662495
+Batch 0 done
+Landmark-VAE Model validation epoch 40, Loss: 0.660134
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 41, Loss: 0.661154
+Batch 0 done
+Landmark-VAE Model validation epoch 41, Loss: 0.660991
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 42, Loss: 0.660198
+Batch 0 done
+Landmark-VAE Model validation epoch 42, Loss: 0.660659
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 43, Loss: 0.659840
+Batch 0 done
+Landmark-VAE Model validation epoch 43, Loss: 0.658895
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 44, Loss: 0.658425
+Batch 0 done
+Landmark-VAE Model validation epoch 44, Loss: 0.658276
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 45, Loss: 0.658217
+Batch 0 done
+Landmark-VAE Model validation epoch 45, Loss: 0.657934
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 46, Loss: 0.657188
+Batch 0 done
+Landmark-VAE Model validation epoch 46, Loss: 0.656429
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 47, Loss: 0.656384
+Batch 0 done
+Landmark-VAE Model validation epoch 47, Loss: 0.656468
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 48, Loss: 0.656131
+Batch 0 done
+Landmark-VAE Model validation epoch 48, Loss: 0.655949
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 49, Loss: 0.654489
+Batch 0 done
+Landmark-VAE Model validation epoch 49, Loss: 0.654225
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 50, Loss: 0.654525
+Batch 0 done
+Landmark-VAE Model validation epoch 50, Loss: 0.652840
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 51, Loss: 0.653591
+Batch 0 done
+Landmark-VAE Model validation epoch 51, Loss: 0.651316
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 52, Loss: 0.652426
+Batch 0 done
+Landmark-VAE Model validation epoch 52, Loss: 0.651354
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 53, Loss: 0.652355
+Batch 0 done
+Landmark-VAE Model validation epoch 53, Loss: 0.651535
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 54, Loss: 0.650852
+Batch 0 done
+Landmark-VAE Model validation epoch 54, Loss: 0.651401
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 55, Loss: 0.650660
+Batch 0 done
+Landmark-VAE Model validation epoch 55, Loss: 0.649392
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 56, Loss: 0.649208
+Batch 0 done
+Landmark-VAE Model validation epoch 56, Loss: 0.649346
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 57, Loss: 0.649054
+Batch 0 done
+Landmark-VAE Model validation epoch 57, Loss: 0.648306
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 58, Loss: 0.648134
+Batch 0 done
+Landmark-VAE Model validation epoch 58, Loss: 0.648149
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 59, Loss: 0.647590
+Batch 0 done
+Landmark-VAE Model validation epoch 59, Loss: 0.647555
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 60, Loss: 0.647026
+Batch 0 done
+Landmark-VAE Model validation epoch 60, Loss: 0.645776
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 61, Loss: 0.645747
+Batch 0 done
+Landmark-VAE Model validation epoch 61, Loss: 0.643522
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 62, Loss: 0.645488
+Batch 0 done
+Landmark-VAE Model validation epoch 62, Loss: 0.645593
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 63, Loss: 0.644934
+Batch 0 done
+Landmark-VAE Model validation epoch 63, Loss: 0.643182
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 64, Loss: 0.644026
+Batch 0 done
+Landmark-VAE Model validation epoch 64, Loss: 0.643236
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 65, Loss: 0.643167
+Batch 0 done
+Landmark-VAE Model validation epoch 65, Loss: 0.641652
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 66, Loss: 0.642236
+Batch 0 done
+Landmark-VAE Model validation epoch 66, Loss: 0.641380
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 67, Loss: 0.642282
+Batch 0 done
+Landmark-VAE Model validation epoch 67, Loss: 0.641885
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 68, Loss: 0.641262
+Batch 0 done
+Landmark-VAE Model validation epoch 68, Loss: 0.641975
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 69, Loss: 0.640975
+Batch 0 done
+Landmark-VAE Model validation epoch 69, Loss: 0.641200
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 70, Loss: 0.640143
+Batch 0 done
+Landmark-VAE Model validation epoch 70, Loss: 0.639171
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 71, Loss: 0.639611
+Batch 0 done
+Landmark-VAE Model validation epoch 71, Loss: 0.639583
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 72, Loss: 0.638464
+Batch 0 done
+Landmark-VAE Model validation epoch 72, Loss: 0.637802
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 73, Loss: 0.638004
+Batch 0 done
+Landmark-VAE Model validation epoch 73, Loss: 0.636647
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 74, Loss: 0.637683
+Batch 0 done
+Landmark-VAE Model validation epoch 74, Loss: 0.639111
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 75, Loss: 0.637343
+Batch 0 done
+Landmark-VAE Model validation epoch 75, Loss: 0.636336
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 76, Loss: 0.637025
+Batch 0 done
+Landmark-VAE Model validation epoch 76, Loss: 0.634494
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 77, Loss: 0.636442
+Batch 0 done
+Landmark-VAE Model validation epoch 77, Loss: 0.636042
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 78, Loss: 0.635473
+Batch 0 done
+Landmark-VAE Model validation epoch 78, Loss: 0.635010
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 79, Loss: 0.634567
+Batch 0 done
+Landmark-VAE Model validation epoch 79, Loss: 0.633450
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 80, Loss: 0.633487
+Batch 0 done
+Landmark-VAE Model validation epoch 80, Loss: 0.633519
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 81, Loss: 0.633548
+Batch 0 done
+Landmark-VAE Model validation epoch 81, Loss: 0.631896
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 82, Loss: 0.632849
+Batch 0 done
+Landmark-VAE Model validation epoch 82, Loss: 0.631094
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 83, Loss: 0.632073
+Batch 0 done
+Landmark-VAE Model validation epoch 83, Loss: 0.630678
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 84, Loss: 0.631636
+Batch 0 done
+Landmark-VAE Model validation epoch 84, Loss: 0.631663
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 85, Loss: 0.631190
+Batch 0 done
+Landmark-VAE Model validation epoch 85, Loss: 0.631698
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 86, Loss: 0.630851
+Batch 0 done
+Landmark-VAE Model validation epoch 86, Loss: 0.630342
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 87, Loss: 0.630554
+Batch 0 done
+Landmark-VAE Model validation epoch 87, Loss: 0.630450
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 88, Loss: 0.629339
+Batch 0 done
+Landmark-VAE Model validation epoch 88, Loss: 0.631265
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 89, Loss: 0.628371
+Batch 0 done
+Landmark-VAE Model validation epoch 89, Loss: 0.628115
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 90, Loss: 0.629230
+Batch 0 done
+Landmark-VAE Model validation epoch 90, Loss: 0.626943
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 91, Loss: 0.627956
+Batch 0 done
+Landmark-VAE Model validation epoch 91, Loss: 0.626801
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 92, Loss: 0.627785
+Batch 0 done
+Landmark-VAE Model validation epoch 92, Loss: 0.626572
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 93, Loss: 0.626723
+Batch 0 done
+Landmark-VAE Model validation epoch 93, Loss: 0.626392
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 94, Loss: 0.626491
+Batch 0 done
+Landmark-VAE Model validation epoch 94, Loss: 0.626928
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 95, Loss: 0.626248
+Batch 0 done
+Landmark-VAE Model validation epoch 95, Loss: 0.625277
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 96, Loss: 0.625475
+Batch 0 done
+Landmark-VAE Model validation epoch 96, Loss: 0.625200
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 97, Loss: 0.625535
+Batch 0 done
+Landmark-VAE Model validation epoch 97, Loss: 0.624734
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 98, Loss: 0.624675
+Batch 0 done
+Landmark-VAE Model validation epoch 98, Loss: 0.622730
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Landmark-VAE Model training epoch 99, Loss: 0.624599
+Batch 0 done
+Landmark-VAE Model validation epoch 99, Loss: 0.623788
