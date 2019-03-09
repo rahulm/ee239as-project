@@ -101,8 +101,10 @@ def get_args(print_args=False):
     # parser.add_argument('--cache_dir', type=str, default='cache')
     parser.add_argument('--appear_lr', type=float, default=7e-4)
     parser.add_argument('--landmark_lr', type=float, default=1e-4)
-    parser.add_argument('--model', type=str, required=True,
+    parser.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
         help="type of model to train, choose from 'ae' or 'vae'")
+    parser.add_argument('--faces', type=str, required=True, choices=('aligned', 'unaligned'),
+        help="type of faces data to train on, choose from 'aligned' or 'unaligned'")
     
     args = parser.parse_args()
     
@@ -304,27 +306,8 @@ if __name__ == '__main__':
         print('Setting torch.cuda.set_device({})'.format(args.device))
         torch.cuda.manual_seed(args.seed)
         print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
-
-    # face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
-    # face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
-    # print("read images")
-
-    # face_images_train = np.asarray(face_images_train)
-    # face_images_test = np.asarray(face_images_test)
-
-    face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
-    face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
-    print("read landmarks")
-
-    face_landmark_train = np.asarray(face_landmark_train)
-    face_landmark_test = np.asarray(face_landmark_test)
     
-    all_face_images_warped = np.load('all-warped-images.npy')
-    face_images_train_warped = all_face_images_warped[:-100]
-    face_images_test_warped = all_face_images_warped[-100:]
-    print("Read cached warped images")
-    
-    # train the model
+    # set the model type and loss functions
     app_loss_func, landmark_loss_func = None, None
     app_train_func, landmark_train_func = None, None
     if args.model == 'ae':
@@ -336,10 +319,40 @@ if __name__ == '__main__':
         app_train_func = train_vae_appearance_model
         landmark_train_func = train_vae_landmark_model
     
+    # choose appropriate data to read from for faces
+    if args.faces == 'aligned':
+        faces_data_loc = 'all-warped-images.npy'
+    elif args.faces == 'unaligned':
+        faces_data_loc = 'all-raw-images.npy'
     
+    # read the appropriate data, make train/test split
+    all_face_images_warped = np.load(faces_data_loc)
+    face_images_train_warped = all_face_images_warped[:-100]
+    face_images_test_warped = all_face_images_warped[-100:]
+    print("Read cached images from {}".format(faces_data_loc))
+    
+    # always train the appearance model for both aligned and unaligned face options
     app_train_func(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, app_loss_func, face_images_train_warped)
-    landmark_train_func(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, landmark_loss_func, face_landmark_train)
+    
+    # only train the landmark model if we are training the aligned version
+    if args.faces == 'aligned':
+        face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
+        face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
+        print("read landmarks")
 
+        face_landmark_train = np.asarray(face_landmark_train)
+        face_landmark_test = np.asarray(face_landmark_test)
+        
+        landmark_train_func(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, landmark_loss_func, face_landmark_train)
+    
+    # face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
+    # face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
+    # print("read images")
+
+    # face_images_train = np.asarray(face_images_train)
+    # face_images_test = np.asarray(face_images_test)
+    
+    
     #   Train Autoencoders
     # train_ae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_images_train_warped)
     # train_ae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_landmark_train)
