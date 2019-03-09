@@ -3,6 +3,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+.vscode/
+all-warped-images.npy
+cpu_Epoch_28_Train_loss_25425.9503_Test_loss_25172.4120.pth
+images/
+landmarks/
+warped-test-images.npy
+warped-train-images.npy
+
+
 # C extensions
 *.so
 
