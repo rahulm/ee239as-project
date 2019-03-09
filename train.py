@@ -6,6 +6,8 @@ import skimage
 from skimage import io, transform
 import scipy.io as sio
 from scipy.signal import argrelextrema
+import glob
+import shutil
 
 import torch
 import torch.nn as nn
@@ -27,6 +29,7 @@ ALL_EXPERIMENTS_DIR = "experiments"
 EXP_LOSS_PLOTS_DIR = "loss_plots"
 EXP_METRICS_DIR = "metrics"
 EXP_MODELS_DIR = "models"
+EXP_CODE_DIR = "code"
 
 class ExperimentConfig:
     def __init__(self, exp_name):
@@ -35,8 +38,9 @@ class ExperimentConfig:
         self.exp_loss_plots_dir = os.path.join(self.exp_dir, EXP_LOSS_PLOTS_DIR)
         self.exp_metrics_dir = os.path.join(self.exp_dir, EXP_METRICS_DIR)
         self.exp_models_dir = os.path.join(self.exp_dir, EXP_MODELS_DIR)
+        self.exp_code_dir = os.path.join(self.exp_dir, EXP_CODE_DIR)
         
-        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir]
+        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir]
         for dir in self.dirs:
             if not os.path.exists(dir):
                 os.makedirs(dir)
@@ -46,6 +50,10 @@ class ExperimentConfig:
             self.str_repr += ("\t" + dir + "\n")
         self.str_repr += "\n"
         
+        # copy all code into backup folder
+        for pyfile in glob.glob('*.py'):
+            shutil.copy(pyfile, self.exp_code_dir)
+    
     def __str__(self):
         return self.str_repr
         
@@ -90,9 +98,11 @@ def get_args(print_args=False):
         help="Device to use for cuda, only applicable if cuda is available and --use_cuda is set.")
     parser.add_argument('--image_dir', type=str, default='images')
     parser.add_argument('--landmark_dir', type=str, default='landmarks')
-    parser.add_argument('--cache_dir', type=str, default='cache')
+    # parser.add_argument('--cache_dir', type=str, default='cache')
     parser.add_argument('--appear_lr', type=float, default=7e-4)
     parser.add_argument('--landmark_lr', type=float, default=1e-4)
+    parser.add_argument('--model', type=str, required=True,
+        help="type of model to train, choose from 'ae' or 'vae'")
     
     args = parser.parse_args()
     
@@ -308,42 +318,35 @@ if __name__ == '__main__':
 
     face_landmark_train = np.asarray(face_landmark_train)
     face_landmark_test = np.asarray(face_landmark_test)
-
-
-    # face_images_train_warped = None
-    # face_images_test_warped = None
-
-    # if not os.path.exists('./warped-train-images.npy') or not os.path.exists('./warped-test-images.npy'):
-
-        # mean_train_landmark = np.mean(face_landmark_train, axis=0)
-        # mean_test_landmark = np.mean(face_landmark_test, axis=0)
-        # print("Warping training images")
-        # face_images_train_warped = np.copy(face_images_train)
-        # for i in range(len(face_images_train)):
-            # face_images_train_warped[i] = warp(np.copy(face_images_train_warped[i]), face_landmark_train[i], mean_train_landmark)
-        # np.save("warped-train-images.npy", face_images_train_warped)
-
-        # print("Warping testing images")
-        # face_images_test_warped = np.copy(face_images_test)
-        # for i in range(len(face_images_test)):
-            # face_images_test_warped[i] = warp(np.copy(face_images_test_warped[i]), face_landmark_test[i], mean_train_landmark)
-        # np.save("warped-test-images.npy", face_images_test_warped)
-    # else:
+    
     all_face_images_warped = np.load('all-warped-images.npy')
     face_images_train_warped = all_face_images_warped[:-100]
     face_images_test_warped = all_face_images_warped[-100:]
-    # face_images_train_warped = np.load("./warped-train-images.npy")
-    # face_images_test_warped = np.load("./warped-test-images.npy")
     print("Read cached warped images")
-
+    
+    # train the model
+    app_loss_func, landmark_loss_func = None, None
+    app_train_func, landmark_train_func = None, None
+    if args.model == 'ae':
+        app_loss_func, landmark_loss_func = nn.MSELoss(), nn.MSELoss()
+        app_train_func = train_ae_appearance_model
+        landmark_train_func = train_ae_landmark_model
+    elif args.model == 'vae':
+        app_loss_func, landmark_loss_func = nn.BCELoss(reduction='sum'), nn.BCELoss(reduction='sum')
+        app_train_func = train_vae_appearance_model
+        landmark_train_func = train_vae_landmark_model
+    
+    
+    app_train_func(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, app_loss_func, face_images_train_warped)
+    landmark_train_func(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, landmark_loss_func, face_landmark_train)
 
     #   Train Autoencoders
     # train_ae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_images_train_warped)
     # train_ae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_landmark_train)
 
     #   Train Variational Autoencoders
-    loss_func = nn.BCELoss()
-    loss_func.size_average = False
-    train_vae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_images_train_warped)
-    train_vae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_landmark_train)
+    # loss_func = nn.BCELoss()
+    # loss_func.size_average = False
+    # train_vae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_images_train_warped)
+    # train_vae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_landmark_train)
 
