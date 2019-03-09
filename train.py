@@ -343,7 +343,7 @@ if __name__ == '__main__':
 
     #   Train Variational Autoencoders
     loss_func = nn.BCELoss()
-    loss_func.size_average = False
+    # loss_func.size_average = False
     train_vae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_images_train_warped)
     train_vae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_landmark_train)
 
