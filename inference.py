@@ -44,7 +44,10 @@ sample_img_tensors = torch.stack(sample_img_tensors)
 
 # recon
 app_model.eval()
-sample_img_recons = app_model(sample_img_tensors).data.cpu().numpy().transpose((0, 2, 3, 1))
+out = app_model(sample_img_tensors)
+if args.model == 'vae':
+    out = out[0]
+sample_img_recons = out.data.cpu().numpy().transpose((0, 2, 3, 1))
 
 # plot
 fig = plt.figure()
