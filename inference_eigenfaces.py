@@ -1,4 +1,4 @@
-from train import ImgToTensor
+from train_eigenfaces import ImgToTensor
 import numpy as np
 from appearance_vae import appearance_VAE
 from appearance_ae import appearance_autoencoder
@@ -37,6 +37,10 @@ app_model.load_state_dict(torch.load(args.weights, map_location=lambda storage, 
 num_imgs = args.num_imgs
 img_inds = np.random.choice(np.arange(len(all_face_images_warped)), size=num_imgs, replace=False)
 sample_imgs = np.copy(all_face_images_warped[img_inds])
+
+# num_imgs = 20
+# sample_imgs = np.copy(all_face_images_warped[list(range(800,821))])
+
 sample_img_tensors = []
 for i in range(num_imgs):
     sample_img_tensors.append(ImgToTensor()(sample_imgs[i]))
