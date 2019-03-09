@@ -11,6 +11,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--weights', type=str, required=True,
     help="path to model weights to perform inference with")
+parser.add_argument('--model', type=str, required=True,
+    help="model type, either 'ae' or 'vae'")
 args = parser.parse_args()
 
 
@@ -19,18 +21,23 @@ face_images_train_warped = all_face_images_warped[:-100]
 face_images_test_warped = all_face_images_warped[-100:]
 
 #   Inference
-app_vae = appearance_VAE(latent_dim_size=50)
-# app_vae.load_state_dict(torch.load("./experiments/2019_03_08-01_37_45-experiment/models/Appearance-VAE-weights-epoch_5.pth", map_location=lambda storage, loc: storage)())
-app_vae.load_state_dict(torch.load(args.weights, map_location=lambda storage, loc: storage)())
+if args.model == 'ae':
+    app_model = appearance_autoencoder(latent_dim_size=50)
+elif args.model == 'vae':
+    app_model = appearance_VAE(latent_dim_size=50)
+else:
+    print("Model {} not recognized. Please use 'ae' or 'vae' only.".format(args.model))
+app_model.load_state_dict(torch.load(args.weights, map_location=lambda storage, loc: storage)())
 
 
 # img_ind = 12
 img_ind = np.random.randint(0, high=len(all_face_images_warped)+1)
+# img_ind = 950
 sample_img = np.copy(all_face_images_warped[img_ind])
 # sample_img = np.copy(face_images_train_warped[12])
 
-app_vae.eval()
-sample_img_recon_batch = app_vae(ImgToTensor()(sample_img).unsqueeze(0))
+app_model.eval()
+sample_img_recon_batch = app_model(ImgToTensor()(sample_img).unsqueeze(0))
 sample_img_recon = sample_img_recon_batch[0].squeeze().data.cpu().numpy().transpose((1, 2, 0))
 
 fig = plt.figure()
