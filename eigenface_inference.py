@@ -12,16 +12,21 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--weights', type=str, required=True,
     help="path to model weights to perform inference with")
-parser.add_argument('--model', type=str, required=True,
+parser.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
     help="model type, either 'ae' or 'vae'")
 parser.add_argument('--num_imgs', type=int, default=5,
     help="number of random images to sample and reconstruct.")
+parser.add_argument('--faces', type=str, required=True, choices=('aligned', 'unaligned'),
+    help="type of faces data to reconstruct from, choose from 'aligned' or 'unaligned'")
 args = parser.parse_args()
 
 # read images
-all_face_images_warped = np.load('all-warped-images.npy')
-face_images_train_warped = all_face_images_warped[:-100]
-face_images_test_warped = all_face_images_warped[-100:]
+if args.faces == 'aligned':
+    all_face_images = np.load('all-warped-images.npy')
+elif args.faces == 'unaligned':
+    all_face_images = np.load('all-raw-images.npy')
+face_images_train = all_face_images[:-100]
+face_images_test = all_face_images[-100:]
 
 # get model and weights
 if args.model == 'ae':
@@ -35,11 +40,11 @@ app_model.load_state_dict(torch.load(args.weights, map_location=lambda storage, 
 
 # get original images
 num_imgs = args.num_imgs
-img_inds = np.random.choice(np.arange(len(all_face_images_warped)), size=num_imgs, replace=False)
-sample_imgs = np.copy(all_face_images_warped[img_inds])
+img_inds = np.random.choice(np.arange(len(all_face_images)), size=num_imgs, replace=False)
+sample_imgs = np.copy(all_face_images[img_inds])
 
 # num_imgs = 20
-# sample_imgs = np.copy(all_face_images_warped[list(range(800,821))])
+# sample_imgs = np.copy(all_face_images[list(range(800,821))])
 
 sample_img_tensors = []
 for i in range(num_imgs):
