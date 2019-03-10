@@ -42,4 +42,13 @@ class appearance_autoencoder(nn.Module):
         z = self.fc1(x.view(-1, 128*8*8))
         x_recon = self.decoder(z.view(-1, self.latent_dim_size, 1, 1))
         return x_recon
-        
+    
+    
+    # TODO: hopefully this does not mess up inference pipelines when loading models
+    def get_latent_vec(self, x):
+        x = self.encoder(x)
+        z = self.fc1(x.view(-1, 128*8*8))
+        return z
+    def get_recon_from_latent_vec(self, latent_vec):
+        x_recon = self.decoder(latent_vec.view(-1, self.latent_dim_size, 1, 1))
+        return x_recon
