@@ -36,7 +36,6 @@ class appearance_autoencoder(nn.Module):
             nn.Sigmoid(),
         )
 
-
     def forward(self, x):
         x = self.encoder(x)
         z = self.fc1(x.view(-1, 128*8*8))
@@ -49,6 +48,7 @@ class appearance_autoencoder(nn.Module):
         x = self.encoder(x)
         z = self.fc1(x.view(-1, 128*8*8))
         return z
+        
     def get_recon_from_latent_vec(self, latent_vec):
         x_recon = self.decoder(latent_vec.view(-1, self.latent_dim_size, 1, 1))
         return x_recon

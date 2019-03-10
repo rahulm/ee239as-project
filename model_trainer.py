@@ -44,7 +44,7 @@ class ae_trainer(object):
                     batch = batch.cuda()
                 self.optim.zero_grad()
                 x_recon = self.model(batch)
-                loss = self.loss_func(x_recon, batch)
+                loss = self.loss_func(x_recon, batch) #  NOTE Maybe flatten here https://github.com/pytorch/examples/issues/294
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()
@@ -72,7 +72,7 @@ class ae_trainer(object):
                 x_recon = self.model(batch)
                 loss = self.loss_func(x_recon, batch)
                 validation_loss += loss.item()
-                print("Batch {} done".format(batch_num))
+                # print("Batch {} done".format(batch_num))
             
             validation_loss_norm = validation_loss/len(valloader)
             val_loss.append(validation_loss_norm)
@@ -161,7 +161,7 @@ class vae_trainer(object):
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()
-                print("Batch {} done".format(batch_num))
+                # print("Batch {} done".format(batch_num))
             
             training_loss_norm = training_loss/len(trainloader)
             train_loss.append(training_loss_norm)

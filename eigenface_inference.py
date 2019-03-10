@@ -1,3 +1,4 @@
+from __future__ import print_function
 from eigenface_train import ImgToTensor
 import numpy as np
 from appearance_vae import appearance_VAE
@@ -6,6 +7,8 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
+import torchvision
+import os
 
 # read arguments
 import argparse
@@ -76,5 +79,91 @@ for i in range(num_imgs):
     fig.add_subplot(rows, cols, (i*2)+1)
     plt.imshow(sample_imgs[i])
     fig.add_subplot(rows, cols, (i*2)+2)
-    plt.imshow(sample_img_recons[i])
+    plt.imshow((sample_img_recons[i]*255).astype(np.uint8)) # FIXED Mult by 255 -> int conversion
 plt.show()
+
+
+# Latent vector analysis / sampling
+# Input -> model
+# Output -> sampled images in the experiments/sampling directory with model name prepended
+z = torch.randn(args.num_imgs, app_model.latent_dim_size)
+z = Variable(z, volatile=True)
+recon = app_model.get_recon_from_latent_vec(z)
+
+model_spec = args.weights.split('/')[3][:-4]
+output_images_path = os.path.join(os.getcwd(), args.weights.split('/')[0], args.weights.split('/')[1] + '/sampling/')
+if not os.path.isdir(output_images_path):
+    print('creating output image reconstruction directory...')
+    os.mkdir(output_images_path)
+
+# Reconstructions built in utilities
+torchvision.utils.save_image(recon.data, output_images_path+'rand_faces_'+str(args.model) + str(model_spec)+ '.jpg', nrow=args.num_imgs, padding=2)
+
+# ===============================
+# === Do not delete =============
+# Reconstruction without utilities
+recon_data = recon.data.numpy()
+recon_data = recon_data.transpose((0, 2, 3, 1))
+recon_data = (recon_data * 255).astype(np.uint8)
+# plt.imshow(recon_data[0])
+# plt.show()
+# ===============================
+
+# Latent space analysis
+# uses sample_image_recons with KNN 
+# uses reconstructed images with KNN
+def compute_L2_distances_vectorized(X_recon, X):
+    """
+    Compute the distance between each test point in X and each training point
+    in self.X_train WITHOUT using any for loops.
+    Inputs:
+    - X: A numpy array of shape (num_test, D) containing test data.
+    Returns:
+    - dists: A numpy array of shape (num_test, num_train) where dists[i, j]
+      is the Euclidean distance between the ith test point and the jth training
+      point.
+    """
+    num_test = X.shape[0]
+    num_train = X_recon.shape[0]
+    dists = np.zeros((num_test, num_train))
+
+    # dists = np.linalg.norm(X_recon - X, axis=1)
+    X_testsq = np.sum(np.square(X), axis=1, keepdims=True)
+    X_trainsq = np.sum(np.square(X_recon), axis=1)
+    XTX = X.dot(X_recon.T)
+
+    dists = np.sqrt((X_trainsq - 2*XTX) + X_testsq)
+    return dists
+
+# Can compare the reconstructed image distances to its corresponding sample
+all_face_images_knn = all_face_images.reshape(all_face_images.shape[0], -1)
+sample_img_recons_knn = sample_img_recons.reshape(args.num_imgs, -1)
+
+
+l2_dists = []
+min_dists = []
+train_neighbors = []
+for i, recon in enumerate(sample_img_recons_knn):
+    recon_unprocessed = np.expand_dims((recon * 255).astype(np.uint8), axis=0)
+    l2_dist = compute_L2_distances_vectorized(all_face_images_knn, recon_unprocessed)[0]
+    l2_dist[np.isnan(l2_dist)] = 0
+    train_neighbor = np.argmin(l2_dist[[l2_dist>0]])
+    min_dist = np.min(l2_dist[l2_dist>0])
+    min_dists.append(min_dist)
+    train_neighbors.append(train_neighbor)
+    
+    plt.subplot(211)
+    plt.title('Train set neighbor' + str(min_dist)+ ' (l2)')
+    plt.imshow(all_face_images[train_neighbor])
+
+    plt.subplot(212)
+    plt.title('Recon image')
+    plt.imshow((sample_img_recons[i] * 255).astype(np.uint8))
+    plt.gcf()
+    plt.savefig(output_images_path+'img_reconknn_'+str(args.model) + str(model_spec)+ str(i) +'.jpg')
+
+
+# TODO: Same thing for sampled images once they look better
+# Can compare sampled images to dataset (generated samples)
+# recon_data_flat = recon_data.reshape(args.num_imgs, -1)
+# l2_dists = compute_L2_distances_vectorized(all_face_images_knn, recon_data_flat)
