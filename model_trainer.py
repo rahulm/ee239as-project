@@ -124,7 +124,8 @@ class vae_trainer(object):
         KLD_element = mu.pow(2).add_(var.exp()).mul_(-1).add_(1).add_(var)
         KLD = torch.sum(KLD_element).mul_(-0.5)
 
-        return recon_loss + KLD
+        return (recon_loss + KLD) / float(len(x))
+        # return recon_loss + KLD
 
     def train_model(self, epochs, trainloader, valloader):
         # self.model.train()
