@@ -1,0 +1,3018 @@
+args
+Namespace(appear_lr=0.0007, batch_size=32, device=0, epochs=500, faces='unaligned', image_dir='images', landmark_dir='landmarks', landmark_lr=0.0001, model='ae', seed=12345, use_cuda=True)
+
+ExperimentConfig
+ExperimentConfig for experiment 2019_03_09-15_46_33-experiment
+	experiments\2019_03_09-15_46_33-experiment
+	experiments\2019_03_09-15_46_33-experiment\loss_plots
+	experiments\2019_03_09-15_46_33-experiment\metrics
+	experiments\2019_03_09-15_46_33-experiment\models
+	experiments\2019_03_09-15_46_33-experiment\code
+
+
+
+Setting torch.cuda.set_device(0)
+Setting torch.cuda.manual_seed(12345)
+
+Read cached images from all-raw-images.npy
+Beginning to train Appearance-AE model
+Appearance-AE Model training epoch 0, Loss: 0.144286
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 0, Loss: 0.090038
+Appearance-AE Model training epoch 1, Loss: 0.049924
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 1, Loss: 0.031148
+Appearance-AE Model training epoch 2, Loss: 0.027172
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 2, Loss: 0.023718
+Appearance-AE Model training epoch 3, Loss: 0.023831
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 3, Loss: 0.022656
+Appearance-AE Model training epoch 4, Loss: 0.023233
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 4, Loss: 0.021822
+Appearance-AE Model training epoch 5, Loss: 0.022661
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 5, Loss: 0.021526
+Appearance-AE Model training epoch 6, Loss: 0.022450
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 6, Loss: 0.021338
+Appearance-AE Model training epoch 7, Loss: 0.022297
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 7, Loss: 0.021207
+Appearance-AE Model training epoch 8, Loss: 0.022151
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 8, Loss: 0.021105
+Appearance-AE Model training epoch 9, Loss: 0.022042
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 9, Loss: 0.021020
+Appearance-AE Model training epoch 10, Loss: 0.021927
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 10, Loss: 0.020882
+Appearance-AE Model training epoch 11, Loss: 0.021730
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 11, Loss: 0.020491
+Appearance-AE Model training epoch 12, Loss: 0.021089
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 12, Loss: 0.019321
+Appearance-AE Model training epoch 13, Loss: 0.017992
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 13, Loss: 0.015482
+Appearance-AE Model training epoch 14, Loss: 0.015267
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 14, Loss: 0.013869
+Appearance-AE Model training epoch 15, Loss: 0.013106
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 15, Loss: 0.012243
+Appearance-AE Model training epoch 16, Loss: 0.012104
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 16, Loss: 0.011919
+Appearance-AE Model training epoch 17, Loss: 0.011695
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 17, Loss: 0.011694
+Appearance-AE Model training epoch 18, Loss: 0.011340
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 18, Loss: 0.011248
+Appearance-AE Model training epoch 19, Loss: 0.010888
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 19, Loss: 0.010684
+Appearance-AE Model training epoch 20, Loss: 0.010353
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 20, Loss: 0.010340
+Appearance-AE Model training epoch 21, Loss: 0.010040
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 21, Loss: 0.009982
+Appearance-AE Model training epoch 22, Loss: 0.009655
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 22, Loss: 0.009429
+Appearance-AE Model training epoch 23, Loss: 0.009256
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 23, Loss: 0.009202
+Appearance-AE Model training epoch 24, Loss: 0.008988
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 24, Loss: 0.008831
+Appearance-AE Model training epoch 25, Loss: 0.008768
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 25, Loss: 0.008720
+Appearance-AE Model training epoch 26, Loss: 0.008422
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 26, Loss: 0.008435
+Appearance-AE Model training epoch 27, Loss: 0.008167
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 27, Loss: 0.008248
+Appearance-AE Model training epoch 28, Loss: 0.007889
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 28, Loss: 0.007943
+Appearance-AE Model training epoch 29, Loss: 0.007617
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 29, Loss: 0.007661
+Appearance-AE Model training epoch 30, Loss: 0.007567
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 30, Loss: 0.007444
+Appearance-AE Model training epoch 31, Loss: 0.007324
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 31, Loss: 0.007438
+Appearance-AE Model training epoch 32, Loss: 0.006879
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 32, Loss: 0.007110
+Appearance-AE Model training epoch 33, Loss: 0.006673
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 33, Loss: 0.006992
+Appearance-AE Model training epoch 34, Loss: 0.006546
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 34, Loss: 0.006904
+Appearance-AE Model training epoch 35, Loss: 0.006419
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 35, Loss: 0.006819
+Appearance-AE Model training epoch 36, Loss: 0.006315
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 36, Loss: 0.006659
+Appearance-AE Model training epoch 37, Loss: 0.006216
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 37, Loss: 0.006511
+Appearance-AE Model training epoch 38, Loss: 0.006134
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 38, Loss: 0.006521
+Appearance-AE Model training epoch 39, Loss: 0.006114
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 39, Loss: 0.006411
+Appearance-AE Model training epoch 40, Loss: 0.006129
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 40, Loss: 0.006603
+Appearance-AE Model training epoch 41, Loss: 0.005979
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 41, Loss: 0.006943
+Appearance-AE Model training epoch 42, Loss: 0.006224
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 42, Loss: 0.006911
+Appearance-AE Model training epoch 43, Loss: 0.006086
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 43, Loss: 0.006462
+Appearance-AE Model training epoch 44, Loss: 0.005767
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 44, Loss: 0.006297
+Appearance-AE Model training epoch 45, Loss: 0.005670
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 45, Loss: 0.006244
+Appearance-AE Model training epoch 46, Loss: 0.005606
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 46, Loss: 0.006376
+Appearance-AE Model training epoch 47, Loss: 0.005554
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 47, Loss: 0.006340
+Appearance-AE Model training epoch 48, Loss: 0.005518
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 48, Loss: 0.006341
+Appearance-AE Model training epoch 49, Loss: 0.005603
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 49, Loss: 0.006222
+Appearance-AE Model training epoch 50, Loss: 0.005843
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 50, Loss: 0.006284
+Appearance-AE Model training epoch 51, Loss: 0.005739
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 51, Loss: 0.006601
+Appearance-AE Model training epoch 52, Loss: 0.005422
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 52, Loss: 0.006210
+Appearance-AE Model training epoch 53, Loss: 0.005211
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 53, Loss: 0.006031
+Appearance-AE Model training epoch 54, Loss: 0.005125
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 54, Loss: 0.005983
+Appearance-AE Model training epoch 55, Loss: 0.005071
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 55, Loss: 0.005943
+Appearance-AE Model training epoch 56, Loss: 0.005021
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 56, Loss: 0.005946
+Appearance-AE Model training epoch 57, Loss: 0.004992
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 57, Loss: 0.005963
+Appearance-AE Model training epoch 58, Loss: 0.004981
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 58, Loss: 0.006009
+Appearance-AE Model training epoch 59, Loss: 0.005015
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 59, Loss: 0.006147
+Appearance-AE Model training epoch 60, Loss: 0.005131
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 60, Loss: 0.006183
+Appearance-AE Model training epoch 61, Loss: 0.005244
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 61, Loss: 0.006067
+Appearance-AE Model training epoch 62, Loss: 0.005202
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 62, Loss: 0.005690
+Appearance-AE Model training epoch 63, Loss: 0.005061
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 63, Loss: 0.005741
+Appearance-AE Model training epoch 64, Loss: 0.004779
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 64, Loss: 0.005651
+Appearance-AE Model training epoch 65, Loss: 0.004630
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 65, Loss: 0.005670
+Appearance-AE Model training epoch 66, Loss: 0.004598
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 66, Loss: 0.005696
+Appearance-AE Model training epoch 67, Loss: 0.004591
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 67, Loss: 0.005681
+Appearance-AE Model training epoch 68, Loss: 0.004592
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 68, Loss: 0.005579
+Appearance-AE Model training epoch 69, Loss: 0.004618
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 69, Loss: 0.005670
+Appearance-AE Model training epoch 70, Loss: 0.004796
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 70, Loss: 0.005720
+Appearance-AE Model training epoch 71, Loss: 0.004805
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 71, Loss: 0.005935
+Appearance-AE Model training epoch 72, Loss: 0.004557
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 72, Loss: 0.005701
+Appearance-AE Model training epoch 73, Loss: 0.004490
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 73, Loss: 0.005632
+Appearance-AE Model training epoch 74, Loss: 0.004486
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 74, Loss: 0.005585
+Appearance-AE Model training epoch 75, Loss: 0.004509
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 75, Loss: 0.005706
+Appearance-AE Model training epoch 76, Loss: 0.004475
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 76, Loss: 0.005788
+Appearance-AE Model training epoch 77, Loss: 0.004439
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 77, Loss: 0.005782
+Appearance-AE Model training epoch 78, Loss: 0.004400
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 78, Loss: 0.005600
+Appearance-AE Model training epoch 79, Loss: 0.004336
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 79, Loss: 0.005518
+Appearance-AE Model training epoch 80, Loss: 0.004302
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 80, Loss: 0.005519
+Appearance-AE Model training epoch 81, Loss: 0.004316
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 81, Loss: 0.005532
+Appearance-AE Model training epoch 82, Loss: 0.004347
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 82, Loss: 0.005722
+Appearance-AE Model training epoch 83, Loss: 0.004420
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 83, Loss: 0.005897
+Appearance-AE Model training epoch 84, Loss: 0.004512
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 84, Loss: 0.005972
+Appearance-AE Model training epoch 85, Loss: 0.004689
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 85, Loss: 0.005861
+Appearance-AE Model training epoch 86, Loss: 0.004787
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 86, Loss: 0.005872
+Appearance-AE Model training epoch 87, Loss: 0.005095
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 87, Loss: 0.006813
+Appearance-AE Model training epoch 88, Loss: 0.005174
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 88, Loss: 0.005948
+Appearance-AE Model training epoch 89, Loss: 0.004668
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 89, Loss: 0.005523
+Appearance-AE Model training epoch 90, Loss: 0.004198
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 90, Loss: 0.005378
+Appearance-AE Model training epoch 91, Loss: 0.004100
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 91, Loss: 0.005481
+Appearance-AE Model training epoch 92, Loss: 0.004120
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 92, Loss: 0.005553
+Appearance-AE Model training epoch 93, Loss: 0.004125
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 93, Loss: 0.005446
+Appearance-AE Model training epoch 94, Loss: 0.004065
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 94, Loss: 0.005437
+Appearance-AE Model training epoch 95, Loss: 0.003977
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 95, Loss: 0.005538
+Appearance-AE Model training epoch 96, Loss: 0.003939
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 96, Loss: 0.005542
+Appearance-AE Model training epoch 97, Loss: 0.003924
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 97, Loss: 0.005547
+Appearance-AE Model training epoch 98, Loss: 0.003918
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 98, Loss: 0.005551
+Appearance-AE Model training epoch 99, Loss: 0.003922
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 99, Loss: 0.005486
+Appearance-AE Model training epoch 100, Loss: 0.003931
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 100, Loss: 0.005554
+Appearance-AE Model training epoch 101, Loss: 0.003899
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 101, Loss: 0.005555
+Appearance-AE Model training epoch 102, Loss: 0.003812
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 102, Loss: 0.005410
+Appearance-AE Model training epoch 103, Loss: 0.003748
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 103, Loss: 0.005395
+Appearance-AE Model training epoch 104, Loss: 0.003736
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 104, Loss: 0.005414
+Appearance-AE Model training epoch 105, Loss: 0.003813
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 105, Loss: 0.005463
+Appearance-AE Model training epoch 106, Loss: 0.004007
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 106, Loss: 0.006215
+Appearance-AE Model training epoch 107, Loss: 0.004660
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 107, Loss: 0.005825
+Appearance-AE Model training epoch 108, Loss: 0.004203
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 108, Loss: 0.005867
+Appearance-AE Model training epoch 109, Loss: 0.003766
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 109, Loss: 0.005590
+Appearance-AE Model training epoch 110, Loss: 0.003711
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 110, Loss: 0.005684
+Appearance-AE Model training epoch 111, Loss: 0.003806
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 111, Loss: 0.005815
+Appearance-AE Model training epoch 112, Loss: 0.003849
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 112, Loss: 0.005976
+Appearance-AE Model training epoch 113, Loss: 0.003899
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 113, Loss: 0.006004
+Appearance-AE Model training epoch 114, Loss: 0.003895
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 114, Loss: 0.005818
+Appearance-AE Model training epoch 115, Loss: 0.003900
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 115, Loss: 0.005717
+Appearance-AE Model training epoch 116, Loss: 0.003927
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 116, Loss: 0.005501
+Appearance-AE Model training epoch 117, Loss: 0.003822
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 117, Loss: 0.005705
+Appearance-AE Model training epoch 118, Loss: 0.003650
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 118, Loss: 0.005895
+Appearance-AE Model training epoch 119, Loss: 0.003541
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 119, Loss: 0.005947
+Appearance-AE Model training epoch 120, Loss: 0.003502
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 120, Loss: 0.005715
+Appearance-AE Model training epoch 121, Loss: 0.003506
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 121, Loss: 0.005532
+Appearance-AE Model training epoch 122, Loss: 0.003605
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 122, Loss: 0.005584
+Appearance-AE Model training epoch 123, Loss: 0.003638
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 123, Loss: 0.006097
+Appearance-AE Model training epoch 124, Loss: 0.003589
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 124, Loss: 0.006520
+Appearance-AE Model training epoch 125, Loss: 0.003695
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 125, Loss: 0.005993
+Appearance-AE Model training epoch 126, Loss: 0.003767
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 126, Loss: 0.006199
+Appearance-AE Model training epoch 127, Loss: 0.003867
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 127, Loss: 0.006071
+Appearance-AE Model training epoch 128, Loss: 0.003986
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 128, Loss: 0.005999
+Appearance-AE Model training epoch 129, Loss: 0.004079
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 129, Loss: 0.005854
+Appearance-AE Model training epoch 130, Loss: 0.004376
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 130, Loss: 0.006792
+Appearance-AE Model training epoch 131, Loss: 0.004786
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 131, Loss: 0.006875
+Appearance-AE Model training epoch 132, Loss: 0.004318
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 132, Loss: 0.005979
+Appearance-AE Model training epoch 133, Loss: 0.003825
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 133, Loss: 0.005843
+Appearance-AE Model training epoch 134, Loss: 0.003606
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 134, Loss: 0.005766
+Appearance-AE Model training epoch 135, Loss: 0.003481
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 135, Loss: 0.005692
+Appearance-AE Model training epoch 136, Loss: 0.003407
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 136, Loss: 0.005660
+Appearance-AE Model training epoch 137, Loss: 0.003382
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 137, Loss: 0.005636
+Appearance-AE Model training epoch 138, Loss: 0.003391
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 138, Loss: 0.005675
+Appearance-AE Model training epoch 139, Loss: 0.003436
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 139, Loss: 0.005764
+Appearance-AE Model training epoch 140, Loss: 0.003501
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 140, Loss: 0.005969
+Appearance-AE Model training epoch 141, Loss: 0.003600
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 141, Loss: 0.006101
+Appearance-AE Model training epoch 142, Loss: 0.003681
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 142, Loss: 0.005960
+Appearance-AE Model training epoch 143, Loss: 0.003613
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 143, Loss: 0.005819
+Appearance-AE Model training epoch 144, Loss: 0.003444
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 144, Loss: 0.005675
+Appearance-AE Model training epoch 145, Loss: 0.003327
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 145, Loss: 0.005600
+Appearance-AE Model training epoch 146, Loss: 0.003285
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 146, Loss: 0.005713
+Appearance-AE Model training epoch 147, Loss: 0.003273
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 147, Loss: 0.005766
+Appearance-AE Model training epoch 148, Loss: 0.003284
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 148, Loss: 0.005859
+Appearance-AE Model training epoch 149, Loss: 0.003302
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 149, Loss: 0.005915
+Appearance-AE Model training epoch 150, Loss: 0.003333
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 150, Loss: 0.005928
+Appearance-AE Model training epoch 151, Loss: 0.003387
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 151, Loss: 0.005793
+Appearance-AE Model training epoch 152, Loss: 0.003415
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 152, Loss: 0.005649
+Appearance-AE Model training epoch 153, Loss: 0.003381
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 153, Loss: 0.005695
+Appearance-AE Model training epoch 154, Loss: 0.003310
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 154, Loss: 0.005770
+Appearance-AE Model training epoch 155, Loss: 0.003285
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 155, Loss: 0.005728
+Appearance-AE Model training epoch 156, Loss: 0.003273
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 156, Loss: 0.005718
+Appearance-AE Model training epoch 157, Loss: 0.003271
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 157, Loss: 0.005814
+Appearance-AE Model training epoch 158, Loss: 0.003288
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 158, Loss: 0.005933
+Appearance-AE Model training epoch 159, Loss: 0.003343
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 159, Loss: 0.005823
+Appearance-AE Model training epoch 160, Loss: 0.003364
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 160, Loss: 0.005868
+Appearance-AE Model training epoch 161, Loss: 0.003394
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 161, Loss: 0.006056
+Appearance-AE Model training epoch 162, Loss: 0.003457
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 162, Loss: 0.006434
+Appearance-AE Model training epoch 163, Loss: 0.003642
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 163, Loss: 0.006744
+Appearance-AE Model training epoch 164, Loss: 0.003792
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 164, Loss: 0.006991
+Appearance-AE Model training epoch 165, Loss: 0.004163
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 165, Loss: 0.006058
+Appearance-AE Model training epoch 166, Loss: 0.004363
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 166, Loss: 0.006421
+Appearance-AE Model training epoch 167, Loss: 0.003869
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 167, Loss: 0.005860
+Appearance-AE Model training epoch 168, Loss: 0.003341
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 168, Loss: 0.006118
+Appearance-AE Model training epoch 169, Loss: 0.003268
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 169, Loss: 0.005917
+Appearance-AE Model training epoch 170, Loss: 0.003247
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 170, Loss: 0.005747
+Appearance-AE Model training epoch 171, Loss: 0.003189
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 171, Loss: 0.005814
+Appearance-AE Model training epoch 172, Loss: 0.003144
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 172, Loss: 0.005853
+Appearance-AE Model training epoch 173, Loss: 0.003122
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 173, Loss: 0.005876
+Appearance-AE Model training epoch 174, Loss: 0.003141
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 174, Loss: 0.006087
+Appearance-AE Model training epoch 175, Loss: 0.003202
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 175, Loss: 0.006454
+Appearance-AE Model training epoch 176, Loss: 0.003247
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 176, Loss: 0.006337
+Appearance-AE Model training epoch 177, Loss: 0.003256
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 177, Loss: 0.006205
+Appearance-AE Model training epoch 178, Loss: 0.003213
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 178, Loss: 0.006270
+Appearance-AE Model training epoch 179, Loss: 0.003201
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 179, Loss: 0.006400
+Appearance-AE Model training epoch 180, Loss: 0.003206
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 180, Loss: 0.006840
+Appearance-AE Model training epoch 181, Loss: 0.003248
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 181, Loss: 0.006862
+Appearance-AE Model training epoch 182, Loss: 0.003378
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 182, Loss: 0.006222
+Appearance-AE Model training epoch 183, Loss: 0.003632
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 183, Loss: 0.006362
+Appearance-AE Model training epoch 184, Loss: 0.004241
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 184, Loss: 0.007117
+Appearance-AE Model training epoch 185, Loss: 0.005278
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 185, Loss: 0.009757
+Appearance-AE Model training epoch 186, Loss: 0.005374
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 186, Loss: 0.007615
+Appearance-AE Model training epoch 187, Loss: 0.004132
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 187, Loss: 0.006310
+Appearance-AE Model training epoch 188, Loss: 0.003459
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 188, Loss: 0.006539
+Appearance-AE Model training epoch 189, Loss: 0.003339
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 189, Loss: 0.006768
+Appearance-AE Model training epoch 190, Loss: 0.003291
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 190, Loss: 0.006727
+Appearance-AE Model training epoch 191, Loss: 0.003254
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 191, Loss: 0.006500
+Appearance-AE Model training epoch 192, Loss: 0.003214
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 192, Loss: 0.006266
+Appearance-AE Model training epoch 193, Loss: 0.003167
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 193, Loss: 0.006032
+Appearance-AE Model training epoch 194, Loss: 0.003118
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 194, Loss: 0.006001
+Appearance-AE Model training epoch 195, Loss: 0.003053
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 195, Loss: 0.006254
+Appearance-AE Model training epoch 196, Loss: 0.002995
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 196, Loss: 0.006348
+Appearance-AE Model training epoch 197, Loss: 0.002962
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 197, Loss: 0.006155
+Appearance-AE Model training epoch 198, Loss: 0.002905
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 198, Loss: 0.006194
+Appearance-AE Model training epoch 199, Loss: 0.002889
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 199, Loss: 0.006144
+Appearance-AE Model training epoch 200, Loss: 0.002962
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 200, Loss: 0.006015
+Appearance-AE Model training epoch 201, Loss: 0.003072
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 201, Loss: 0.006326
+Appearance-AE Model training epoch 202, Loss: 0.003137
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 202, Loss: 0.006593
+Appearance-AE Model training epoch 203, Loss: 0.003148
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 203, Loss: 0.006748
+Appearance-AE Model training epoch 204, Loss: 0.003186
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 204, Loss: 0.006934
+Appearance-AE Model training epoch 205, Loss: 0.003288
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 205, Loss: 0.007101
+Appearance-AE Model training epoch 206, Loss: 0.003506
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 206, Loss: 0.007211
+Appearance-AE Model training epoch 207, Loss: 0.003770
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 207, Loss: 0.006216
+Appearance-AE Model training epoch 208, Loss: 0.003735
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 208, Loss: 0.006405
+Appearance-AE Model training epoch 209, Loss: 0.003311
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 209, Loss: 0.006160
+Appearance-AE Model training epoch 210, Loss: 0.003030
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 210, Loss: 0.006301
+Appearance-AE Model training epoch 211, Loss: 0.002911
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 211, Loss: 0.006620
+Appearance-AE Model training epoch 212, Loss: 0.002922
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 212, Loss: 0.006772
+Appearance-AE Model training epoch 213, Loss: 0.002957
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 213, Loss: 0.006767
+Appearance-AE Model training epoch 214, Loss: 0.002991
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 214, Loss: 0.006645
+Appearance-AE Model training epoch 215, Loss: 0.003035
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 215, Loss: 0.006291
+Appearance-AE Model training epoch 216, Loss: 0.003112
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 216, Loss: 0.005931
+Appearance-AE Model training epoch 217, Loss: 0.003082
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 217, Loss: 0.006245
+Appearance-AE Model training epoch 218, Loss: 0.002976
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 218, Loss: 0.006331
+Appearance-AE Model training epoch 219, Loss: 0.002828
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 219, Loss: 0.006322
+Appearance-AE Model training epoch 220, Loss: 0.002750
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 220, Loss: 0.006256
+Appearance-AE Model training epoch 221, Loss: 0.002729
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 221, Loss: 0.006286
+Appearance-AE Model training epoch 222, Loss: 0.002716
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 222, Loss: 0.006138
+Appearance-AE Model training epoch 223, Loss: 0.002703
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 223, Loss: 0.006121
+Appearance-AE Model training epoch 224, Loss: 0.002700
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 224, Loss: 0.006382
+Appearance-AE Model training epoch 225, Loss: 0.002701
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 225, Loss: 0.006639
+Appearance-AE Model training epoch 226, Loss: 0.002704
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 226, Loss: 0.006813
+Appearance-AE Model training epoch 227, Loss: 0.002770
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 227, Loss: 0.007191
+Appearance-AE Model training epoch 228, Loss: 0.002926
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 228, Loss: 0.006866
+Appearance-AE Model training epoch 229, Loss: 0.003184
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 229, Loss: 0.006546
+Appearance-AE Model training epoch 230, Loss: 0.003412
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 230, Loss: 0.006893
+Appearance-AE Model training epoch 231, Loss: 0.003481
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 231, Loss: 0.006260
+Appearance-AE Model training epoch 232, Loss: 0.003320
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 232, Loss: 0.006531
+Appearance-AE Model training epoch 233, Loss: 0.003005
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 233, Loss: 0.006647
+Appearance-AE Model training epoch 234, Loss: 0.002859
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 234, Loss: 0.006819
+Appearance-AE Model training epoch 235, Loss: 0.002835
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 235, Loss: 0.006566
+Appearance-AE Model training epoch 236, Loss: 0.002837
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 236, Loss: 0.006176
+Appearance-AE Model training epoch 237, Loss: 0.002848
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 237, Loss: 0.006242
+Appearance-AE Model training epoch 238, Loss: 0.002791
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 238, Loss: 0.006447
+Appearance-AE Model training epoch 239, Loss: 0.002721
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 239, Loss: 0.006426
+Appearance-AE Model training epoch 240, Loss: 0.002691
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 240, Loss: 0.006336
+Appearance-AE Model training epoch 241, Loss: 0.002674
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 241, Loss: 0.006418
+Appearance-AE Model training epoch 242, Loss: 0.002665
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 242, Loss: 0.006393
+Appearance-AE Model training epoch 243, Loss: 0.002685
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 243, Loss: 0.006547
+Appearance-AE Model training epoch 244, Loss: 0.002719
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 244, Loss: 0.006555
+Appearance-AE Model training epoch 245, Loss: 0.002790
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 245, Loss: 0.006508
+Appearance-AE Model training epoch 246, Loss: 0.002829
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 246, Loss: 0.006618
+Appearance-AE Model training epoch 247, Loss: 0.002853
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 247, Loss: 0.006492
+Appearance-AE Model training epoch 248, Loss: 0.002857
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 248, Loss: 0.006293
+Appearance-AE Model training epoch 249, Loss: 0.002828
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 249, Loss: 0.006518
+Appearance-AE Model training epoch 250, Loss: 0.002756
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 250, Loss: 0.006810
+Appearance-AE Model training epoch 251, Loss: 0.002689
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 251, Loss: 0.006542
+Appearance-AE Model training epoch 252, Loss: 0.002704
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 252, Loss: 0.006538
+Appearance-AE Model training epoch 253, Loss: 0.002778
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 253, Loss: 0.006689
+Appearance-AE Model training epoch 254, Loss: 0.002956
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 254, Loss: 0.006958
+Appearance-AE Model training epoch 255, Loss: 0.003244
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 255, Loss: 0.006932
+Appearance-AE Model training epoch 256, Loss: 0.003242
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 256, Loss: 0.006691
+Appearance-AE Model training epoch 257, Loss: 0.002930
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 257, Loss: 0.006417
+Appearance-AE Model training epoch 258, Loss: 0.002640
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 258, Loss: 0.006383
+Appearance-AE Model training epoch 259, Loss: 0.002632
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 259, Loss: 0.006255
+Appearance-AE Model training epoch 260, Loss: 0.002587
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 260, Loss: 0.006313
+Appearance-AE Model training epoch 261, Loss: 0.002548
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 261, Loss: 0.006396
+Appearance-AE Model training epoch 262, Loss: 0.002515
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 262, Loss: 0.006421
+Appearance-AE Model training epoch 263, Loss: 0.002498
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 263, Loss: 0.006401
+Appearance-AE Model training epoch 264, Loss: 0.002482
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 264, Loss: 0.006477
+Appearance-AE Model training epoch 265, Loss: 0.002481
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 265, Loss: 0.006466
+Appearance-AE Model training epoch 266, Loss: 0.002486
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 266, Loss: 0.006678
+Appearance-AE Model training epoch 267, Loss: 0.002552
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 267, Loss: 0.007142
+Appearance-AE Model training epoch 268, Loss: 0.002720
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 268, Loss: 0.007475
+Appearance-AE Model training epoch 269, Loss: 0.003028
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 269, Loss: 0.006531
+Appearance-AE Model training epoch 270, Loss: 0.003285
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 270, Loss: 0.006820
+Appearance-AE Model training epoch 271, Loss: 0.003190
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 271, Loss: 0.006500
+Appearance-AE Model training epoch 272, Loss: 0.002923
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 272, Loss: 0.007132
+Appearance-AE Model training epoch 273, Loss: 0.002814
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 273, Loss: 0.007116
+Appearance-AE Model training epoch 274, Loss: 0.002876
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 274, Loss: 0.006639
+Appearance-AE Model training epoch 275, Loss: 0.002821
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 275, Loss: 0.007184
+Appearance-AE Model training epoch 276, Loss: 0.002851
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 276, Loss: 0.008235
+Appearance-AE Model training epoch 277, Loss: 0.003174
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 277, Loss: 0.008368
+Appearance-AE Model training epoch 278, Loss: 0.003684
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 278, Loss: 0.009621
+Appearance-AE Model training epoch 279, Loss: 0.004046
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 279, Loss: 0.010352
+Appearance-AE Model training epoch 280, Loss: 0.004338
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 280, Loss: 0.009505
+Appearance-AE Model training epoch 281, Loss: 0.005010
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 281, Loss: 0.009411
+Appearance-AE Model training epoch 282, Loss: 0.005375
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 282, Loss: 0.007211
+Appearance-AE Model training epoch 283, Loss: 0.005538
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 283, Loss: 0.007909
+Appearance-AE Model training epoch 284, Loss: 0.004533
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 284, Loss: 0.007906
+Appearance-AE Model training epoch 285, Loss: 0.003502
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 285, Loss: 0.006612
+Appearance-AE Model training epoch 286, Loss: 0.002998
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 286, Loss: 0.006405
+Appearance-AE Model training epoch 287, Loss: 0.002873
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 287, Loss: 0.006496
+Appearance-AE Model training epoch 288, Loss: 0.002833
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 288, Loss: 0.006630
+Appearance-AE Model training epoch 289, Loss: 0.002791
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 289, Loss: 0.006798
+Appearance-AE Model training epoch 290, Loss: 0.002735
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 290, Loss: 0.007086
+Appearance-AE Model training epoch 291, Loss: 0.002661
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 291, Loss: 0.007215
+Appearance-AE Model training epoch 292, Loss: 0.002575
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 292, Loss: 0.007007
+Appearance-AE Model training epoch 293, Loss: 0.002470
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 293, Loss: 0.006773
+Appearance-AE Model training epoch 294, Loss: 0.002377
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 294, Loss: 0.006647
+Appearance-AE Model training epoch 295, Loss: 0.002320
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 295, Loss: 0.006456
+Appearance-AE Model training epoch 296, Loss: 0.002280
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 296, Loss: 0.006509
+Appearance-AE Model training epoch 297, Loss: 0.002274
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 297, Loss: 0.006672
+Appearance-AE Model training epoch 298, Loss: 0.002316
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 298, Loss: 0.006572
+Appearance-AE Model training epoch 299, Loss: 0.002337
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 299, Loss: 0.006675
+Appearance-AE Model training epoch 300, Loss: 0.002342
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 300, Loss: 0.006734
+Appearance-AE Model training epoch 301, Loss: 0.002355
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 301, Loss: 0.006669
+Appearance-AE Model training epoch 302, Loss: 0.002349
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 302, Loss: 0.006760
+Appearance-AE Model training epoch 303, Loss: 0.002368
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 303, Loss: 0.006679
+Appearance-AE Model training epoch 304, Loss: 0.002391
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 304, Loss: 0.006710
+Appearance-AE Model training epoch 305, Loss: 0.002399
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 305, Loss: 0.006881
+Appearance-AE Model training epoch 306, Loss: 0.002419
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 306, Loss: 0.006804
+Appearance-AE Model training epoch 307, Loss: 0.002433
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 307, Loss: 0.006818
+Appearance-AE Model training epoch 308, Loss: 0.002460
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 308, Loss: 0.006708
+Appearance-AE Model training epoch 309, Loss: 0.002516
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 309, Loss: 0.006709
+Appearance-AE Model training epoch 310, Loss: 0.002615
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 310, Loss: 0.006926
+Appearance-AE Model training epoch 311, Loss: 0.002793
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 311, Loss: 0.007445
+Appearance-AE Model training epoch 312, Loss: 0.003033
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 312, Loss: 0.008693
+Appearance-AE Model training epoch 313, Loss: 0.003268
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 313, Loss: 0.007946
+Appearance-AE Model training epoch 314, Loss: 0.003160
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 314, Loss: 0.008183
+Appearance-AE Model training epoch 315, Loss: 0.002968
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 315, Loss: 0.007763
+Appearance-AE Model training epoch 316, Loss: 0.002929
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 316, Loss: 0.007834
+Appearance-AE Model training epoch 317, Loss: 0.002957
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 317, Loss: 0.007003
+Appearance-AE Model training epoch 318, Loss: 0.002898
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 318, Loss: 0.006879
+Appearance-AE Model training epoch 319, Loss: 0.002882
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 319, Loss: 0.007260
+Appearance-AE Model training epoch 320, Loss: 0.002926
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 320, Loss: 0.007129
+Appearance-AE Model training epoch 321, Loss: 0.002835
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 321, Loss: 0.007206
+Appearance-AE Model training epoch 322, Loss: 0.002666
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 322, Loss: 0.007296
+Appearance-AE Model training epoch 323, Loss: 0.002547
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 323, Loss: 0.006853
+Appearance-AE Model training epoch 324, Loss: 0.002465
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 324, Loss: 0.006655
+Appearance-AE Model training epoch 325, Loss: 0.002386
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 325, Loss: 0.006814
+Appearance-AE Model training epoch 326, Loss: 0.002340
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 326, Loss: 0.006920
+Appearance-AE Model training epoch 327, Loss: 0.002327
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 327, Loss: 0.006868
+Appearance-AE Model training epoch 328, Loss: 0.002323
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 328, Loss: 0.006977
+Appearance-AE Model training epoch 329, Loss: 0.002345
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 329, Loss: 0.007281
+Appearance-AE Model training epoch 330, Loss: 0.002408
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 330, Loss: 0.007631
+Appearance-AE Model training epoch 331, Loss: 0.002526
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 331, Loss: 0.007572
+Appearance-AE Model training epoch 332, Loss: 0.002682
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 332, Loss: 0.007183
+Appearance-AE Model training epoch 333, Loss: 0.002708
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 333, Loss: 0.007126
+Appearance-AE Model training epoch 334, Loss: 0.002644
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 334, Loss: 0.006883
+Appearance-AE Model training epoch 335, Loss: 0.002508
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 335, Loss: 0.006990
+Appearance-AE Model training epoch 336, Loss: 0.002452
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 336, Loss: 0.007419
+Appearance-AE Model training epoch 337, Loss: 0.002462
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 337, Loss: 0.007378
+Appearance-AE Model training epoch 338, Loss: 0.002475
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 338, Loss: 0.007295
+Appearance-AE Model training epoch 339, Loss: 0.002508
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 339, Loss: 0.007345
+Appearance-AE Model training epoch 340, Loss: 0.002527
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 340, Loss: 0.007507
+Appearance-AE Model training epoch 341, Loss: 0.002654
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 341, Loss: 0.007074
+Appearance-AE Model training epoch 342, Loss: 0.002857
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 342, Loss: 0.007278
+Appearance-AE Model training epoch 343, Loss: 0.003055
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 343, Loss: 0.008332
+Appearance-AE Model training epoch 344, Loss: 0.003177
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 344, Loss: 0.008656
+Appearance-AE Model training epoch 345, Loss: 0.003263
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 345, Loss: 0.007715
+Appearance-AE Model training epoch 346, Loss: 0.003065
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 346, Loss: 0.006879
+Appearance-AE Model training epoch 347, Loss: 0.002780
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 347, Loss: 0.007245
+Appearance-AE Model training epoch 348, Loss: 0.002561
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 348, Loss: 0.007475
+Appearance-AE Model training epoch 349, Loss: 0.002463
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 349, Loss: 0.007177
+Appearance-AE Model training epoch 350, Loss: 0.002429
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 350, Loss: 0.007202
+Appearance-AE Model training epoch 351, Loss: 0.002413
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 351, Loss: 0.007577
+Appearance-AE Model training epoch 352, Loss: 0.002426
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 352, Loss: 0.007696
+Appearance-AE Model training epoch 353, Loss: 0.002460
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 353, Loss: 0.007545
+Appearance-AE Model training epoch 354, Loss: 0.002468
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 354, Loss: 0.007452
+Appearance-AE Model training epoch 355, Loss: 0.002450
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 355, Loss: 0.007209
+Appearance-AE Model training epoch 356, Loss: 0.002450
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 356, Loss: 0.007218
+Appearance-AE Model training epoch 357, Loss: 0.002411
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 357, Loss: 0.007527
+Appearance-AE Model training epoch 358, Loss: 0.002383
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 358, Loss: 0.007567
+Appearance-AE Model training epoch 359, Loss: 0.002405
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 359, Loss: 0.007302
+Appearance-AE Model training epoch 360, Loss: 0.002479
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 360, Loss: 0.007204
+Appearance-AE Model training epoch 361, Loss: 0.002526
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 361, Loss: 0.007473
+Appearance-AE Model training epoch 362, Loss: 0.002561
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 362, Loss: 0.008040
+Appearance-AE Model training epoch 363, Loss: 0.002576
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 363, Loss: 0.008144
+Appearance-AE Model training epoch 364, Loss: 0.002641
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 364, Loss: 0.007737
+Appearance-AE Model training epoch 365, Loss: 0.002690
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 365, Loss: 0.007239
+Appearance-AE Model training epoch 366, Loss: 0.002646
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 366, Loss: 0.007557
+Appearance-AE Model training epoch 367, Loss: 0.002571
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 367, Loss: 0.007773
+Appearance-AE Model training epoch 368, Loss: 0.002525
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 368, Loss: 0.007454
+Appearance-AE Model training epoch 369, Loss: 0.002494
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 369, Loss: 0.007319
+Appearance-AE Model training epoch 370, Loss: 0.002478
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 370, Loss: 0.007902
+Appearance-AE Model training epoch 371, Loss: 0.002493
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 371, Loss: 0.008090
+Appearance-AE Model training epoch 372, Loss: 0.002557
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 372, Loss: 0.007962
+Appearance-AE Model training epoch 373, Loss: 0.002604
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 373, Loss: 0.007554
+Appearance-AE Model training epoch 374, Loss: 0.002533
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 374, Loss: 0.007378
+Appearance-AE Model training epoch 375, Loss: 0.002461
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 375, Loss: 0.007279
+Appearance-AE Model training epoch 376, Loss: 0.002427
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 376, Loss: 0.007440
+Appearance-AE Model training epoch 377, Loss: 0.002421
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 377, Loss: 0.007524
+Appearance-AE Model training epoch 378, Loss: 0.002440
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 378, Loss: 0.007423
+Appearance-AE Model training epoch 379, Loss: 0.002514
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 379, Loss: 0.007294
+Appearance-AE Model training epoch 380, Loss: 0.002595
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 380, Loss: 0.007578
+Appearance-AE Model training epoch 381, Loss: 0.002667
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 381, Loss: 0.008229
+Appearance-AE Model training epoch 382, Loss: 0.002742
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 382, Loss: 0.008608
+Appearance-AE Model training epoch 383, Loss: 0.002926
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 383, Loss: 0.007878
+Appearance-AE Model training epoch 384, Loss: 0.002972
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 384, Loss: 0.007494
+Appearance-AE Model training epoch 385, Loss: 0.002862
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 385, Loss: 0.007643
+Appearance-AE Model training epoch 386, Loss: 0.002745
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 386, Loss: 0.007508
+Appearance-AE Model training epoch 387, Loss: 0.002623
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 387, Loss: 0.007304
+Appearance-AE Model training epoch 388, Loss: 0.002495
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 388, Loss: 0.007945
+Appearance-AE Model training epoch 389, Loss: 0.002433
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 389, Loss: 0.008178
+Appearance-AE Model training epoch 390, Loss: 0.002477
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 390, Loss: 0.007598
+Appearance-AE Model training epoch 391, Loss: 0.002444
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 391, Loss: 0.007626
+Appearance-AE Model training epoch 392, Loss: 0.002416
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 392, Loss: 0.007719
+Appearance-AE Model training epoch 393, Loss: 0.002468
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 393, Loss: 0.007581
+Appearance-AE Model training epoch 394, Loss: 0.002514
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 394, Loss: 0.007370
+Appearance-AE Model training epoch 395, Loss: 0.002515
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 395, Loss: 0.007574
+Appearance-AE Model training epoch 396, Loss: 0.002547
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 396, Loss: 0.007748
+Appearance-AE Model training epoch 397, Loss: 0.002543
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 397, Loss: 0.007788
+Appearance-AE Model training epoch 398, Loss: 0.002518
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 398, Loss: 0.007718
+Appearance-AE Model training epoch 399, Loss: 0.002455
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 399, Loss: 0.007674
+Appearance-AE Model training epoch 400, Loss: 0.002408
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 400, Loss: 0.007781
+Appearance-AE Model training epoch 401, Loss: 0.002403
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 401, Loss: 0.007738
+Appearance-AE Model training epoch 402, Loss: 0.002395
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 402, Loss: 0.007613
+Appearance-AE Model training epoch 403, Loss: 0.002355
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 403, Loss: 0.007513
+Appearance-AE Model training epoch 404, Loss: 0.002320
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 404, Loss: 0.007412
+Appearance-AE Model training epoch 405, Loss: 0.002284
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 405, Loss: 0.007543
+Appearance-AE Model training epoch 406, Loss: 0.002270
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 406, Loss: 0.007583
+Appearance-AE Model training epoch 407, Loss: 0.002253
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 407, Loss: 0.007782
+Appearance-AE Model training epoch 408, Loss: 0.002233
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 408, Loss: 0.007876
+Appearance-AE Model training epoch 409, Loss: 0.002225
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 409, Loss: 0.007822
+Appearance-AE Model training epoch 410, Loss: 0.002220
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 410, Loss: 0.007887
+Appearance-AE Model training epoch 411, Loss: 0.002228
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 411, Loss: 0.007921
+Appearance-AE Model training epoch 412, Loss: 0.002238
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 412, Loss: 0.007956
+Appearance-AE Model training epoch 413, Loss: 0.002245
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 413, Loss: 0.008036
+Appearance-AE Model training epoch 414, Loss: 0.002249
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 414, Loss: 0.008125
+Appearance-AE Model training epoch 415, Loss: 0.002244
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 415, Loss: 0.008107
+Appearance-AE Model training epoch 416, Loss: 0.002251
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 416, Loss: 0.008024
+Appearance-AE Model training epoch 417, Loss: 0.002267
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 417, Loss: 0.008119
+Appearance-AE Model training epoch 418, Loss: 0.002286
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 418, Loss: 0.008201
+Appearance-AE Model training epoch 419, Loss: 0.002314
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 419, Loss: 0.007924
+Appearance-AE Model training epoch 420, Loss: 0.002327
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 420, Loss: 0.007852
+Appearance-AE Model training epoch 421, Loss: 0.002377
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 421, Loss: 0.007711
+Appearance-AE Model training epoch 422, Loss: 0.002425
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 422, Loss: 0.007667
+Appearance-AE Model training epoch 423, Loss: 0.002436
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 423, Loss: 0.007656
+Appearance-AE Model training epoch 424, Loss: 0.002468
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 424, Loss: 0.007556
+Appearance-AE Model training epoch 425, Loss: 0.002476
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 425, Loss: 0.007406
+Appearance-AE Model training epoch 426, Loss: 0.002493
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 426, Loss: 0.007601
+Appearance-AE Model training epoch 427, Loss: 0.002545
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 427, Loss: 0.007596
+Appearance-AE Model training epoch 428, Loss: 0.002589
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 428, Loss: 0.007809
+Appearance-AE Model training epoch 429, Loss: 0.002700
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 429, Loss: 0.007826
+Appearance-AE Model training epoch 430, Loss: 0.002689
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 430, Loss: 0.007769
+Appearance-AE Model training epoch 431, Loss: 0.002580
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 431, Loss: 0.007795
+Appearance-AE Model training epoch 432, Loss: 0.002502
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 432, Loss: 0.008140
+Appearance-AE Model training epoch 433, Loss: 0.002579
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 433, Loss: 0.009138
+Appearance-AE Model training epoch 434, Loss: 0.002822
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 434, Loss: 0.009538
+Appearance-AE Model training epoch 435, Loss: 0.003103
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 435, Loss: 0.008175
+Appearance-AE Model training epoch 436, Loss: 0.003315
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 436, Loss: 0.007378
+Appearance-AE Model training epoch 437, Loss: 0.003244
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 437, Loss: 0.008515
+Appearance-AE Model training epoch 438, Loss: 0.003054
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 438, Loss: 0.008009
+Appearance-AE Model training epoch 439, Loss: 0.002772
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 439, Loss: 0.007515
+Appearance-AE Model training epoch 440, Loss: 0.002525
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 440, Loss: 0.008400
+Appearance-AE Model training epoch 441, Loss: 0.002472
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 441, Loss: 0.008434
+Appearance-AE Model training epoch 442, Loss: 0.002489
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 442, Loss: 0.007655
+Appearance-AE Model training epoch 443, Loss: 0.002378
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 443, Loss: 0.007522
+Appearance-AE Model training epoch 444, Loss: 0.002300
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 444, Loss: 0.007484
+Appearance-AE Model training epoch 445, Loss: 0.002272
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 445, Loss: 0.007676
+Appearance-AE Model training epoch 446, Loss: 0.002238
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 446, Loss: 0.007984
+Appearance-AE Model training epoch 447, Loss: 0.002231
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 447, Loss: 0.007951
+Appearance-AE Model training epoch 448, Loss: 0.002226
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 448, Loss: 0.007868
+Appearance-AE Model training epoch 449, Loss: 0.002216
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 449, Loss: 0.007782
+Appearance-AE Model training epoch 450, Loss: 0.002205
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 450, Loss: 0.007717
+Appearance-AE Model training epoch 451, Loss: 0.002206
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 451, Loss: 0.007819
+Appearance-AE Model training epoch 452, Loss: 0.002181
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 452, Loss: 0.007998
+Appearance-AE Model training epoch 453, Loss: 0.002152
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 453, Loss: 0.007975
+Appearance-AE Model training epoch 454, Loss: 0.002137
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 454, Loss: 0.007740
+Appearance-AE Model training epoch 455, Loss: 0.002114
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 455, Loss: 0.007624
+Appearance-AE Model training epoch 456, Loss: 0.002067
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 456, Loss: 0.007639
+Appearance-AE Model training epoch 457, Loss: 0.002032
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 457, Loss: 0.007678
+Appearance-AE Model training epoch 458, Loss: 0.002020
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 458, Loss: 0.007692
+Appearance-AE Model training epoch 459, Loss: 0.002006
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 459, Loss: 0.007777
+Appearance-AE Model training epoch 460, Loss: 0.001994
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 460, Loss: 0.007914
+Appearance-AE Model training epoch 461, Loss: 0.001997
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 461, Loss: 0.007925
+Appearance-AE Model training epoch 462, Loss: 0.002018
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 462, Loss: 0.007755
+Appearance-AE Model training epoch 463, Loss: 0.002035
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 463, Loss: 0.007768
+Appearance-AE Model training epoch 464, Loss: 0.002053
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 464, Loss: 0.007875
+Appearance-AE Model training epoch 465, Loss: 0.002087
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 465, Loss: 0.007805
+Appearance-AE Model training epoch 466, Loss: 0.002105
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 466, Loss: 0.007964
+Appearance-AE Model training epoch 467, Loss: 0.002112
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 467, Loss: 0.008078
+Appearance-AE Model training epoch 468, Loss: 0.002157
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 468, Loss: 0.007728
+Appearance-AE Model training epoch 469, Loss: 0.002207
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 469, Loss: 0.007780
+Appearance-AE Model training epoch 470, Loss: 0.002257
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 470, Loss: 0.007846
+Appearance-AE Model training epoch 471, Loss: 0.002220
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 471, Loss: 0.008333
+Appearance-AE Model training epoch 472, Loss: 0.002206
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 472, Loss: 0.008320
+Appearance-AE Model training epoch 473, Loss: 0.002196
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 473, Loss: 0.007952
+Appearance-AE Model training epoch 474, Loss: 0.002186
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 474, Loss: 0.008056
+Appearance-AE Model training epoch 475, Loss: 0.002222
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 475, Loss: 0.008470
+Appearance-AE Model training epoch 476, Loss: 0.002278
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 476, Loss: 0.008432
+Appearance-AE Model training epoch 477, Loss: 0.002295
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 477, Loss: 0.008328
+Appearance-AE Model training epoch 478, Loss: 0.002288
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 478, Loss: 0.008306
+Appearance-AE Model training epoch 479, Loss: 0.002316
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 479, Loss: 0.008348
+Appearance-AE Model training epoch 480, Loss: 0.002347
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 480, Loss: 0.008463
+Appearance-AE Model training epoch 481, Loss: 0.002422
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 481, Loss: 0.008615
+Appearance-AE Model training epoch 482, Loss: 0.002476
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 482, Loss: 0.009277
+Appearance-AE Model training epoch 483, Loss: 0.002542
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 483, Loss: 0.010467
+Appearance-AE Model training epoch 484, Loss: 0.003035
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 484, Loss: 0.008761
+Appearance-AE Model training epoch 485, Loss: 0.003516
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 485, Loss: 0.008943
+Appearance-AE Model training epoch 486, Loss: 0.003622
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 486, Loss: 0.008524
+Appearance-AE Model training epoch 487, Loss: 0.003257
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 487, Loss: 0.008077
+Appearance-AE Model training epoch 488, Loss: 0.002655
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 488, Loss: 0.008640
+Appearance-AE Model training epoch 489, Loss: 0.002417
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 489, Loss: 0.008325
+Appearance-AE Model training epoch 490, Loss: 0.002354
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 490, Loss: 0.007997
+Appearance-AE Model training epoch 491, Loss: 0.002285
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 491, Loss: 0.007823
+Appearance-AE Model training epoch 492, Loss: 0.002249
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 492, Loss: 0.007688
+Appearance-AE Model training epoch 493, Loss: 0.002240
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 493, Loss: 0.007850
+Appearance-AE Model training epoch 494, Loss: 0.002222
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 494, Loss: 0.008274
+Appearance-AE Model training epoch 495, Loss: 0.002213
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 495, Loss: 0.008273
+Appearance-AE Model training epoch 496, Loss: 0.002192
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 496, Loss: 0.007843
+Appearance-AE Model training epoch 497, Loss: 0.002153
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 497, Loss: 0.007675
+Appearance-AE Model training epoch 498, Loss: 0.002112
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 498, Loss: 0.007689
+Appearance-AE Model training epoch 499, Loss: 0.002081
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Appearance-AE Model validation epoch 499, Loss: 0.007734
