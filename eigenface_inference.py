@@ -9,15 +9,23 @@ from torch.autograd import Variable
 
 # read arguments
 import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('--weights', type=str, required=True,
-    help="path to model weights to perform inference with")
-parser.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
-    help="model type, either 'ae' or 'vae'")
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
 parser.add_argument('--num_imgs', type=int, default=5,
     help="number of random images to sample and reconstruct.")
-parser.add_argument('--faces', type=str, required=True, choices=('aligned', 'unaligned'),
+parser.add_argument('--appear_latent_dim', type=int, default=50,
+    help="number of elements in the latent vector for the appearance model")
+# parser.add_argument('--landmark_latent_dim', type=int, default=10,
+    # help="number of elements in the latent vector for the landmark model")
+
+required_group = parser.add_argument_group('required arguments')
+required_group.add_argument('--weights', type=str, required=True,
+    help="path to model weights to perform inference with")
+required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
+    help="model type, either 'ae' or 'vae'")
+required_group.add_argument('--faces', type=str, required=True, choices=('aligned', 'unaligned'),
     help="type of faces data to reconstruct from, choose from 'aligned' or 'unaligned'")
+
 args = parser.parse_args()
 
 # read images
@@ -30,9 +38,11 @@ face_images_test = all_face_images[-100:]
 
 # get model and weights
 if args.model == 'ae':
-    app_model = appearance_autoencoder(latent_dim_size=50)
+    # app_model = appearance_autoencoder(latent_dim_size=50)
+    app_model = appearance_autoencoder(latent_dim_size=args.appear_latent_dim)
 elif args.model == 'vae':
-    app_model = appearance_VAE(latent_dim_size=50)
+    # app_model = appearance_VAE(latent_dim_size=50)
+    app_model = appearance_VAE(latent_dim_size=args.appear_latent_dim)
 else:
     print("Model {} not recognized. Please use 'ae' or 'vae' only.".format(args.model))
 app_model.load_state_dict(torch.load(args.weights, map_location=lambda storage, loc: storage)())
