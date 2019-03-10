@@ -1,0 +1,400 @@
+args
+Namespace(appear_lr=0.0007, batch_size=128, device=0, epochs=20, faces='aligned', image_dir='images', landmark_dir='landmarks', landmark_lr=0.0001, model='vae', seed=12345, use_cuda=True)
+
+ExperimentConfig
+ExperimentConfig for experiment 2019_03_09-17_34_53-experiment
+	experiments\2019_03_09-17_34_53-experiment
+	experiments\2019_03_09-17_34_53-experiment\loss_plots
+	experiments\2019_03_09-17_34_53-experiment\metrics
+	experiments\2019_03_09-17_34_53-experiment\models
+	experiments\2019_03_09-17_34_53-experiment\code
+
+
+
+Setting torch.cuda.set_device(0)
+Setting torch.cuda.manual_seed(12345)
+
+Read cached images from all-warped-images.npy
+Beginning to train Appearance-VAE model
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 0, Loss: 34126.834821
+Batch 0 done
+Appearance-VAE Model validation epoch 0, Loss: 34028.953125
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 1, Loss: 33759.022879
+Batch 0 done
+Appearance-VAE Model validation epoch 1, Loss: 32832.839844
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 2, Loss: 30190.283203
+Batch 0 done
+Appearance-VAE Model validation epoch 2, Loss: 26596.251953
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 3, Loss: 24285.596540
+Batch 0 done
+Appearance-VAE Model validation epoch 3, Loss: 22418.138672
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 4, Loss: 21378.501116
+Batch 0 done
+Appearance-VAE Model validation epoch 4, Loss: 20621.449219
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 5, Loss: 20063.092355
+Batch 0 done
+Appearance-VAE Model validation epoch 5, Loss: 19574.023438
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 6, Loss: 19292.284040
+Batch 0 done
+Appearance-VAE Model validation epoch 6, Loss: 19094.888672
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 7, Loss: 18856.213449
+Batch 0 done
+Appearance-VAE Model validation epoch 7, Loss: 18600.927734
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 8, Loss: 18418.328125
+Batch 0 done
+Appearance-VAE Model validation epoch 8, Loss: 18207.982422
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 9, Loss: 18102.727121
+Batch 0 done
+Appearance-VAE Model validation epoch 9, Loss: 17913.167969
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 10, Loss: 17826.256975
+Batch 0 done
+Appearance-VAE Model validation epoch 10, Loss: 17679.736328
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 11, Loss: 17612.303850
+Batch 0 done
+Appearance-VAE Model validation epoch 11, Loss: 17487.656250
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 12, Loss: 17443.878069
+Batch 0 done
+Appearance-VAE Model validation epoch 12, Loss: 17358.125000
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 13, Loss: 17349.019252
+Batch 0 done
+Appearance-VAE Model validation epoch 13, Loss: 17315.841797
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 14, Loss: 17307.713449
+Batch 0 done
+Appearance-VAE Model validation epoch 14, Loss: 17268.654297
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 15, Loss: 17275.458147
+Batch 0 done
+Appearance-VAE Model validation epoch 15, Loss: 17224.843750
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 16, Loss: 17252.680804
+Batch 0 done
+Appearance-VAE Model validation epoch 16, Loss: 17219.205078
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 17, Loss: 17233.368025
+Batch 0 done
+Appearance-VAE Model validation epoch 17, Loss: 17208.158203
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 18, Loss: 17217.656250
+Batch 0 done
+Appearance-VAE Model validation epoch 18, Loss: 17177.351562
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Batch 6 done
+Appearance-VAE Model training epoch 19, Loss: 17192.655134
+Batch 0 done
+Appearance-VAE Model validation epoch 19, Loss: 17148.791016
+read landmarks
+Beginning to train Landmark-VAE model
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 0, Loss: 94.273851
+Batch 0 done
+Landmark-VAE Model validation epoch 0, Loss: 92.769707
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 1, Loss: 91.913058
+Batch 0 done
+Landmark-VAE Model validation epoch 1, Loss: 90.695900
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 2, Loss: 89.905960
+Batch 0 done
+Landmark-VAE Model validation epoch 2, Loss: 88.717812
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 3, Loss: 88.010853
+Batch 0 done
+Landmark-VAE Model validation epoch 3, Loss: 87.100914
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 4, Loss: 86.618748
+Batch 0 done
+Landmark-VAE Model validation epoch 4, Loss: 85.972839
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 5, Loss: 85.311171
+Batch 0 done
+Landmark-VAE Model validation epoch 5, Loss: 84.704712
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 6, Loss: 84.348289
+Batch 0 done
+Landmark-VAE Model validation epoch 6, Loss: 83.695633
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 7, Loss: 83.567473
+Batch 0 done
+Landmark-VAE Model validation epoch 7, Loss: 83.212654
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 8, Loss: 82.951383
+Batch 0 done
+Landmark-VAE Model validation epoch 8, Loss: 82.663750
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 9, Loss: 82.473057
+Batch 0 done
+Landmark-VAE Model validation epoch 9, Loss: 82.104263
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 10, Loss: 82.121450
+Batch 0 done
+Landmark-VAE Model validation epoch 10, Loss: 82.049019
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 11, Loss: 81.838849
+Batch 0 done
+Landmark-VAE Model validation epoch 11, Loss: 81.742760
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 12, Loss: 81.654641
+Batch 0 done
+Landmark-VAE Model validation epoch 12, Loss: 81.548203
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 13, Loss: 81.413147
+Batch 0 done
+Landmark-VAE Model validation epoch 13, Loss: 81.331085
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 14, Loss: 81.327140
+Batch 0 done
+Landmark-VAE Model validation epoch 14, Loss: 81.323814
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 15, Loss: 81.156943
+Batch 0 done
+Landmark-VAE Model validation epoch 15, Loss: 81.117363
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 16, Loss: 81.016123
+Batch 0 done
+Landmark-VAE Model validation epoch 16, Loss: 80.963432
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 17, Loss: 80.952133
+Batch 0 done
+Landmark-VAE Model validation epoch 17, Loss: 80.842522
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 18, Loss: 80.864951
+Batch 0 done
+Landmark-VAE Model validation epoch 18, Loss: 80.889946
+Batch 0 done
+Batch 1 done
+Batch 2 done
+Batch 3 done
+Batch 4 done
+Batch 5 done
+Landmark-VAE Model training epoch 19, Loss: 80.819153
+Batch 0 done
+Landmark-VAE Model validation epoch 19, Loss: 80.794800
