@@ -90,14 +90,22 @@ z = torch.randn(args.num_imgs, app_model.latent_dim_size)
 z = Variable(z, volatile=True)
 recon = app_model.get_recon_from_latent_vec(z)
 
-model_spec = args.weights.split('/')[3][:-4]
-output_images_path = os.path.join(os.getcwd(), args.weights.split('/')[0], args.weights.split('/')[1] + '/sampling/')
+weights_dir, weights_file = os.path.split(args.weights)
+experiment_dir, _ = os.path.split(weights_dir)
+_, experiment_name = os.path.split(experiment_dir)
+
+model_spec = weights_file.replace('.pth', '')
+output_images_path = os.path.join(experiment_dir, 'sampling')
+
 if not os.path.isdir(output_images_path):
     print('creating output image reconstruction directory...')
     os.mkdir(output_images_path)
+print("using {}\n".format(output_images_path))
 
 # Reconstructions built in utilities
-torchvision.utils.save_image(recon.data, output_images_path+'rand_faces_'+str(args.model) + str(model_spec)+ '.jpg', nrow=args.num_imgs, padding=2)
+# torchvision.utils.save_image(recon.data, output_images_path+'rand_faces_'+str(args.model) + str(model_spec)+ '.jpg', nrow=args.num_imgs, padding=2)
+recon_output_file = os.path.join(output_images_path, 'rand_faces-{}-{}.jpg'.format(args.model, model_spec))
+torchvision.utils.save_image(recon.data, recon_output_file, nrow=args.num_imgs, padding=2)
 
 # ===============================
 # === Do not delete =============
@@ -160,7 +168,9 @@ for i, recon in enumerate(sample_img_recons_knn):
     plt.title('Recon image')
     plt.imshow((sample_img_recons[i] * 255).astype(np.uint8))
     plt.gcf()
-    plt.savefig(output_images_path+'img_reconknn_'+str(args.model) + str(model_spec)+ str(i) +'.jpg')
+    # plt.savefig(output_images_path+'img_reconknn_'+str(args.model) + str(model_spec)+ str(i) +'.jpg')
+    plot_output_file = os.path.join(output_images_path, 'img_reconknn-{}-{}-{}.jpg'.format(args.model, model_spec, i))
+    plt.savefig(plot_output_file)
 
 
 # TODO: Same thing for sampled images once they look better
