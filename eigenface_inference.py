@@ -166,15 +166,28 @@ for i, recon in enumerate(sample_img_recons_knn):
     train_neighbor = np.argmin(l2_dist)
     min_dist = l2_dist[train_neighbor]
     
-    plt.subplot(211)
-    plt.title('Train set neighbor' + str(min_dist)+ ' (l2)')
-    plt.imshow(all_face_images[train_neighbor])
-
-    plt.subplot(212)
-    plt.title('Recon image')
+    fig = plt.figure()
+    
+    # plot original
+    # ax = fig.add_subplot(nrows=3, ncols=1, index=1)
+    ax = fig.add_subplot(311)
+    ax.set_title('Original image')
+    plt.imshow(sample_imgs[i])
+    
+    # plot reconstruction
+    # ax = fig.add_subplot(nrows=3, ncols=1, index=2)
+    ax = fig.add_subplot(312)
+    ax.set_title('Recon image')
     plt.imshow((sample_img_recons[i] * 255).astype(np.uint8))
-    plt.gcf()
-    # plt.savefig(output_images_path+'img_reconknn_'+str(args.model) + str(model_spec)+ str(i) +'.jpg')
+    
+    # plot neearest neighbor
+    # ax = fig.add_subplot(nrows=3, ncols=1, index=3)
+    ax = fig.add_subplot(313)
+    ax.set_title('Train set neighbor' + str(min_dist)+ ' (l2)')
+    plt.imshow(all_face_images[train_neighbor])
+    
+    
+    # plt.gcf()
     plot_output_file = os.path.join(output_images_path, 'img_reconknn-{}-{}-{}.jpg'.format(args.model, model_spec, i))
     plt.savefig(plot_output_file)
 
