@@ -26,7 +26,8 @@ from keras.losses import mse, binary_crossentropy, categorical_crossentropy
 import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
-
+from sklearn.decomposition import PCA
+from warper import plot
 
 ROOT_DIR = os.getcwd()
 sys.path.append(ROOT_DIR)
@@ -171,6 +172,17 @@ if __name__ == '__main__':
         with open(args.loss + 'history.pkl', 'wb') as pkl_file:
             pickle.dump(losses, pkl_file)
 
+        filename = os.path.join(MODELS_DIR, save_weights_path[:-3] + '_losses.png')
+        plt.plot(np.arange(args.epochs)+1, losses['loss'], label='train_loss')
+        plt.plot(np.arange(args.epochs)+1, losses['val_loss'], label='val_loss')
+        plt.xlabel('epochs')
+        plt.ylabel('BCE loss')
+        plt.title('Training and val loss')
+        plt.legend()
+        plt.gcf()
+        plt.savefig(filename)
+        plt.show()
+
     else: ## INFERENCE
         # Mode should be inf here
         if load_weights_path is not None:
@@ -178,18 +190,159 @@ if __name__ == '__main__':
             model.load_weights(os.path.join(MODELS_DIR, load_weights_path), by_name=True)
             print('weights loaded!')
 
-        
+        if args.latent_dim == 2:
+            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'vae_mean_dim2.png')
+            # Perform latent dim analysis using latent dim 2
+            z_mean, _, _ = encoder.predict(x_test, batch_size=args.batch_size)
+            # Z_mean is shape (200, 2) for the case latent vector dim 2
+            plt.figure(figsize=(12, 10))
+            plt.title('Latent vector space in R2')
+            plt.scatter(z_mean[:, 0], z_mean[:, 1], c=y_test)
+            plt.colorbar()
+            plt.xlabel("z[0]")
+            plt.ylabel("z[1]")
+            plt.savefig(filename)
+            plt.show()
+
+            # Here we attempt to show sampled reconstructions from the latent space
+            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'digits_over_latent_dim2.png')
+            n = 30
+            digit_size = 28
+            figure = np.zeros((digit_size * n, digit_size * n))
+            # linearly spaced coordinates corresponding to the 2D plot
+            # of digit classes in the latent space
+            grid_x = np.linspace(-4, 4, n)
+            grid_y = np.linspace(-4, 4, n)[::-1]
+
+            for i, yi in enumerate(grid_y):
+                for j, xi in enumerate(grid_x):
+                    z_sample = np.array([[xi, yi]])
+                    x_decoded = decoder.predict(z_sample) * 1 # variance
+                    digit = x_decoded[0].reshape(digit_size, digit_size)
+                    figure[i * digit_size: (i + 1) * digit_size,
+                        j * digit_size: (j + 1) * digit_size] = digit
+
+            plt.figure(figsize=(10, 10))
+            start_range = digit_size // 2
+            end_range = n * digit_size + start_range + 1
+            pixel_range = np.arange(start_range, end_range, digit_size)
+            sample_range_x = np.round(grid_x, 1)
+            sample_range_y = np.round(grid_y, 1)
+            plt.xticks(pixel_range, sample_range_x)
+            plt.yticks(pixel_range, sample_range_y)
+            plt.xlabel("z[0]")
+            plt.ylabel("z[1]")
+            plt.imshow(figure, cmap='Greys_r')
+            plt.savefig(filename)
+
+            num_samples = 20
+            x_recon = model.predict(x_test)
+            x_recon = np.reshape(x_recon, (x_recon.shape[0], 28, 28, 1))[0:num_samples]
+            plot(x_recon, Nh=4, Nc=5, channel=1, IMG_HEIGHT=28, IMG_WIDTH=28)
+            plt.gcf()
+            plt.savefig('output_images/reconstructed_images_vae_ld_2.jpg')
+            
+            x_test_samples = x_test.reshape(x_test.shape[0], 28,28,1)[0:num_samples]
+            plot(x_test_samples, Nh=4, Nc=5, channel=1, IMG_HEIGHT=28, IMG_WIDTH=28)
+            plt.gcf()
+            plt.savefig('output_images/x_test_samples_ld_2.jpg')
+            plt.show()
+        else:
+            # RESULT -> Values so entangles that we don't notice great results
+            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'vae_mean_dim100PCA.png')
+            # Perform latent dim analysis using latent dim 2
+
+
+            # Now perform PCA on z_mean to map it to a lower space
+            # z_mean of shape (200, 100) for the case latent vector is 500 dim
+            # Perform latent dimension analysis using PCA
+            z_mean, _, _ = encoder.predict(x_test, batch_size=args.batch_size)
+
+            pca = PCA(n_components=2)
+            z_mean_lowdim = pca.fit_transform(z_mean)
+
+            # Now visualize
+            plt.figure(figsize=(12, 10))
+            plt.title('Latent vector space in R2')
+            plt.scatter(z_mean_lowdim[:, 0], z_mean_lowdim[:, 1], c=y_test)
+            plt.colorbar()
+            plt.xlabel("z[0]")
+            plt.ylabel("z[1]")
+            plt.savefig(filename)
+            plt.show()
+
+            # TODO: Perform reconstructions using the 100Dim latent vector
+            # filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'digits_over_latent_dim100.png')
+            # n = 30
+            # digit_size = 28
+            # figure = np.zeros((digit_size * n, digit_size * n))
+            # # linearly spaced coordinates corresponding to the 2D plot
+            # # of digit classes in the latent space
+            # grid_x = np.linspace(-4, 4, n)
+            # grid_y = np.linspace(-4, 4, n)[::-1]
+
+            # for i, yi in enumerate(grid_y):
+            #     for j, xi in enumerate(grid_x):
+            #         z_sample = np.array([[xi, yi]])
+            #         x_decoded = decoder.predict(z_sample) * 1 # variance
+            #         digit = x_decoded[0].reshape(digit_size, digit_size)
+            #         figure[i * digit_size: (i + 1) * digit_size,
+            #             j * digit_size: (j + 1) * digit_size] = digit
+
+            # plt.figure(figsize=(10, 10))
+            # start_range = digit_size // 2
+            # end_range = n * digit_size + start_range + 1
+            # pixel_range = np.arange(start_range, end_range, digit_size)
+            # sample_range_x = np.round(grid_x, 1)
+            # sample_range_y = np.round(grid_y, 1)
+            # plt.xticks(pixel_range, sample_range_x)
+            # plt.yticks(pixel_range, sample_range_y)
+            # plt.xlabel("z[0]")
+            # plt.ylabel("z[1]")
+            # plt.imshow(figure, cmap='Greys_r')
+            # plt.savefig(filename)
+
+
+            # Reconstruction test
+            num_samples = 20
+            x_recon = model.predict(x_test)
+            x_recon = np.reshape(x_recon, (x_recon.shape[0], 28, 28, 1))[0:num_samples]
+            plot(x_recon, Nh=4, Nc=5, channel=1, IMG_HEIGHT=28, IMG_WIDTH=28)
+            plt.gcf()
+            plt.savefig('output_images/reconstructed_images_vae_ld_100.jpg')
+            
+            x_test_samples = x_test.reshape(x_test.shape[0], 28,28,1)[0:num_samples]
+            plot(x_test_samples, Nh=4, Nc=5, channel=1, IMG_HEIGHT=28, IMG_WIDTH=28)
+            plt.gcf()
+            plt.savefig('output_images/x_test_samples_ld_100.jpg')
+
+            # Almost a perfect reconstruction!
+
+
+
     # Plot results
-    plot_results((model.layers[1], model.layers[2]),
-                    data,
-                    batch_size=args.batch_size,
-                    model_name=args.loss + 'vae_faces')
+    # plot_results((model.layers[1], model.layers[2]),
+    #                 data,
+    #                 batch_size=args.batch_size,
+    #                 model_name=args.loss + 'vae_faces')
 
-        # Reconstruction loss run
-        
-    
-        
+    # Reconstruction loss run
 
+    # Sampling
+    # Make 2 gaussians for Z 
+
+    # digit_size = 28
+    # encoder, decoder = models
+
+    # z_sample = np.random.normal(loc=0.0, scale=1.0, size=args.latent_dim)
+    # x_decoded = decoder.predict(np.expand_dims(z_sample,axis=0))
+
+    # digit = x_decoded[0].reshape(digit_size, digit_size)
+
+    # # Build Z latent vector
+    # epsilon = 1
+    # z_sample = np.array([0,0]) * epsilon
+    # x_decoded = decoder.predict([z_sample])
 
 
 

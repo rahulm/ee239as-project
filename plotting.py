@@ -49,7 +49,7 @@ def plot_results(models,
     for i, yi in enumerate(grid_y):
         for j, xi in enumerate(grid_x):
             z_sample = np.array([[xi, yi]])
-            x_decoded = decoder.predict(z_sample)
+            x_decoded = decoder.predict(z_sample) * 1 # variance
             digit = x_decoded[0].reshape(digit_size, digit_size)
             figure[i * digit_size: (i + 1) * digit_size,
                    j * digit_size: (j + 1) * digit_size] = digit
