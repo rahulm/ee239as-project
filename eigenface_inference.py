@@ -131,16 +131,18 @@ def compute_L2_distances_vectorized(X_recon, X):
       is the Euclidean distance between the ith test point and the jth training
       point.
     """
-    num_test = X.shape[0]
-    num_train = X_recon.shape[0]
-    dists = np.zeros((num_test, num_train))
+    # num_test = X.shape[0]
+    # num_train = X_recon.shape[0]
+    # dists = np.zeros((num_test, num_train))
+    
+    # # dists = np.linalg.norm(X_recon - X, axis=1)
+    # X_testsq = np.sum(np.square(X), axis=1, keepdims=True)
+    # X_trainsq = np.sum(np.square(X_recon), axis=1)
+    # XTX = X.dot(X_recon.T)
 
-    # dists = np.linalg.norm(X_recon - X, axis=1)
-    X_testsq = np.sum(np.square(X), axis=1, keepdims=True)
-    X_trainsq = np.sum(np.square(X_recon), axis=1)
-    XTX = X.dot(X_recon.T)
-
-    dists = np.sqrt((X_trainsq - 2*XTX) + X_testsq)
+    # dists = np.sqrt((X_trainsq - 2*XTX) + X_testsq)
+    
+    dists = np.linalg.norm(X - X_recon, axis=1)
     return dists
 
 # Can compare the reconstructed image distances to its corresponding sample
@@ -153,12 +155,16 @@ min_dists = []
 train_neighbors = []
 for i, recon in enumerate(sample_img_recons_knn):
     recon_unprocessed = np.expand_dims((recon * 255).astype(np.uint8), axis=0)
-    l2_dist = compute_L2_distances_vectorized(all_face_images_knn, recon_unprocessed)[0]
-    l2_dist[np.isnan(l2_dist)] = 0
-    train_neighbor = np.argmin(l2_dist[[l2_dist>0]])
-    min_dist = np.min(l2_dist[l2_dist>0])
-    min_dists.append(min_dist)
-    train_neighbors.append(train_neighbor)
+    # l2_dist = compute_L2_distances_vectorized(all_face_images_knn, recon_unprocessed)[0]
+    # l2_dist[np.isnan(l2_dist)] = 0
+    # train_neighbor = np.argmin(l2_dist[[l2_dist>0]])
+    # min_dist = np.min(l2_dist[l2_dist>0])
+    # min_dists.append(min_dist)
+    # train_neighbors.append(train_neighbor)
+    
+    l2_dist = compute_L2_distances_vectorized(recon_unprocessed, all_face_images_knn)
+    train_neighbor = np.argmin(l2_dist)
+    min_dist = l2_dist[train_neighbor]
     
     plt.subplot(211)
     plt.title('Train set neighbor' + str(min_dist)+ ' (l2)')
