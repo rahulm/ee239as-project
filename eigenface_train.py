@@ -19,6 +19,7 @@ from mywarper import warp, plot
 from model_trainer import ae_trainer, vae_trainer
 
 import importlib
+import csv
 
 
 # some experiment logging setup
@@ -159,7 +160,7 @@ def get_args(print_args=False):
         help="number of epochs to train model")
     required_group.add_argument('--batch_size', type=int, required=True, # 32
         help="batch size to use in training of model")
-        required_group.add_argument('--results_csv', type=str, required=True, # 32
+    required_group.add_argument('--results_csv', type=str, required=True,
         help="path to save results of experiment in csv format. must include name of csv at end of path.")
         
     # Ex: use ae231.face_model or something
@@ -410,19 +411,20 @@ if __name__ == '__main__':
     path_to_results_csv = args.results_csv
     results_csv, results_csv_writer = None, None
     if not os.path.exists(path_to_results_csv):
-        results_csv = open(path_to_results_csv, 'w', newline='')
+        results_csv = open(path_to_results_csv, 'a+', newline='')
         results_csv_writer = csv.writer(results_csv)
-        results_csv_writer.write(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
+        results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
             "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
     else:
-        results_csv = open(path_to_results_csv, 'w', newline='')
+        results_csv = open(path_to_results_csv, 'a+', newline='')
         results_csv_writer = csv.writer(results_csv)
 
-    results_csv_writer.write([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
+    results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
         args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
             final_val_loss, final_test_loss])
     
     results_csv.flush()
+    results_csv.close()
 
     exit()
 

@@ -113,7 +113,7 @@ class ae_trainer(object):
             test_loss += loss.item()
         
         test_loss_norm = test_loss/num_test_samples
-
+        print('{} Model final testing loss: {:f}'.format(self.model_name, test_loss_norm))
 
 
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
@@ -201,7 +201,7 @@ class vae_trainer(object):
             
             train_loss_norm = training_loss/num_train_samples
             train_loss.append(train_loss_norm)
-            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, train_loss_norm))
+            print('{} Model training epoch {}, Loss: {:f}'.format(self.model_name, epoch, train_loss_norm))
             
             # save model checkpoint
             if (epoch % checkpoint_interval == 0) or (epoch == epochs - 1):
@@ -228,7 +228,7 @@ class vae_trainer(object):
             
             validation_loss_norm = validation_loss/num_val_samples
             val_loss.append(validation_loss_norm)
-            print('{} Model validation epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, validation_loss_norm))
+            print('{} Model validation epoch {}, Loss: {:f}'.format(self.model_name, epoch, validation_loss_norm))
             
             # save validation loss
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
@@ -261,6 +261,7 @@ class vae_trainer(object):
             test_loss += loss.item()
         
         test_loss_norm = test_loss/num_test_samples
+        print('{} Model final testing loss: {:f}'.format(self.model_name, test_loss_norm))
 
 
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
