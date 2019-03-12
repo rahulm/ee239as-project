@@ -119,6 +119,18 @@ def get_args(print_args=False):
         help="location of eigenface landmarks")
     parser.add_argument('--exp_name', type=str, default="",
         help="optional experiment name")
+        
+    
+    parser.add_argument('--recon_gen_interval', type=int, default=None,
+        help="epoch interval to reconstruct sample test images and generate images if applicable")
+    parser.add_argument('--num_recon', type=int, default=5,
+        help="number of test images to reconstruct after each interval")
+    parser.add_argument('--num_gen', type=int, default=5,
+        help="number of test images to generate after each interval, ONLY IF VAE")
+    
+    parser.add_argument('--checkpoint_interval', type=int, default=1,
+        help="specifies the interval (in number of epochs) to checkpoint the weighs at.")
+        
     
     required_group = parser.add_argument_group('required arguments:')
     # required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
@@ -140,13 +152,6 @@ def get_args(print_args=False):
     required_group.add_argument('--model', type=str, required=True,
         help="name (folder.file) of file in which 'Model' class exists")
     
-    
-    parser.add_argument('--recon_gen_interval', type=int, default=None,
-        help="epoch interval to reconstruct sample test images and generate images if applicable")
-    parser.add_argument('--num_recon', type=int, default=5,
-        help="number of test images to reconstruct after each interval")
-    parser.add_argument('--num_gen', type=int, default=5,
-        help="number of test images to generate after each interval, ONLY IF VAE")
     
     
     # required_group.add_argument('--dataset', type=str, required=True, choices=('faces', 'landmarks'),
@@ -241,6 +246,7 @@ def train_model(exp_config,
     train_dataset,
     test_dataset,
     dataset_transform,
+    checkpoint_interval,
     recon_gen_interval,
     num_recon,
     num_gen,
@@ -302,6 +308,7 @@ def train_model(exp_config,
         epochs=num_epochs,
         trainloader=trainloader,
         valloader=valloader,
+        checkpoint_interval=checkpoint_interval,
         test_samples=orig_test,
         test_tensors=sample_test_tensors,
         recon_gen_interval=recon_gen_interval,
@@ -378,6 +385,7 @@ if __name__ == '__main__':
         train_dataset=train_dataset,
         test_dataset=test_dataset,
         dataset_transform=data_transform,
+        checkpoint_interval=args.checkpoint_interval,
         recon_gen_interval=recon_gen_interval,
         num_recon=args.num_recon,
         num_gen=args.num_gen,

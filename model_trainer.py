@@ -20,7 +20,7 @@ class ae_trainer(object):
         self.optim = optimizer
         self.exp_config = exp_config
         
-    def train_model(self, epochs, trainloader, valloader, test_samples, test_tensors, recon_gen_interval, **kwargs):
+    def train_model(self, epochs, trainloader, valloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, **kwargs):
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
         val_loss = []
@@ -55,7 +55,8 @@ class ae_trainer(object):
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
             
             # save model checkpoint
-            torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-epoch_{}.pth".format(self.model_name, epoch)))
+            if (epoch % checkpoint_interval == 0) or (epoch == epochs - 1):
+                torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "weights-epoch_{}.pth".format(epoch)))
             
             # save training loss
             train_csv_writer.writerow([str(epoch), "{:f}".format(training_loss_norm)])
@@ -101,7 +102,7 @@ class ae_trainer(object):
         plt.ylabel("Loss")
         plt.xlabel("Number of Epochs")
         plt.title("{} Model Loss vs Number of Epochs".format(self.model_name))
-        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-loss-{}.png'.format(self.model_name, curr_date_time)))
+        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, 'loss.png'))
         
         # flush and close loss
         train_loss_csv.flush()
@@ -135,7 +136,7 @@ class vae_trainer(object):
         return (recon_loss + KLD) / float(len(x))
         # return recon_loss + KLD
 
-    def train_model(self, epochs, trainloader, valloader, test_samples, test_tensors, recon_gen_interval, num_gen, **kwargs):
+    def train_model(self, epochs, trainloader, valloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, num_gen, **kwargs):
         # self.model.train()
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
@@ -176,7 +177,8 @@ class vae_trainer(object):
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
             
             # save model checkpoint
-            torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "{}-weights-epoch_{}.pth".format(self.model_name, epoch)))
+            if (epoch % checkpoint_interval == 0) or (epoch == epochs - 1):
+                torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "weights-epoch_{}.pth".format(epoch)))
             
             # save training loss
             train_csv_writer.writerow([str(epoch), "{:f}".format(training_loss_norm)])
@@ -225,7 +227,7 @@ class vae_trainer(object):
         plt.ylabel("Loss")
         plt.xlabel("Number of Epochs")
         plt.title("{} Model Loss vs Number of Epochs".format(self.model_name))
-        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, '{}-loss-{}.png'.format(self.model_name, curr_date_time)))
+        plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, 'loss.png'))
         
         # flush and close loss
         train_loss_csv.flush()
