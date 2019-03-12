@@ -34,6 +34,8 @@ EXP_METRICS_DIR = "metrics"
 EXP_MODELS_DIR = "weights"
 EXP_CODE_DIR = "code"
 EXP_MODEL_ARCHITECTURES_DIR = "models"
+EXP_RECONSTRUCTION_DIR = "reconstructions"
+EXP_GENERATION_DIR = "generations"
 
 class ExperimentConfig:
     def __init__(self, exp_name, exp_datetime=None):
@@ -46,10 +48,14 @@ class ExperimentConfig:
         
         self.exp_code_dir = os.path.join(self.exp_dir, EXP_CODE_DIR)
         self.exp_model_architectures_dir = os.path.join(self.exp_code_dir, EXP_MODEL_ARCHITECTURES_DIR)
+        self.exp_reconstruction_dir = os.path.join(self.exp_dir, EXP_RECONSTRUCTION_DIR)
+        self.exp_generation_dir = os.path.join(self.exp_dir, EXP_GENERATION_DIR)
         
         self.exp_datetime = exp_datetime
         
-        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir, self.exp_model_architectures_dir]
+        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir, \
+            self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir]
+            
         for dir in self.dirs:
             if not os.path.exists(dir):
                 os.makedirs(dir)
@@ -119,8 +125,6 @@ def get_args(print_args=False):
     parser.add_argument('--exp_name', type=str, default="",
         help="optional experiment name")
     
-    
-    
     required_group = parser.add_argument_group('required arguments:')
     # required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
         # help="type of model to train, choose from 'ae' or 'vae'")
@@ -140,6 +144,11 @@ def get_args(print_args=False):
     # Ex: use ae231.face_model or something
     required_group.add_argument('--model', type=str, required=True,
         help="name (folder.file) of file in which 'Model' class exists")
+    required_group.add_argument('--recon_gen_interval', type=int, required=True,
+        help="epoch interval to reconstruct sample test images and generate images if applicable")
+    required_group.add_argument('--num_recon', type=int, required=True,
+        help="number of test images to reconstruct after each interval")
+    
     
     # required_group.add_argument('--dataset', type=str, required=True, choices=('faces', 'landmarks'),
         # help="type of dataset to train on")
@@ -223,141 +232,23 @@ class dataset_constructor(Dataset):
         if self.transform:
             sample_data = self.transform(sample_data)
         return sample_data
-
-
-
-def train_ae_appearance_model(exp_config, app_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
-    face_train_split = face_images_train_warped[:-100]
-    face_val_split = face_images_train_warped[-100:]
-    # face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
-    face_trainset = dataset_constructor(face_train_split, transform=transforms.Compose([ImgToTensor()]))
-    face_valset = dataset_constructor(face_val_split, transform=transforms.Compose([ImgToTensor()]))
-
-    face_trainloader = torch.utils.data.DataLoader(face_trainset, 
-                                                    batch_size=batch_size, 
-                                                    shuffle=False, 
-                                                    num_workers=2)
     
-    face_valloader = torch.utils.data.DataLoader(face_valset, 
-                                                    batch_size=batch_size, 
-                                                    shuffle=False, 
-                                                    num_workers=2)
-
-    # app_model = appearance_autoencoder(latent_dim_size=50)
-    # app_model = appearance_autoencoder(latent_dim_size=latent_dim)
-    # optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
-    trainer = ae_trainer(optimizer=optimizer,
-                            use_cuda=cuda_avail,
-                            model=app_model, 
-                            loss_func=loss_function, 
-                            model_name="Appearance-AE", exp_config=exp_config)
-    
-    trainer.train_model(num_epochs, face_trainloader, face_valloader)
-
-def train_ae_landmark_model(exp_config, lm_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
-    landmark_train_split = landmark_train[:-100]
-    landmark_val_split = landmark_train[-100:]
-    # landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
-    landmark_trainset = dataset_constructor(landmark_train_split, transform=transforms.Compose([LandmarkToTensor()]))
-    landmark_valset = dataset_constructor(landmark_val_split, transform=transforms.Compose([LandmarkToTensor()]))
-
-    landmark_trainloader = torch.utils.data.DataLoader(landmark_trainset, 
-                                                        batch_size=batch_size, 
-                                                        shuffle=False, 
-                                                        num_workers=2)
-    
-    landmark_valloader = torch.utils.data.DataLoader(landmark_valset, 
-                                                        batch_size=batch_size, 
-                                                        shuffle=False, 
-                                                        num_workers=2)
-
-    # lm_model = landmark_autoencoder(latent_dim_size=10)
-    # lm_model = landmark_autoencoder(latent_dim_size=latent_dim)
-    # optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
-    trainer = ae_trainer(optimizer=optimizer,
-                            use_cuda=cuda_avail,
-                            model=lm_model, 
-                            loss_func=loss_function, 
-                            model_name="Landmark-AE", exp_config=exp_config)
-
-    trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
-
-def train_vae_appearance_model(exp_config, app_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
-    face_train_split = face_images_train_warped[:-100]
-    face_val_split = face_images_train_warped[-100:]
-    # face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
-    face_trainset = dataset_constructor(face_train_split, transform=transforms.Compose([ImgToTensor()]))
-    face_valset = dataset_constructor(face_val_split, transform=transforms.Compose([ImgToTensor()]))
-
-    face_trainloader = torch.utils.data.DataLoader(face_trainset, 
-                                                    batch_size=batch_size, 
-                                                    shuffle=False, 
-                                                    num_workers=2)
-    
-    face_valloader = torch.utils.data.DataLoader(face_valset, 
-                                                    batch_size=batch_size, 
-                                                    shuffle=False, 
-                                                    num_workers=2)
-
-    # app_model = appearance_VAE(latent_dim_size=50, use_cuda=cuda_avail)
-    # app_model = appearance_VAE(latent_dim_size=latent_dim, use_cuda=cuda_avail)
-    # optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
-    trainer = vae_trainer(optimizer=optimizer,
-                            use_cuda=cuda_avail,
-                            model=app_model, 
-                            recon_loss_func=loss_function,
-                            model_name="Appearance-VAE", exp_config=exp_config)
-    
-    trainer.train_model(num_epochs, face_trainloader, face_valloader)
-
-def train_vae_landmark_model(exp_config, lm_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
-    landmark_train_split = landmark_train[:-100]
-    landmark_val_split = landmark_train[-100:]
-    # landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
-    landmark_trainset = dataset_constructor(landmark_train_split, transform=transforms.Compose([LandmarkToTensor()]))
-    landmark_valset = dataset_constructor(landmark_val_split, transform=transforms.Compose([LandmarkToTensor()]))
-
-    landmark_trainloader = torch.utils.data.DataLoader(landmark_trainset, 
-                                                        batch_size=batch_size, 
-                                                        shuffle=False, 
-                                                        num_workers=2)
-    
-    landmark_valloader = torch.utils.data.DataLoader(landmark_valset, 
-                                                        batch_size=batch_size, 
-                                                        shuffle=False, 
-                                                        num_workers=2)
-
-    # lm_model = landmark_VAE(latent_dim_size=10, use_cuda=cuda_avail)
-    # lm_model = landmark_VAE(latent_dim_size=latent_dim, use_cuda=cuda_avail)
-    # optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
-    trainer = vae_trainer(optimizer=optimizer,
-                            use_cuda=cuda_avail,
-                            model=lm_model, 
-                            recon_loss_func=loss_function,
-                            model_name="Landmark-VAE", exp_config=exp_config)
-
-    trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
-
-
-
-    
-    
-    
-    
-def train_model(
-    exp_config,
+def train_model(exp_config,
     model,
     optimizer,
     num_epochs,
     batch_size,
     loss_function,
-    dataset,
+    train_dataset,
+    test_dataset,
     dataset_transform,
+    recon_gen_interval,
+    num_recon,
     use_cuda,
     shuffle=False):
     
-    train_split = dataset[:-100]
-    val_split = dataset[-100:]
+    train_split = train_dataset[:-100]
+    val_split = train_dataset[-100:]
     
     trainset = dataset_constructor(train_split, transform=transforms.Compose([dataset_transform()]))
     valset = dataset_constructor(val_split, transform=transforms.Compose([dataset_transform()]))
@@ -387,7 +278,18 @@ def train_model(
                             model_name=exp_config.exp_name,
                             exp_config=exp_config)
     
-    trainer.train_model(num_epochs, trainloader, valloader)
+    if num_recon > len(test_dataset):
+        print("Requested for {} reconstructions, but there are only {} samples in the test set".format(num_recon, len(test_dataset)))
+        exit(1)
+
+    sample_test_tensors = []
+    orig_test = test_dataset[0:num_recon]
+    # Change if we want more than 5 plotted
+    for i in range(num_recon):
+        sample_test_tensors.append(dataset_transform()(test_dataset[i]))
+    sample_test_tensors = torch.stack(sample_test_tensors)
+
+    trainer.train_model(num_epochs, trainloader, valloader, orig_test, sample_test_tensors, recon_gen_interval)
 
 
 if __name__ == '__main__':
@@ -447,7 +349,8 @@ if __name__ == '__main__':
     else:
         print("MODEL_DATASET {} not recognized. only use 'faces' or 'landmarks'".format(model.MODEL_DATASET))
         exit(1)
-        
+    
+    recon_gen_interval = args.recon_gen_interval
     # train model
     train_model(
         exp_config=exp_config,
@@ -456,100 +359,15 @@ if __name__ == '__main__':
         num_epochs=args.epochs,
         batch_size=args.batch_size,
         loss_function=loss_function,
-        dataset=train_dataset,
+        train_dataset=train_dataset,
+        test_dataset=test_dataset,
         dataset_transform=data_transform,
+        recon_gen_interval=recon_gen_interval,
+        num_recon=args.num_recon,
         use_cuda=args.use_cuda,
         shuffle=True)
         # shuffle=False)
     
     
     exit()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    # set the model type and loss functions
-    app_loss_func, landmark_loss_func = None, None
-    app_train_func, landmark_train_func = None, None
-    app_model, landmark_model = None, None
-    if args.model == 'ae':
-        landmark_loss_func =  nn.MSELoss()
-        landmark_train_func = train_ae_landmark_model
-        landmark_model = landmark_autoencoder(latent_dim_size=10)
-
-        app_loss_func = nn.BCELoss(reduction='sum') if args.app_loss_func == 'bce' else nn.MSELoss()
-        app_train_func = train_ae_appearance_model
-        #Change later to train specific kind of architecture
-        app_model =  appearance_autoencoder(latent_dim_size=args.appear_latent_dim)
-        
-    elif args.model == 'vae':
-        landmark_loss_func = nn.BCELoss(reduction='sum')
-        landmark_train_func = train_vae_landmark_model
-        landmark_model = landmark_VAE(latent_dim_size=10)
-        
-        app_loss_func = nn.BCELoss(reduction='sum') if args.app_loss_func == 'bce' else nn.MSELoss()
-        app_train_func = train_vae_appearance_model
-        #   Change later to train specific kind of architecture
-        app_model =  appearance_VAE(latent_dim_size=args.appear_latent_dim)
-        
-    
-    # choose appropriate data to read from for faces
-    if args.faces == 'aligned':
-        faces_data_loc = 'all-warped-images.npy'
-    elif args.faces == 'unaligned':
-        faces_data_loc = 'all-raw-images.npy'
-    
-    # Not messing with optimizer for landmark model
-    app_optimizer, lm_optimizer = None, optim.Adam(landmark_model.parameters(), lr=args.landmark_lr)
-    if args.optimizer == 'adam':
-        app_optimizer = optim.Adam(app_model.parameters(), lr=args.appear_lr)
-    elif args.optimizer == 'rmpsprop':
-        app_optimizer = optim.RMSprop(app_model.parameters(), lr=args.appear_lr)
-
-
-    # read the appropriate data, make train/test split
-    all_face_images_warped = np.load(faces_data_loc)
-    face_images_train_warped = all_face_images_warped[:-100]
-    face_images_test_warped = all_face_images_warped[-100:]
-    print("Read cached images from {}".format(faces_data_loc))
-    
-    # always train the appearance model for both aligned and unaligned face options
-    app_train_func(exp_config, app_model, app_optimizer, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, app_loss_func, face_images_train_warped)
-    
-    # only train the landmark model if we are training the aligned version
-    # Uncomment below to train landmark model, right now just focus on appearance 
-
-    # if args.faces == 'aligned':
-    #     face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
-    #     face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
-    #     print("read landmarks")
-
-    #     face_landmark_train = np.asarray(face_landmark_train)
-    #     face_landmark_test = np.asarray(face_landmark_test)
-        
-    #     landmark_train_func(exp_config, landmark_model, lm_optimizer, args.epochs, args.batch_size, args.use_cuda, landmark_loss_func, face_landmark_train)
-    
-    # face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
-    # face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
-    # print("read images")
-
-    # face_images_train = np.asarray(face_images_train)
-    # face_images_test = np.asarray(face_images_test)
-    
-    
-    #   Train Autoencoders
-    # train_ae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_images_train_warped)
-    # train_ae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, nn.MSELoss(), face_landmark_train)
-
-    #   Train Variational Autoencoders
-    # loss_func = nn.BCELoss()
-    # loss_func.size_average = False
-    # train_vae_appearance_model(exp_config, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_images_train_warped)
-    # train_vae_landmark_model(exp_config, args.landmark_lr, args.epochs, args.batch_size, args.use_cuda, loss_func, face_landmark_train)
 

@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import datetime 
 import matplotlib.pyplot as plt
+from eigenface_inference import perform_eigenface_inference, perform_eigenface_sampling
 import os
 import csv
 
@@ -19,7 +20,7 @@ class ae_trainer(object):
         self.optim = optimizer
         self.exp_config = exp_config
         
-    def train_model(self, epochs, trainloader, valloader):
+    def train_model(self, epochs, trainloader, valloader, test_samples, test_tensors, recon_interval):
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
         val_loss = []
@@ -82,6 +83,13 @@ class ae_trainer(object):
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
             val_loss_csv.flush()
             
+            if epoch % recon_interval == 0 or (epoch == epochs - 1):
+                # Reconstruction for landmarks?
+                if self.model.MODEL_DATASET == 'faces':
+                    perform_eigenface_inference(model=self.model,
+                                                samples=test_samples, 
+                                                tensor_samples=test_tensors, 
+                                                path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'epoch-{}-recon.png'.format(epoch)))
         
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
         
@@ -127,7 +135,7 @@ class vae_trainer(object):
         return (recon_loss + KLD) / float(len(x))
         # return recon_loss + KLD
 
-    def train_model(self, epochs, trainloader, valloader):
+    def train_model(self, epochs, trainloader, valloader, test_samples, test_tensors, recon_gen_interval):
         # self.model.train()
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
@@ -186,7 +194,6 @@ class vae_trainer(object):
                 x_recon, mu, var = self.model(batch)
                 loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
                 validation_loss += loss.item()
-                # print("Batch {} done".format(batch_num))
             
             validation_loss_norm = validation_loss/len(valloader)
             val_loss.append(validation_loss_norm)
@@ -196,7 +203,17 @@ class vae_trainer(object):
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
             val_loss_csv.flush()
             
-        
+            if epoch % recon_gen_interval == 0 or (epoch == epochs - 1):
+                # Reconstruction for landmarks?
+                if self.model.MODEL_DATASET == 'faces':
+                    perform_eigenface_inference(model=self.model,
+                                                samples=test_samples, 
+                                                tensor_samples=test_tensors, 
+                                                path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'epoch-{}-recon.png'.format(epoch)))
+                    perform_eigenface_sampling(model=self.model,
+                                                num_generate=3,
+                                                path_to_save=os.path.join(self.exp_config.exp_generation_dir, 'epoch-{}-sampling.png'.format(epoch)))
+
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
         
         

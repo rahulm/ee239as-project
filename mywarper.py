@@ -147,7 +147,7 @@ def warp(Image,sc,tc):
     return imgWarped
 
 #########################################
-def plot(samples,Nh,Nc,channel,IMG_HEIGHT, IMG_WIDTH):
+def plot(samples,Nh,Nc,channel,IMG_HEIGHT, IMG_WIDTH, path_to_save):
     fig = plt.figure(figsize=(Nc, Nh))
     plt.clf()
     gs = gridspec.GridSpec(Nh, Nc)
@@ -171,6 +171,8 @@ def plot(samples,Nh,Nc,channel,IMG_HEIGHT, IMG_WIDTH):
             immax=(image[:,:,:]).max()
             image=(image-immin)/(immax-immin+1e-8)
             plt.imshow(image)
+    
+    plt.savefig(path_to_save)
     return fig 
 
 
