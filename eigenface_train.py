@@ -117,12 +117,19 @@ def get_args(print_args=False):
     parser.add_argument('--batch_size', type=int, default=32,
         help="batch size to use in training of both models")
     
+    parser.add_argument('--optimizer', type=str, choices=('adam', 'rmsprop'), default='adam')
+    
+    
     required_group = parser.add_argument_group('required arguments:')
     required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
         help="type of model to train, choose from 'ae' or 'vae'")
     required_group.add_argument('--faces', type=str, required=True, choices=('aligned', 'unaligned'),
         help="type of faces data to train on, choose from 'aligned' or 'unaligned'")
-    
+    required_group.add_argument('--app_loss_func', type=str, choices=('bce', 'mse'),
+        help="type of loss function to use with the appearance model")
+
+
+
     args = parser.parse_args()
     
     if args.use_cuda and not torch.cuda.is_available():
@@ -202,7 +209,7 @@ class dataset_constructor(Dataset):
 
 
 
-def train_ae_appearance_model(exp_config, latent_dim, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
+def train_ae_appearance_model(exp_config, app_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
     face_train_split = face_images_train_warped[:-100]
     face_val_split = face_images_train_warped[-100:]
     # face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
@@ -220,8 +227,8 @@ def train_ae_appearance_model(exp_config, latent_dim, learning_rate, num_epochs,
                                                     num_workers=2)
 
     # app_model = appearance_autoencoder(latent_dim_size=50)
-    app_model = appearance_autoencoder(latent_dim_size=latent_dim)
-    optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
+    # app_model = appearance_autoencoder(latent_dim_size=latent_dim)
+    # optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
     trainer = ae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=app_model, 
@@ -230,7 +237,7 @@ def train_ae_appearance_model(exp_config, latent_dim, learning_rate, num_epochs,
     
     trainer.train_model(num_epochs, face_trainloader, face_valloader)
 
-def train_ae_landmark_model(exp_config, latent_dim, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
+def train_ae_landmark_model(exp_config, lm_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
     landmark_train_split = landmark_train[:-100]
     landmark_val_split = landmark_train[-100:]
     # landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
@@ -248,8 +255,8 @@ def train_ae_landmark_model(exp_config, latent_dim, learning_rate, num_epochs, b
                                                         num_workers=2)
 
     # lm_model = landmark_autoencoder(latent_dim_size=10)
-    lm_model = landmark_autoencoder(latent_dim_size=latent_dim)
-    optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
+    # lm_model = landmark_autoencoder(latent_dim_size=latent_dim)
+    # optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
     trainer = ae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=lm_model, 
@@ -258,7 +265,7 @@ def train_ae_landmark_model(exp_config, latent_dim, learning_rate, num_epochs, b
 
     trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
 
-def train_vae_appearance_model(exp_config, latent_dim, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
+def train_vae_appearance_model(exp_config, app_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, face_images_train_warped):
     face_train_split = face_images_train_warped[:-100]
     face_val_split = face_images_train_warped[-100:]
     # face_trainset = dataset_constructor(face_images_train_warped, transform=transforms.Compose([ImgToTensor()]))
@@ -276,8 +283,8 @@ def train_vae_appearance_model(exp_config, latent_dim, learning_rate, num_epochs
                                                     num_workers=2)
 
     # app_model = appearance_VAE(latent_dim_size=50, use_cuda=cuda_avail)
-    app_model = appearance_VAE(latent_dim_size=latent_dim, use_cuda=cuda_avail)
-    optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
+    # app_model = appearance_VAE(latent_dim_size=latent_dim, use_cuda=cuda_avail)
+    # optimizer = optim.Adam(app_model.parameters(), lr=learning_rate)
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=app_model, 
@@ -286,7 +293,7 @@ def train_vae_appearance_model(exp_config, latent_dim, learning_rate, num_epochs
     
     trainer.train_model(num_epochs, face_trainloader, face_valloader)
 
-def train_vae_landmark_model(exp_config, latent_dim, learning_rate, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
+def train_vae_landmark_model(exp_config, lm_model, optimizer, num_epochs, batch_size, cuda_avail, loss_function, landmark_train):
     landmark_train_split = landmark_train[:-100]
     landmark_val_split = landmark_train[-100:]
     # landmark_trainset = dataset_constructor(landmark_train, transform=transforms.Compose([LandmarkToTensor()]))
@@ -304,8 +311,8 @@ def train_vae_landmark_model(exp_config, latent_dim, learning_rate, num_epochs, 
                                                         num_workers=2)
 
     # lm_model = landmark_VAE(latent_dim_size=10, use_cuda=cuda_avail)
-    lm_model = landmark_VAE(latent_dim_size=latent_dim, use_cuda=cuda_avail)
-    optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
+    # lm_model = landmark_VAE(latent_dim_size=latent_dim, use_cuda=cuda_avail)
+    # optimizer = optim.Adam(lm_model.parameters(), lr=learning_rate)
     trainer = vae_trainer(optimizer=optimizer,
                             use_cuda=cuda_avail,
                             model=lm_model, 
@@ -331,14 +338,27 @@ if __name__ == '__main__':
     # set the model type and loss functions
     app_loss_func, landmark_loss_func = None, None
     app_train_func, landmark_train_func = None, None
+    app_model, landmark_model = None, None
     if args.model == 'ae':
-        app_loss_func, landmark_loss_func = nn.MSELoss(), nn.MSELoss()
-        app_train_func = train_ae_appearance_model
+        landmark_loss_func =  nn.MSELoss()
         landmark_train_func = train_ae_landmark_model
+        landmark_model = landmark_autoencoder(latent_dim_size=10)
+
+        app_loss_func = nn.BCELoss(reduction='sum') if args.app_loss_func == 'bce' else nn.MSELoss()
+        app_train_func = train_ae_appearance_model
+        #Change later to train specific kind of architecture
+        app_model =  appearance_autoencoder(latent_dim_size=args.appear_latent_dim)
+        
     elif args.model == 'vae':
-        app_loss_func, landmark_loss_func = nn.BCELoss(reduction='sum'), nn.BCELoss(reduction='sum')
-        app_train_func = train_vae_appearance_model
+        landmark_loss_func = nn.BCELoss(reduction='sum')
         landmark_train_func = train_vae_landmark_model
+        landmark_model = landmark_VAE(latent_dim_size=10)
+        
+        app_loss_func = nn.BCELoss(reduction='sum') if args.app_loss_func == 'bce' else nn.MSELoss()
+        app_train_func = train_vae_appearance_model
+        #   Change later to train specific kind of architecture
+        app_model =  appearance_VAE(latent_dim_size=args.appear_latent_dim)
+        
     
     # choose appropriate data to read from for faces
     if args.faces == 'aligned':
@@ -346,6 +366,14 @@ if __name__ == '__main__':
     elif args.faces == 'unaligned':
         faces_data_loc = 'all-raw-images.npy'
     
+    # Not messing with optimizer for landmark model
+    app_optimizer, lm_optimizer = None, optim.Adam(landmark_model.parameters(), lr=args.landmark_lr)
+    if args.optimizer == 'adam':
+        app_optimizer = optim.Adam(app_model.parameters(), lr=args.appear_lr)
+    elif args.optimizer == 'rmpsprop':
+        app_optimizer = optim.RMSprop(app_model.parameters(), lr=args.appear_lr)
+
+
     # read the appropriate data, make train/test split
     all_face_images_warped = np.load(faces_data_loc)
     face_images_train_warped = all_face_images_warped[:-100]
@@ -353,18 +381,20 @@ if __name__ == '__main__':
     print("Read cached images from {}".format(faces_data_loc))
     
     # always train the appearance model for both aligned and unaligned face options
-    app_train_func(exp_config, args.appear_latent_dim, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, app_loss_func, face_images_train_warped)
+    app_train_func(exp_config, app_model, app_optimizer, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, app_loss_func, face_images_train_warped)
     
     # only train the landmark model if we are training the aligned version
-    if args.faces == 'aligned':
-        face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
-        face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
-        print("read landmarks")
+    # Uncomment below to train landmark model, right now just focus on appearance 
 
-        face_landmark_train = np.asarray(face_landmark_train)
-        face_landmark_test = np.asarray(face_landmark_test)
+    # if args.faces == 'aligned':
+    #     face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
+    #     face_landmark_train, face_landmark_test = face_landmark_reader.read(split=800, read_type='landmark')
+    #     print("read landmarks")
+
+    #     face_landmark_train = np.asarray(face_landmark_train)
+    #     face_landmark_test = np.asarray(face_landmark_test)
         
-        landmark_train_func(exp_config, args.landmark_latent_dim, args.appear_lr, args.epochs, args.batch_size, args.use_cuda, landmark_loss_func, face_landmark_train)
+    #     landmark_train_func(exp_config, landmark_model, lm_optimizer, args.epochs, args.batch_size, args.use_cuda, landmark_loss_func, face_landmark_train)
     
     # face_images_reader = data_reader(args.image_dir, 6, '000000', '.jpg')
     # face_images_train, face_images_test = face_images_reader.read(split=800, read_type='image')
