@@ -289,7 +289,9 @@ def train_model(exp_config,
         exit(1)
 
     sample_test_tensors = []
-    orig_test = test_dataset[0:num_recon]
+    # orig_test = test_dataset[0:num_recon]
+    offset = 71
+    orig_test = test_dataset[offset:offset+num_recon]
     for i in range(num_recon):
         sample_test_tensors.append(dataset_transform()(test_dataset[i]))
     sample_test_tensors = torch.stack(sample_test_tensors)
