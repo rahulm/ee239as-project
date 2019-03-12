@@ -290,7 +290,7 @@ def train_model(exp_config,
 
     sample_test_tensors = []
     # orig_test = test_dataset[0:num_recon]
-    offset = 71
+    offset = 59
     orig_test = test_dataset[offset:offset+num_recon]
     for i in range(num_recon):
         sample_test_tensors.append(dataset_transform()(test_dataset[i]))
