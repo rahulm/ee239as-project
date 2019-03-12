@@ -18,34 +18,45 @@ from mywarper import warp, plot
 
 from model_trainer import ae_trainer, vae_trainer
 
-from appearance_ae import appearance_autoencoder
-from landmark_ae import landmark_autoencoder
-from landmark_vae import landmark_VAE
-from appearance_vae import appearance_VAE
+# from appearance_ae import appearance_autoencoder
+# from landmark_ae import landmark_autoencoder
+# from landmark_vae import landmark_VAE
+# from appearance_vae import appearance_VAE
+
+import importlib
 
 
 # some experiment logging setup
 ALL_EXPERIMENTS_DIR = "experiments"
 EXP_LOSS_PLOTS_DIR = "loss_plots"
 EXP_METRICS_DIR = "metrics"
-EXP_MODELS_DIR = "models"
+# EXP_MODELS_DIR = "models"
+EXP_MODELS_DIR = "weights"
 EXP_CODE_DIR = "code"
+EXP_MODEL_ARCHITECTURES_DIR = "models"
 
 class ExperimentConfig:
-    def __init__(self, exp_name):
+    def __init__(self, exp_name, exp_datetime=None):
         self.exp_name = exp_name
         self.exp_dir = os.path.join(ALL_EXPERIMENTS_DIR, self.exp_name)
+        
         self.exp_loss_plots_dir = os.path.join(self.exp_dir, EXP_LOSS_PLOTS_DIR)
         self.exp_metrics_dir = os.path.join(self.exp_dir, EXP_METRICS_DIR)
         self.exp_models_dir = os.path.join(self.exp_dir, EXP_MODELS_DIR)
-        self.exp_code_dir = os.path.join(self.exp_dir, EXP_CODE_DIR)
         
-        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir]
+        self.exp_code_dir = os.path.join(self.exp_dir, EXP_CODE_DIR)
+        self.exp_model_architectures_dir = os.path.join(self.exp_code_dir, EXP_MODEL_ARCHITECTURES_DIR)
+        
+        self.exp_datetime = exp_datetime
+        
+        self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir, self.exp_model_architectures_dir]
         for dir in self.dirs:
             if not os.path.exists(dir):
                 os.makedirs(dir)
         
         self.str_repr = "ExperimentConfig for experiment {}\n".format(self.exp_name)
+        # 2016 April 05 13:09:15 format
+        self.str_repr += (self.exp_datetime.strftime("%Y %B %d %H:%M:%S") + "\n")
         for dir in self.dirs:
             self.str_repr += ("\t" + dir + "\n")
         self.str_repr += "\n"
@@ -53,6 +64,8 @@ class ExperimentConfig:
         # copy all code into backup folder
         for pyfile in glob.glob('*.py'):
             shutil.copy(pyfile, self.exp_code_dir)
+        for pyfile in glob.glob(os.path.join(EXP_MODEL_ARCHITECTURES_DIR, '*.py')):
+            shutil.copy(pyfile, self.exp_model_architectures_dir)
     
     def __str__(self):
         return self.str_repr
@@ -61,11 +74,13 @@ def setup_custom_logging(exp_name=""):
     import datetime
     import sys
     
-    curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+    curr_datetime = datetime.datetime.now()
+    curr_datetime_str = curr_datetime.strftime("%Y_%m_%d-%H_%M_%S")
     
     # make current experiment directory
-    curr_exp_dt_name = "{}-experiment{}".format(curr_date_time, ("-"+exp_name) if (exp_name != "") else "")
-    exp_config = ExperimentConfig(curr_exp_dt_name)
+    # curr_exp_dt_name = "{}-experiment{}".format(curr_datetime_str, ("-"+exp_name) if (exp_name != "") else "")
+    curr_exp_dt_name = "{}{}".format(curr_datetime_str, ('-' + exp_name) if (exp_name != "") else "")
+    exp_config = ExperimentConfig(curr_exp_dt_name, exp_datetime=curr_datetime)
     
     curr_exp_log = os.path.join(exp_config.exp_dir, "log.txt")
     outfile = open(curr_exp_log, 'w')
@@ -109,9 +124,9 @@ def get_args(print_args=False):
     required_group = parser.add_argument_group('required arguments:')
     # required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
         # help="type of model to train, choose from 'ae' or 'vae'")
-    required_group.add_argument('--loss_func', type=str, choices=('bce', 'mse'),
+    required_group.add_argument('--loss_func', type=str, choices=('BCELoss', 'MSELoss'),
         help="type of loss function to use with the model")
-    required_group.add_argument('--optim', type=str, required=True, choices=('adam', 'rmsprop'),
+    required_group.add_argument('--optimizer', type=str, required=True, choices=('Adam', 'RMSprop'),
         help="optimizer")
     required_group.add_argument('--latent_dim', type=int, required=True, # ex: 10 and 50
         help="number of elements in the latent vector for the model")
@@ -124,10 +139,10 @@ def get_args(print_args=False):
         
     # Ex: use ae231.face_model or something
     required_group.add_argument('--model', type=str, required=True,
-        help="name (package, class, etc.) of model to import and train")
+        help="name (folder.file) of file in which 'Model' class exists")
     
-    required_group.add_argument('--dataset', type=str, required=True, choices=('faces', 'landmarks'),
-        help="type of dataset to train on")
+    # required_group.add_argument('--dataset', type=str, required=True, choices=('faces', 'landmarks'),
+        # help="type of dataset to train on")
     
     parser.add_argument('--faces', type=str, choices=('aligned', 'unaligned'), default=None,
         help="type of faces data to train on, choose from 'aligned' or 'unaligned'")
@@ -324,10 +339,61 @@ def train_vae_landmark_model(exp_config, lm_model, optimizer, num_epochs, batch_
     trainer.train_model(num_epochs, landmark_trainloader, landmark_valloader)
 
 
+
+    
+    
+    
+    
+def train_model(
+    exp_config,
+    model,
+    optimizer,
+    num_epochs,
+    batch_size,
+    loss_function,
+    dataset,
+    dataset_transform,
+    use_cuda,
+    shuffle=False):
+    
+    train_split = dataset[:-100]
+    val_split = dataset[-100:]
+    
+    trainset = dataset_constructor(train_split, transform=transforms.Compose([dataset_transform()]))
+    valset = dataset_constructor(val_split, transform=transforms.Compose([dataset_transform()]))
+    
+    trainloader = torch.utils.data.DataLoader(trainset,
+                                                batch_size=batch_size,
+                                                shuffle=shuffle,
+                                                num_workers=2)
+    
+    valloader = torch.utils.data.DataLoader(valset,
+                                            batch_size=batch_size,
+                                            shuffle=shuffle,
+                                            num_workers=2)
+    
+    if model.MODEL_TYPE == 'vae':
+        trainer_class = vae_trainer
+    elif model.MODEL_TYPE == 'ae':
+        trainer_class = ae_trainer
+    else:
+        print("MODEL_TYPE {} not recognized. only use 'ae' or 'vae'.".format(model.MODEL_TYPE))
+        exit(1)
+    
+    trainer = trainer_class(optimizer=optimizer,
+                            use_cuda=use_cuda,
+                            model=model,
+                            loss_func=loss_function,
+                            model_name=exp_config.exp_name,
+                            exp_config=exp_config)
+    
+    trainer.train_model(num_epochs, trainloader, valloader)
+
+
 if __name__ == '__main__':
     args = get_args(print_args=True)
     
-    exp_config = setup_custom_logging()
+    exp_config = setup_custom_logging(args.exp_name)
     print("args\n{}\n".format(args))
     print("ExperimentConfig\n{}\n".format(exp_config))    
     
@@ -336,6 +402,77 @@ if __name__ == '__main__':
         print('Setting torch.cuda.set_device({})'.format(args.device))
         torch.cuda.manual_seed(args.seed)
         print('Setting torch.cuda.manual_seed({})\n'.format(args.seed))
+    
+    # setup model
+    model_pkg = importlib.import_module(args.model)
+    model = model_pkg.Model(latent_dim_size=args.latent_dim, use_cuda=args.use_cuda)
+    
+    # loss_reduction = 'sum' if (model.MODEL_TYPE == 'vae') else 'mean'
+    # loss_reduction = 'sum' if (model.MODEL_TYPE == 'vae') else 'none'
+    loss_function_class = getattr(nn, args.loss_func)
+    if model.MODEL_TYPE == 'vae':
+        loss_function = loss_function_class(reduction='sum')
+    elif model.MODEL_TYPE == 'ae':
+        loss_function = loss_function_class()
+    
+    optimizer = getattr(optim, args.optimizer)(model.parameters(), lr=args.lr)
+    
+    train_dataset, test_dataset = None, None
+    if model.MODEL_DATASET == 'faces':
+        # choose appropriate data to read from for faces
+        if args.faces == 'aligned':
+            faces_data_loc = 'all-warped-images.npy'
+        elif args.faces == 'unaligned':
+            faces_data_loc = 'all-raw-images.npy'
+        else:
+            print("args.faces {} not recognized. use 'aligned' or 'unaligned' for appearance model".format(args.faces))
+            exit(1)
+        
+        # read the appropriate data, make train/test split
+        all_face_images = np.load(faces_data_loc)
+        train_dataset = all_face_images[:-100]
+        test_dataset = all_face_images[-100:]
+        print("Read cached images from {}".format(faces_data_loc))
+        
+        data_transform = ImgToTensor
+    elif model.MODEL_DATASET == 'landmarks':
+        face_landmark_reader = data_reader(args.landmark_dir, 6, '000000', '.mat')
+        face_landmark_train, face_landmark_test = face_landmark_reader.read(split=900, read_type='landmark')
+        print("read landmarks from {}".format(args.landmark_dir))
+        
+        train_dataset = np.asarray(face_landmark_train)
+        test_dataset = np.asarray(face_landmark_test)
+        
+        data_transform = LandmarkToTensor
+    else:
+        print("MODEL_DATASET {} not recognized. only use 'faces' or 'landmarks'".format(model.MODEL_DATASET))
+        exit(1)
+        
+    # train model
+    train_model(
+        exp_config=exp_config,
+        model=model,
+        optimizer=optimizer,
+        num_epochs=args.epochs,
+        batch_size=args.batch_size,
+        loss_function=loss_function,
+        dataset=train_dataset,
+        dataset_transform=data_transform,
+        use_cuda=args.use_cuda,
+        shuffle=True)
+        # shuffle=False)
+    
+    
+    exit()
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     # set the model type and loss functions
     app_loss_func, landmark_loss_func = None, None

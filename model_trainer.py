@@ -104,7 +104,7 @@ class ae_trainer(object):
         
 
 class vae_trainer(object):
-    def __init__(self, use_cuda, model, recon_loss_func, optimizer, model_name, exp_config):
+    def __init__(self, use_cuda, model, loss_func, optimizer, model_name, exp_config):
         self.model = model
         self.model_name = model_name
         self.use_cuda = use_cuda
@@ -112,12 +112,12 @@ class vae_trainer(object):
             self.model.cuda()
         else:
             self.model.cpu()
-        self.recon_loss_func = recon_loss_func
+        self.loss_func = loss_func
         self.optim = optimizer
         self.exp_config = exp_config
     
-    def vae_loss(self, x, x_recon, mu, var, recon_loss_func):
-        recon_loss = recon_loss_func(x_recon, x)
+    def vae_loss(self, x, x_recon, mu, var, loss_func):
+        recon_loss = loss_func(x_recon, x)
 
         # https://arxiv.org/abs/1312.6114 (Appendix B)
         # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
@@ -157,7 +157,7 @@ class vae_trainer(object):
                     batch = batch.cpu()
                 self.optim.zero_grad()
                 x_recon, mu, var = self.model(batch)
-                loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
+                loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()
@@ -184,9 +184,9 @@ class vae_trainer(object):
                 else:
                     batch = batch.cpu()
                 x_recon, mu, var = self.model(batch)
-                loss = self.vae_loss(batch, x_recon, mu, var, self.recon_loss_func)
+                loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
                 validation_loss += loss.item()
-                print("Batch {} done".format(batch_num))
+                # print("Batch {} done".format(batch_num))
             
             validation_loss_norm = validation_loss/len(valloader)
             val_loss.append(validation_loss_norm)
