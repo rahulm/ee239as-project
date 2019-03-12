@@ -97,38 +97,40 @@ def get_args(print_args=False):
     parser.add_argument('--device', type=int, default=0,
         help="Device to use for cuda, only applicable if cuda is available and --use_cuda is set.")
     
-    parser.add_argument('--image_dir', type=str, default='images',
-        help="location of eigenface images")
+    # parser.add_argument('--image_dir', type=str, default='images',
+        # help="location of eigenface images")
     parser.add_argument('--landmark_dir', type=str, default='landmarks',
         help="location of eigenface landmarks")
-    # parser.add_argument('--cache_dir', type=str, default='cache')
+    parser.add_argument('--exp_name', type=str, default="",
+        help="optional experiment name")
     
-    parser.add_argument('--appear_lr', type=float, default=7e-4,
-        help="learning rate of appearance model.")
-    parser.add_argument('--landmark_lr', type=float, default=1e-4,
-        help="learning rate of landmark model.")
-    parser.add_argument('--appear_latent_dim', type=int, default=50,
-        help="number of elements in the latent vector for the appearance model")
-    parser.add_argument('--landmark_latent_dim', type=int, default=10,
-        help="number of elements in the latent vector for the landmark model")
-    
-    parser.add_argument('--epochs', type=int, default=70,
-        help="number of epochs to train both models")
-    parser.add_argument('--batch_size', type=int, default=32,
-        help="batch size to use in training of both models")
-    
-    parser.add_argument('--optimizer', type=str, choices=('adam', 'rmsprop'), default='adam')
     
     
     required_group = parser.add_argument_group('required arguments:')
-    required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
-        help="type of model to train, choose from 'ae' or 'vae'")
-    required_group.add_argument('--faces', type=str, required=True, choices=('aligned', 'unaligned'),
+    # required_group.add_argument('--model', type=str, required=True, choices=('ae', 'vae'),
+        # help="type of model to train, choose from 'ae' or 'vae'")
+    required_group.add_argument('--loss_func', type=str, choices=('bce', 'mse'),
+        help="type of loss function to use with the model")
+    required_group.add_argument('--optim', type=str, required=True, choices=('adam', 'rmsprop'),
+        help="optimizer")
+    required_group.add_argument('--latent_dim', type=int, required=True, # ex: 10 and 50
+        help="number of elements in the latent vector for the model")
+    required_group.add_argument('--lr', type=float, required=True,
+        help="learning rate")
+    required_group.add_argument('--epochs', type=int, required=True, # 70
+        help="number of epochs to train model")
+    required_group.add_argument('--batch_size', type=int, required=True, # 32
+        help="batch size to use in training of model")
+        
+    # Ex: use ae231.face_model or something
+    required_group.add_argument('--model', type=str, required=True,
+        help="name (package, class, etc.) of model to import and train")
+    
+    required_group.add_argument('--dataset', type=str, required=True, choices=('faces', 'landmarks'),
+        help="type of dataset to train on")
+    
+    parser.add_argument('--faces', type=str, choices=('aligned', 'unaligned'), default=None,
         help="type of faces data to train on, choose from 'aligned' or 'unaligned'")
-    required_group.add_argument('--app_loss_func', type=str, choices=('bce', 'mse'),
-        help="type of loss function to use with the appearance model")
-
-
 
     args = parser.parse_args()
     
