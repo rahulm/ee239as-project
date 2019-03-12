@@ -7,6 +7,7 @@ from processing import sampling
 from keras import objectives
 from keras.losses import binary_crossentropy, mse
 from keras.applications import ResNet50
+from keras import regularizers
 
 def get_encoder(input_tensor, config=None):
     if config is None:
@@ -15,8 +16,12 @@ def get_encoder(input_tensor, config=None):
     latent_dim = config.latent_dim
 
     x = KL.Dense(config.intermediate_dim, activation='relu')(input_tensor)
+
     z_mean = KL.Dense(config.latent_dim, name='z_mean')(x)
     z_log_var = KL.Dense(config.latent_dim, name='z_log_var')(x)
+
+    # z_mean = KL.Dense(config.latent_dim, activity_regularizer=regularizers.l1(10e-5), name='z_mean')(x)
+    # z_log_var = KL.Dense(config.latent_dim, activity_regularizer=regularizers.l1(10e-5), name='z_log_var')(x)
 
      # use reparameterization trick to push the sampling out as input
     # note that "output_shape" isn't necessary with the TensorFlow backend

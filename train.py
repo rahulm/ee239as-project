@@ -27,6 +27,7 @@ import pandas as pd
 from model import get_model
 from data_generator import generate_training_data, generate_validation_data
 from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 from warper import plot
 
 ROOT_DIR = os.getcwd()
@@ -155,6 +156,8 @@ if __name__ == '__main__':
     model.compile(optimizer=optimizer)
     # model.summary()
     plot_model(model, to_file='dec_' + inuse_config.DECODER + 'enc_' + inuse_config.ENCODER +'vae_mlp_mine.png', show_shapes=True)
+    plot_model(encoder, to_file='encoder_vae_mlp_mine.png', show_shapes=True)
+    plot_model(decoder, to_file='decoder_vae_mlp_mine.png', show_shapes=True)
 
     print('args mode: ', args.mode)
     if args.mode == 'train':
@@ -191,6 +194,8 @@ if __name__ == '__main__':
             print('weights loaded!')
 
         if args.latent_dim == 2:
+            mse_score = model.evaluate(x_test)
+            print('mse_score for latent dim 2: ', mse_score)
             filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'vae_mean_dim2.png')
             # Perform latent dim analysis using latent dim 2
             z_mean, _, _ = encoder.predict(x_test, batch_size=args.batch_size)
@@ -249,7 +254,7 @@ if __name__ == '__main__':
             plt.show()
         else:
             # RESULT -> Values so entangles that we don't notice great results
-            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'vae_mean_dim100PCA.png')
+            
             # Perform latent dim analysis using latent dim 2
 
 
@@ -258,65 +263,78 @@ if __name__ == '__main__':
             # Perform latent dimension analysis using PCA
             z_mean, _, _ = encoder.predict(x_test, batch_size=args.batch_size)
 
-            pca = PCA(n_components=2)
-            z_mean_lowdim = pca.fit_transform(z_mean)
+            preds = model.predict(x_test, batch_size=args.batch_size)
+            mse_score = model.evaluate(x_test)
+            print('mse_score: ', mse_score)
 
-            # Now visualize
-            plt.figure(figsize=(12, 10))
-            plt.title('Latent vector space in R2')
-            plt.scatter(z_mean_lowdim[:, 0], z_mean_lowdim[:, 1], c=y_test)
-            plt.colorbar()
-            plt.xlabel("z[0]")
-            plt.ylabel("z[1]")
-            plt.savefig(filename)
+
+            # Cant sample latent space with 32 dim Z model
+            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'digits_over_latent_dim32.png')
+            n = 30
+            digit_size = 28
+            figure = np.zeros((28, digit_size * n))
+            # linearly spaced coordinates corresponding to the 2D plot
+            # of digit classes in the latent space
+            grid_x = np.linspace(-10, 10, n)
+
+
+            for j, xi in enumerate(grid_x):
+                z_sample = np.random.normal(loc=0, scale=1, size=args.latent_dim)
+                x_decoded = decoder.predict(np.expand_dims(z_sample, axis=0)) * 1 # variance
+                digit = x_decoded[0].reshape(digit_size, digit_size)
+                figure[0:28, j * digit_size: (j + 1) * digit_size] = digit
+            start_range = digit_size // 2
+            end_range = n * digit_size + start_range + 1
+            pixel_range = np.arange(start_range, end_range, digit_size)
+            sample_range_x = np.round(grid_x, 1)
+            plt.xticks(pixel_range, sample_range_x)
+            plt.xlabel("z mean")
+            plt.imshow(figure, cmap='Greys_r')
             plt.show()
-
-            # TODO: Perform reconstructions using the 100Dim latent vector
-            # filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'digits_over_latent_dim100.png')
-            # n = 30
-            # digit_size = 28
-            # figure = np.zeros((digit_size * n, digit_size * n))
-            # # linearly spaced coordinates corresponding to the 2D plot
-            # # of digit classes in the latent space
-            # grid_x = np.linspace(-4, 4, n)
-            # grid_y = np.linspace(-4, 4, n)[::-1]
-
-            # for i, yi in enumerate(grid_y):
-            #     for j, xi in enumerate(grid_x):
-            #         z_sample = np.array([[xi, yi]])
-            #         x_decoded = decoder.predict(z_sample) * 1 # variance
-            #         digit = x_decoded[0].reshape(digit_size, digit_size)
-            #         figure[i * digit_size: (i + 1) * digit_size,
-            #             j * digit_size: (j + 1) * digit_size] = digit
-
-            # plt.figure(figsize=(10, 10))
-            # start_range = digit_size // 2
-            # end_range = n * digit_size + start_range + 1
-            # pixel_range = np.arange(start_range, end_range, digit_size)
-            # sample_range_x = np.round(grid_x, 1)
-            # sample_range_y = np.round(grid_y, 1)
-            # plt.xticks(pixel_range, sample_range_x)
-            # plt.yticks(pixel_range, sample_range_y)
-            # plt.xlabel("z[0]")
-            # plt.ylabel("z[1]")
-            # plt.imshow(figure, cmap='Greys_r')
-            # plt.savefig(filename)
-
-
+            plt.gcf()
+            plt.savefig(filename)
+            
             # Reconstruction test
             num_samples = 20
             x_recon = model.predict(x_test)
             x_recon = np.reshape(x_recon, (x_recon.shape[0], 28, 28, 1))[0:num_samples]
             plot(x_recon, Nh=4, Nc=5, channel=1, IMG_HEIGHT=28, IMG_WIDTH=28)
             plt.gcf()
-            plt.savefig('output_images/reconstructed_images_vae_ld_100.jpg')
+            plt.savefig('output_images/reconstructed_images_vae_ld_32.jpg')
             
             x_test_samples = x_test.reshape(x_test.shape[0], 28,28,1)[0:num_samples]
             plot(x_test_samples, Nh=4, Nc=5, channel=1, IMG_HEIGHT=28, IMG_WIDTH=28)
             plt.gcf()
-            plt.savefig('output_images/x_test_samples_ld_100.jpg')
+            plt.savefig('output_images/x_test_samples_ld_32.jpg')
 
             # Almost a perfect reconstruction!
+            # TODO: Compute MSE
+
+             # Now visualize
+            pca = PCA(n_components=2)
+            z_mean_lowdim_pca = pca.fit_transform(z_mean)
+
+            # Now visualize
+            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'vae_mean_dim32PCA.png')
+            plt.figure(figsize=(12, 10))
+            plt.title('PCA Projected Latent vector space in R2 for Z=32 model')
+            plt.scatter(z_mean_lowdim_pca[:, 0], z_mean_lowdim_pca[:, 1], c=y_test)
+            plt.colorbar()
+            plt.xlabel("z[0]")
+            plt.ylabel("z[1]")
+            plt.savefig(filename)
+            plt.show()
+
+            filename = os.path.join(MODELS_DIR, load_weights_path[:-4] + 'vae_mean_dim32TSNE.png')
+            tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
+            z_mean_lowdim_tsne = tsne.fit_transform(z_mean)
+            plt.title('T-SNE Projected Latent vector space in R2 for Z=32 model')
+            plt.scatter(z_mean_lowdim_tsne[:, 0], z_mean_lowdim_tsne[:, 1], c=y_test)
+            plt.colorbar()
+            plt.xlabel("z[0]")
+            plt.ylabel("z[1]")
+            plt.savefig(filename)
+            plt.show()
 
 
 
