@@ -20,7 +20,7 @@ class ae_trainer(object):
         self.optim = optimizer
         self.exp_config = exp_config
         
-    def train_model(self, epochs, trainloader, valloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, **kwargs):
+    def train_model(self, epochs, trainloader, valloader, testloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, **kwargs):
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
         val_loss = []
@@ -37,10 +37,13 @@ class ae_trainer(object):
         val_csv_writer.writerow(["epoch", "val_loss"])
         val_loss_csv.flush()
 
+        train_loss_norm, validation_loss_norm, test_loss_norm = None, None, None
         for epoch in range(epochs):
             self.model.train()
             training_loss = 0
+            num_train_samples = 0
             for batch_num, batch in enumerate(trainloader):
+                num_train_samples += len(batch)
                 if self.use_cuda:
                     batch = batch.cuda()
                 self.optim.zero_grad()
@@ -50,7 +53,7 @@ class ae_trainer(object):
                 self.optim.step()
                 training_loss += loss.item()
 
-            training_loss_norm = training_loss/len(trainloader)
+            training_loss_norm = training_loss/num_train_samples
             train_loss.append(training_loss_norm)
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
             
@@ -66,7 +69,9 @@ class ae_trainer(object):
             # val phase
             self.model.eval()
             validation_loss = 0
+            num_val_samples = 0
             for batch_num, batch in enumerate(valloader):
+                num_val_samples += len(batch)
                 if self.use_cuda:
                     batch = batch.cuda()
                 else:
@@ -76,7 +81,7 @@ class ae_trainer(object):
                 validation_loss += loss.item()
                 # print("Batch {} done".format(batch_num))
             
-            validation_loss_norm = validation_loss/len(valloader)
+            validation_loss_norm = validation_loss/num_val_samples
             val_loss.append(validation_loss_norm)
             print('{} Model validation epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, validation_loss_norm))
             
@@ -92,6 +97,25 @@ class ae_trainer(object):
                                                 tensor_samples=test_tensors, 
                                                 path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)))
         
+
+        # Calclate test loss
+        self.model.eval()
+        test_loss = 0
+        num_test_samples = 0
+        for batch_num, batch in enumerate(testloader):
+            num_test_samples += len(batch)
+            if self.use_cuda:
+                batch = batch.cuda()
+            else:
+                batch = batch.cpu()
+            x_recon, mu, var = self.model(batch)
+            loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
+            test_loss += loss.item()
+        
+        test_loss_norm = test_loss/num_test_samples
+
+
+
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
         
         
@@ -110,7 +134,7 @@ class ae_trainer(object):
         val_loss_csv.flush()
         val_loss_csv.close()
         
-        
+        return train_loss_norm, validation_loss_norm, test_loss_norm
 
 class vae_trainer(object):
     def __init__(self, use_cuda, model, loss_func, optimizer, model_name, exp_config):
@@ -136,7 +160,7 @@ class vae_trainer(object):
         return (recon_loss + KLD) / float(len(x))
         # return recon_loss + KLD
 
-    def train_model(self, epochs, trainloader, valloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, num_gen, **kwargs):
+    def train_model(self, epochs, trainloader, valloader, testloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, num_gen, **kwargs):
         # self.model.train()
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
@@ -154,12 +178,15 @@ class vae_trainer(object):
         val_csv_writer.writerow(["epoch", "val_loss"])
         val_loss_csv.flush()
 
+        train_loss_norm, validation_loss_norm, test_loss_norm = None, None, None
         for epoch in range(epochs):
             
             # train phase
             self.model.train()
             training_loss = 0
+            num_train_samples = 0
             for batch_num, batch in enumerate(trainloader):
+                num_train_samples += len(batch)
                 if self.use_cuda:
                     batch = batch.cuda()
                 else:
@@ -172,23 +199,25 @@ class vae_trainer(object):
                 training_loss += loss.item()
                 # print("Batch {} done".format(batch_num))
             
-            training_loss_norm = training_loss/len(trainloader)
-            train_loss.append(training_loss_norm)
-            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
+            train_loss_norm = training_loss/num_train_samples
+            train_loss.append(train_loss_norm)
+            print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, train_loss_norm))
             
             # save model checkpoint
             if (epoch % checkpoint_interval == 0) or (epoch == epochs - 1):
                 torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "weights-epoch_{}.pth".format(epoch)))
             
             # save training loss
-            train_csv_writer.writerow([str(epoch), "{:f}".format(training_loss_norm)])
+            train_csv_writer.writerow([str(epoch), "{:f}".format(train_loss_norm)])
             train_loss_csv.flush()
             
             
             # val phase
             self.model.eval()
             validation_loss = 0
+            num_val_samples = 0
             for batch_num, batch in enumerate(valloader):
+                num_val_samples += len(batch)
                 if self.use_cuda:
                     batch = batch.cuda()
                 else:
@@ -197,7 +226,7 @@ class vae_trainer(object):
                 loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
                 validation_loss += loss.item()
             
-            validation_loss_norm = validation_loss/len(valloader)
+            validation_loss_norm = validation_loss/num_val_samples
             val_loss.append(validation_loss_norm)
             print('{} Model validation epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, validation_loss_norm))
             
@@ -216,6 +245,23 @@ class vae_trainer(object):
                                                 use_cuda=self.use_cuda,
                                                 num_generate=num_gen,
                                                 path_to_save=os.path.join(self.exp_config.exp_generation_dir, 'sampling-epoch_{}.png'.format(epoch)))
+        
+        # Calclate test loss
+        self.model.eval()
+        test_loss = 0
+        num_test_samples = 0
+        for batch_num, batch in enumerate(testloader):
+            num_test_samples += len(batch)
+            if self.use_cuda:
+                batch = batch.cuda()
+            else:
+                batch = batch.cpu()
+            x_recon, mu, var = self.model(batch)
+            loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
+            test_loss += loss.item()
+        
+        test_loss_norm = test_loss/num_test_samples
+
 
         curr_date_time = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
         
@@ -234,4 +280,7 @@ class vae_trainer(object):
         train_loss_csv.close()
         val_loss_csv.flush()
         val_loss_csv.close()
+
+
+        return train_loss_norm, validation_loss_norm, test_loss_norm
 

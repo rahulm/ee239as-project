@@ -159,6 +159,8 @@ def get_args(print_args=False):
         help="number of epochs to train model")
     required_group.add_argument('--batch_size', type=int, required=True, # 32
         help="batch size to use in training of model")
+        required_group.add_argument('--results_csv', type=str, required=True, # 32
+        help="path to save results of experiment in csv format. must include name of csv at end of path.")
         
     # Ex: use ae231.face_model or something
     required_group.add_argument('--model', type=str, required=True,
@@ -270,6 +272,7 @@ def train_model(exp_config,
     
     trainset = dataset_constructor(train_split, transform=transforms.Compose([dataset_transform()]))
     valset = dataset_constructor(val_split, transform=transforms.Compose([dataset_transform()]))
+    testset = dataset_constructor(test_dataset, transform=transforms.Compose([dataset_transform()]))
     
     trainloader = torch.utils.data.DataLoader(trainset,
                                                 batch_size=batch_size,
@@ -277,6 +280,11 @@ def train_model(exp_config,
                                                 num_workers=2)
     
     valloader = torch.utils.data.DataLoader(valset,
+                                            batch_size=batch_size,
+                                            shuffle=shuffle,
+                                            num_workers=2)
+    
+    testloader = torch.utils.data.DataLoader(testset,
                                             batch_size=batch_size,
                                             shuffle=shuffle,
                                             num_workers=2)
@@ -308,27 +316,19 @@ def train_model(exp_config,
         sample_test_tensors.append(dataset_transform()(test_dataset[i]))
     sample_test_tensors = torch.stack(sample_test_tensors)
     sample_test_tensors = sample_test_tensors.to('cuda:0' if use_cuda else 'cpu')
-
-    # trainer.train_model(
-        # epochs=num_epochs,
-        # trainloader=trainloader,
-        # valloader=valloader,
-        # test_samples=orig_test,
-        # test_tensors=sample_test_tensors,
-        # recon_gen_interval=recon_gen_interval,
-        # num_gen=num_gen)
     
-    trainer.train_model(
-        epochs=num_epochs,
-        trainloader=trainloader,
-        valloader=valloader,
-        checkpoint_interval=checkpoint_interval,
-        test_samples=orig_test,
-        test_tensors=sample_test_tensors,
-        recon_gen_interval=recon_gen_interval,
-        num_gen=num_gen)
+    final_train_loss, final_val_loss, final_test_loss = trainer.train_model(
+                                                                epochs=num_epochs,
+                                                                trainloader=trainloader,
+                                                                valloader=valloader,
+                                                                testloader=testloader,
+                                                                checkpoint_interval=checkpoint_interval,
+                                                                test_samples=orig_test,
+                                                                test_tensors=sample_test_tensors,
+                                                                recon_gen_interval=recon_gen_interval,
+                                                                num_gen=num_gen)
 
-
+    return final_train_loss, final_val_loss, final_test_loss
 if __name__ == '__main__':
     args = get_args(print_args=True)
     
@@ -389,24 +389,40 @@ if __name__ == '__main__':
     
     recon_gen_interval = args.recon_gen_interval
     # train model
-    train_model(
-        exp_config=exp_config,
-        model=model,
-        optimizer=optimizer,
-        num_epochs=args.epochs,
-        batch_size=args.batch_size,
-        loss_function=loss_function,
-        train_dataset=train_dataset,
-        test_dataset=test_dataset,
-        dataset_transform=data_transform,
-        checkpoint_interval=args.checkpoint_interval,
-        recon_gen_interval=recon_gen_interval,
-        num_recon=args.num_recon,
-        num_gen=args.num_gen,
-        use_cuda=args.use_cuda,
-        shuffle=True)
-        # shuffle=False)
+    final_train_loss, final_val_loss, final_test_loss = train_model(
+                                                            exp_config=exp_config,
+                                                            model=model,
+                                                            optimizer=optimizer,
+                                                            num_epochs=args.epochs,
+                                                            batch_size=args.batch_size,
+                                                            loss_function=loss_function,
+                                                            train_dataset=train_dataset,
+                                                            test_dataset=test_dataset,
+                                                            dataset_transform=data_transform,
+                                                            checkpoint_interval=args.checkpoint_interval,
+                                                            recon_gen_interval=recon_gen_interval,
+                                                            num_recon=args.num_recon,
+                                                            num_gen=args.num_gen,
+                                                            use_cuda=args.use_cuda,
+                                                            shuffle=True)
+                                                            # shuffle=False)
     
+    path_to_results_csv = args.results_csv
+    results_csv, results_csv_writer = None, None
+    if not os.path.exists(path_to_results_csv):
+        results_csv = open(path_to_results_csv, 'w', newline='')
+        results_csv_writer = csv.writer(results_csv)
+        results_csv_writer.write(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
+            "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
+    else:
+        results_csv = open(path_to_results_csv, 'w', newline='')
+        results_csv_writer = csv.writer(results_csv)
+
+    results_csv_writer.write([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
+        args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
+            final_val_loss, final_test_loss])
     
+    results_csv.flush()
+
     exit()
 
