@@ -103,13 +103,25 @@ def setup_custom_logging(exp_name=""):
     
     return exp_config
 
+def str_to_bool(s):
+    sv = s.lower()
+    if sv in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif sv in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        print("argument {} not recognized as a boolean.".format(s))
+        exit(1)
+
 def get_args(print_args=False):
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
     parser.add_argument('--seed', type=int, default=12345,
         help="random seed")
-    parser.add_argument('--use_cuda', action='store_true', default=False,
-        help="attempts to enable cuda training, if cuda available")
+    # parser.add_argument('--use_cuda', action='store_true', default=False,
+        # help="attempts to enable cuda training, if cuda available")
+    parser.add_argument('--use_cuda', type=str_to_bool, default=False, nargs='?', const=True,
+        help="whether or not to train with cuda, if cuda available")
     parser.add_argument('--device', type=int, default=0,
         help="Device to use for cuda, only applicable if cuda is available and --use_cuda is set.")
     
