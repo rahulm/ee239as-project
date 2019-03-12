@@ -18,11 +18,6 @@ from mywarper import warp, plot
 
 from model_trainer import ae_trainer, vae_trainer
 
-# from appearance_ae import appearance_autoencoder
-# from landmark_ae import landmark_autoencoder
-# from landmark_vae import landmark_VAE
-# from appearance_vae import appearance_VAE
-
 import importlib
 
 
@@ -144,10 +139,14 @@ def get_args(print_args=False):
     # Ex: use ae231.face_model or something
     required_group.add_argument('--model', type=str, required=True,
         help="name (folder.file) of file in which 'Model' class exists")
-    required_group.add_argument('--recon_gen_interval', type=int, required=True,
+    
+    
+    parser.add_argument('--recon_gen_interval', type=int, default=None,
         help="epoch interval to reconstruct sample test images and generate images if applicable")
-    required_group.add_argument('--num_recon', type=int, required=True,
+    parser.add_argument('--num_recon', type=int, default=5,
         help="number of test images to reconstruct after each interval")
+    parser.add_argument('--num_gen', type=int, default=5,
+        help="number of test images to generate after each interval, ONLY IF VAE")
     
     
     # required_group.add_argument('--dataset', type=str, required=True, choices=('faces', 'landmarks'),
@@ -244,6 +243,7 @@ def train_model(exp_config,
     dataset_transform,
     recon_gen_interval,
     num_recon,
+    num_gen,
     use_cuda,
     shuffle=False):
     
@@ -284,12 +284,28 @@ def train_model(exp_config,
 
     sample_test_tensors = []
     orig_test = test_dataset[0:num_recon]
-    # Change if we want more than 5 plotted
     for i in range(num_recon):
         sample_test_tensors.append(dataset_transform()(test_dataset[i]))
     sample_test_tensors = torch.stack(sample_test_tensors)
+    sample_test_tensors = sample_test_tensors.to('cuda:0' if use_cuda else 'cpu')
 
-    trainer.train_model(num_epochs, trainloader, valloader, orig_test, sample_test_tensors, recon_gen_interval)
+    # trainer.train_model(
+        # epochs=num_epochs,
+        # trainloader=trainloader,
+        # valloader=valloader,
+        # test_samples=orig_test,
+        # test_tensors=sample_test_tensors,
+        # recon_gen_interval=recon_gen_interval,
+        # num_gen=num_gen)
+    
+    trainer.train_model(
+        epochs=num_epochs,
+        trainloader=trainloader,
+        valloader=valloader,
+        test_samples=orig_test,
+        test_tensors=sample_test_tensors,
+        recon_gen_interval=recon_gen_interval,
+        num_gen=num_gen)
 
 
 if __name__ == '__main__':
@@ -364,6 +380,7 @@ if __name__ == '__main__':
         dataset_transform=data_transform,
         recon_gen_interval=recon_gen_interval,
         num_recon=args.num_recon,
+        num_gen=args.num_gen,
         use_cuda=args.use_cuda,
         shuffle=True)
         # shuffle=False)

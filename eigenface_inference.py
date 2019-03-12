@@ -1,4 +1,4 @@
-from eigenface_train import ImgToTensor
+# from eigenface_train import ImgToTensor
 import numpy as np
 import torch
 from mywarper import plot
@@ -15,9 +15,10 @@ def perform_eigenface_inference(model, samples, tensor_samples, path_to_save):
     orig_and_recons = np.concatenate((samples, sample_img_recons), axis=0)
     plot(orig_and_recons, 2, len(samples), 3, 128, 128, path_to_save)
 
-def perform_eigenface_sampling(model, num_generate, path_to_save):
+def perform_eigenface_sampling(model, use_cuda, num_generate, path_to_save):
     model.eval()
     z = torch.randn(num_generate, model.latent_dim_size)
+    z = z.to('cuda:0' if use_cuda else 'cpu')
     generated_faces = model.get_recon_from_latent_vec(z)
     generated_faces = np.asarray(generated_faces.data.cpu().numpy().transpose((0, 2, 3, 1)))
     plot(generated_faces, 1, num_generate, 3, 128, 128, path_to_save)
