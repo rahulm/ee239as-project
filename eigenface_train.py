@@ -143,6 +143,11 @@ def get_args(print_args=False):
     
     parser.add_argument('--checkpoint_interval', type=int, default=1,
         help="specifies the interval (in number of epochs) to checkpoint the weighs at.")
+    
+    # parser.add_argument('--latent_vec_reg', type=str_to_bool, default=False, nargs='?', const=True,
+        # help="whether or not to perform l1 regularization on latent vector")
+    parser.add_argument('--latent_vec_reg', type=float, default=0,
+        help="coefficient to apply to latent vector l1 regularization, set to 0 for no regularization.")
         
     
     required_group = parser.add_argument_group('required arguments:')
@@ -258,6 +263,7 @@ def train_model(exp_config,
     num_epochs,
     batch_size,
     loss_function,
+    latent_vec_reg,
     train_dataset,
     test_dataset,
     dataset_transform,
@@ -302,6 +308,7 @@ def train_model(exp_config,
                             use_cuda=use_cuda,
                             model=model,
                             loss_func=loss_function,
+                            latent_vec_reg=latent_vec_reg,
                             model_name=exp_config.exp_name,
                             exp_config=exp_config)
     
@@ -397,6 +404,7 @@ if __name__ == '__main__':
                                                             num_epochs=args.epochs,
                                                             batch_size=args.batch_size,
                                                             loss_function=loss_function,
+                                                            latent_vec_reg=args.latent_vec_reg,
                                                             train_dataset=train_dataset,
                                                             test_dataset=test_dataset,
                                                             dataset_transform=data_transform,

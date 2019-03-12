@@ -8,7 +8,7 @@ import os
 import csv
 
 class ae_trainer(object):
-    def __init__(self, use_cuda, model, loss_func, optimizer, model_name, exp_config):
+    def __init__(self, use_cuda, model, loss_func, latent_vec_reg, optimizer, model_name, exp_config):
         self.model = model
         self.model_name = model_name
         self.use_cuda = use_cuda
@@ -17,6 +17,7 @@ class ae_trainer(object):
         else:
             self.model.cpu()
         self.loss_func = loss_func
+        self.latent_vec_reg = latent_vec_reg
         self.optim = optimizer
         self.exp_config = exp_config
         
@@ -49,6 +50,10 @@ class ae_trainer(object):
                 self.optim.zero_grad()
                 x_recon = self.model(batch)
                 loss = self.loss_func(x_recon, batch) #  NOTE Maybe flatten here https://github.com/pytorch/examples/issues/294
+                
+                if (self.latent_vec_reg > 0) and hasattr(self.model, 'get_latent_vec_reg_loss'):
+                    loss += (self.latent_vec_reg * model.get_latent_vec_reg_loss())
+                
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()
@@ -137,7 +142,7 @@ class ae_trainer(object):
         return train_loss_norm, validation_loss_norm, test_loss_norm
 
 class vae_trainer(object):
-    def __init__(self, use_cuda, model, loss_func, optimizer, model_name, exp_config):
+    def __init__(self, use_cuda, model, loss_func, latent_vec_reg, optimizer, model_name, exp_config):
         self.model = model
         self.model_name = model_name
         self.use_cuda = use_cuda
@@ -146,6 +151,7 @@ class vae_trainer(object):
         else:
             self.model.cpu()
         self.loss_func = loss_func
+        self.latent_vec_reg = latent_vec_reg
         self.optim = optimizer
         self.exp_config = exp_config
     
@@ -194,6 +200,10 @@ class vae_trainer(object):
                 self.optim.zero_grad()
                 x_recon, mu, var = self.model(batch)
                 loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
+                
+                if (self.latent_vec_reg > 0) and hasattr(self.model, 'get_latent_vec_reg_loss'):
+                    loss += (self.latent_vec_reg * model.get_latent_vec_reg_loss())
+                
                 loss.backward()
                 self.optim.step()
                 training_loss += loss.item()
