@@ -150,7 +150,8 @@ def get_args(print_args=False):
         # help="whether or not to perform l1 regularization on latent vector")
     parser.add_argument('--latent_vec_reg', type=float, default=0,
         help="coefficient to apply to latent vector l1 regularization, set to 0 for no regularization.")
-    parser.add_argument('--results_csv', type=str, default="./results.csv",
+    # parser.add_argument('--results_csv', type=str, default="./results.csv",
+    parser.add_argument('--results_csv', type=str, default=None,
         help="path to save results of experiment in csv format. must include name of csv at end of path.")
         
     
@@ -424,23 +425,24 @@ if __name__ == '__main__':
                                                             shuffle=True)
                                                             # shuffle=False)
     
-    path_to_results_csv = args.results_csv
-    results_csv, results_csv_writer = None, None
-    if not os.path.exists(path_to_results_csv):
-        results_csv = open(path_to_results_csv, 'a+', newline='')
-        results_csv_writer = csv.writer(results_csv)
-        results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
-            "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
-    else:
-        results_csv = open(path_to_results_csv, 'a+', newline='')
-        results_csv_writer = csv.writer(results_csv)
+    if args.results_csv is not None:
+        path_to_results_csv = args.results_csv
+        results_csv, results_csv_writer = None, None
+        if not os.path.exists(path_to_results_csv):
+            results_csv = open(path_to_results_csv, 'a+', newline='')
+            results_csv_writer = csv.writer(results_csv)
+            results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
+                "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
+        else:
+            results_csv = open(path_to_results_csv, 'a+', newline='')
+            results_csv_writer = csv.writer(results_csv)
 
-    results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
-        args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
-            final_val_loss, final_test_loss])
-    
-    results_csv.flush()
-    results_csv.close()
+        results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
+            args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
+                final_val_loss, final_test_loss])
+        
+        results_csv.flush()
+        results_csv.close()
 
     exit()
 

@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import datetime 
 import matplotlib.pyplot as plt
-from eigenface_inference import perform_eigenface_inference, perform_eigenface_sampling, find_eigenface_NN
+from eigenface_inference import perform_eigenface_inference, perform_eigenface_sampling
 import os
 import csv
 
@@ -100,11 +100,13 @@ class ae_trainer(object):
                     perform_eigenface_inference(model=self.model,
                                                 test_images=test_samples, 
                                                 test_tensor=test_tensors, 
-                                                path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)))
+                                                path_to_save_inference=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)),
+                                                all_images=all_samples,
+                                                path_to_save_nn=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
                     find_eigenface_NN(model=self.model,
-                                    test_tensor=test_samples,
-                                    all_images=all_samples,
-                                    path_to_save=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
+                                        test_tensor=test_tensors,
+                                        all_images=all_samples,
+                                        path_to_save=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
 
         # Calclate test loss
         self.model.eval()
@@ -253,7 +255,9 @@ class vae_trainer(object):
                     perform_eigenface_inference(model=self.model,
                                                 test_images=test_samples, 
                                                 test_tensor=test_tensors, 
-                                                path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)))
+                                                path_to_save_inference=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)),
+                                                all_images=all_samples,
+                                                path_to_save_nn=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
                     perform_eigenface_sampling(model=self.model,
                                                 use_cuda=self.use_cuda,
                                                 num_generate=num_gen,
