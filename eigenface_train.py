@@ -33,11 +33,14 @@ EXP_MODEL_ARCHITECTURES_DIR = "models"
 EXP_RECONSTRUCTION_DIR = "reconstructions"
 EXP_GENERATION_DIR = "generations"
 EXP_NEARESTNEIGHBOR_DIR = "nearestneighbor"
+EXP_RESULTS_CSV = 'results.csv'
 
 class ExperimentConfig:
     def __init__(self, exp_name, exp_datetime=None):
         self.exp_name = exp_name
         self.exp_dir = os.path.join(ALL_EXPERIMENTS_DIR, self.exp_name)
+        
+        self.exp_results_csv = os.path.join(self.exp_dir, EXP_RESULTS_CSV)
         
         self.exp_loss_plots_dir = os.path.join(self.exp_dir, EXP_LOSS_PLOTS_DIR)
         self.exp_metrics_dir = os.path.join(self.exp_dir, EXP_METRICS_DIR)
@@ -346,6 +349,26 @@ def train_model(exp_config,
                                                                 num_gen=num_gen)
 
     return final_train_loss, final_val_loss, final_test_loss
+
+
+def write_results_to_csv(path_to_results_csv, args, final_train_loss, final_val_loss, final_test_loss):
+    results_csv, results_csv_writer = None, None
+    if not os.path.exists(path_to_results_csv):
+        results_csv = open(path_to_results_csv, 'a+', newline='')
+        results_csv_writer = csv.writer(results_csv)
+        results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
+            "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
+    else:
+        results_csv = open(path_to_results_csv, 'a+', newline='')
+        results_csv_writer = csv.writer(results_csv)
+
+    results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
+        args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
+            final_val_loss, final_test_loss])
+    
+    results_csv.flush()
+    results_csv.close()
+
 if __name__ == '__main__':
     args = get_args(print_args=True)
     
@@ -425,24 +448,11 @@ if __name__ == '__main__':
                                                             shuffle=True)
                                                             # shuffle=False)
     
+    write_results_to_csv(exp_config.exp_results_csv, args, final_train_loss, final_val_loss, final_test_loss)
+    
     if args.results_csv is not None:
-        path_to_results_csv = args.results_csv
-        results_csv, results_csv_writer = None, None
-        if not os.path.exists(path_to_results_csv):
-            results_csv = open(path_to_results_csv, 'a+', newline='')
-            results_csv_writer = csv.writer(results_csv)
-            results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
-                "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
-        else:
-            results_csv = open(path_to_results_csv, 'a+', newline='')
-            results_csv_writer = csv.writer(results_csv)
-
-        results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
-            args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
-                final_val_loss, final_test_loss])
-        
-        results_csv.flush()
-        results_csv.close()
+        write_results_to_csv(args.results_csv, args, final_train_loss, final_val_loss, final_test_loss)
+    
 
     exit()
 
