@@ -114,59 +114,6 @@ class Model(nn.Module):
             self.ds4
         )
         
-        
-        
-        # # decoder
-        # self.dc1 = nn.ConvTranspose2d(self.latent_dim_size, self.num_filters*8, kernel_size=8, stride=1)
-        # self.db1 = nn.BatchNorm2d(self.num_filters*8, eps=1e-05, momentum=0.1)
-        # self.dl1 = nn.LeakyReLU(negative_slope=0.01)
-        # self.dd1 = nn.Dropout2d(p=0.5)
-        
-        # self.dc2 = nn.ConvTranspose2d(self.num_filters*8, self.num_filters*4, kernel_size=4, stride=2, padding=1)
-        # self.db2 = nn.BatchNorm2d(self.num_filters * 4, eps=1e-05, momentum=0.1)
-        # self.dl2 = nn.LeakyReLU(negative_slope=0.01)
-        # self.dd2 = nn.Dropout2d(p=0.5)
-        
-        # self.dc3 = nn.ConvTranspose2d(self.num_filters*4, self.num_filters*2, kernel_size=4, stride=2, padding=1)
-        # self.db3 = nn.BatchNorm2d(self.num_filters * 2, eps=1e-05, momentum=0.1)
-        # self.dl3 = nn.LeakyReLU(negative_slope=0.01)
-        # self.dd3 = nn.Dropout2d(p=0.5)
-        
-        # self.dc4 = nn.ConvTranspose2d(self.num_filters*2, self.num_filters, kernel_size=4, stride=2, padding=1)
-        # self.db4 = nn.BatchNorm2d(self.num_filters, eps=1e-05, momentum=0.1)
-        # self.dl4 = nn.LeakyReLU(negative_slope=0.01)
-        # self.dd4 = nn.Dropout2d(p=0.5)
-
-        # nn.ConvTranspose2d(self.num_filters, 3, kernel_size=4,  stride=2, padding=1)
-        # nn.Sigmoid()
-        
-        
-        
-        
-        # self.decoder = nn.Sequential(
-            # nn.ConvTranspose2d(self.latent_dim_size, self.num_filters*8, kernel_size=8, stride=1),
-            # nn.BatchNorm2d(self.num_filters*8, eps=1e-05, momentum=0.1),
-            # nn.LeakyReLU(negative_slope=0.01),
-            # nn.Dropout2d(p=0.5),
-
-            # nn.ConvTranspose2d(self.num_filters*8, self.num_filters*4, kernel_size=4, stride=2, padding=1),
-            # nn.BatchNorm2d(self.num_filters * 4, eps=1e-05, momentum=0.1),
-            # nn.LeakyReLU(negative_slope=0.01),
-            # nn.Dropout2d(p=0.5),
-
-            # nn.ConvTranspose2d(self.num_filters*4, self.num_filters*2, kernel_size=4, stride=2, padding=1),
-            # nn.BatchNorm2d(self.num_filters * 2, eps=1e-05, momentum=0.1),
-            # nn.LeakyReLU(negative_slope=0.01),
-            # nn.Dropout2d(p=0.5),
-
-            # nn.ConvTranspose2d(self.num_filters*2, self.num_filters, kernel_size=4, stride=2, padding=1),
-            # nn.BatchNorm2d(self.num_filters, eps=1e-05, momentum=0.1),
-            # nn.LeakyReLU(negative_slope=0.01),
-            # nn.Dropout2d(p=0.5),
-
-            # nn.ConvTranspose2d(self.num_filters, 3, kernel_size=4,  stride=2, padding=1),
-            # nn.Sigmoid(),
-        # )
 
     def reparametrize(self, mu, var):
         std = var.mul(0.5).exp_()
