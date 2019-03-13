@@ -251,8 +251,8 @@ class vae_trainer(object):
                 # Reconstruction for landmarks?
                 if self.model.MODEL_DATASET == 'faces':
                     perform_eigenface_inference(model=self.model,
-                                                samples=test_samples, 
-                                                tensor_samples=test_tensors, 
+                                                test_images=test_samples, 
+                                                test_tensor=test_tensors, 
                                                 path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)))
                     perform_eigenface_sampling(model=self.model,
                                                 use_cuda=self.use_cuda,
