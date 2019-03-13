@@ -1,42 +1,61 @@
 import argparse
 import subprocess
 import csv
+import sys
 
 def get_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--exp_csv', type=str,
+    parser.add_argument('--exp_csv', type=str, required=True,
         help="location of the csv containing experiment configurations.")
-    parser.add_argument('--exp_log', type=str,
-        help="location of log file detailing a fail or complete status for experiments")
+    parser.add_argument('--log', type=str, required=True,
+        help="location of where to output a log file detailing a fail or complete status for experiments")
     args = parser.parse_args()
     return args
 
+def setup_custom_logging(log_filename):
+    outfile = open(log_filename, 'a')
+    
+    class CustomLogging:
+        def __init__(self, orig_stream):
+            self.orig_stream = orig_stream
+            self.fileout = outfile
+        def write(self, data):
+            self.orig_stream.write(data)
+            self.orig_stream.flush()
+            self.fileout.write(data)
+            self.fileout.flush()
+        def flush(self):
+            self.orig_stream.flush()
+            self.fileout.flush()
+    
+    sys.stdout = CustomLogging(sys.stdout)
     
 def main(args):
     print(args.exp_csv)
-    print(args.exp_log)
-    with open(args.exp_log, mode='a', newline='') as exp_log:
-        with open(args.exp_csv, mode='r', newline='') as exp_csv:
-            reader = csv.DictReader(exp_csv)
-            # get each experiment configuration
-            for exp_i, exp_row in enumerate(reader):
-                exp_cmd = ['python', 'eigenface_train.py']
-                
-                for k, v in exp_row.items():
-                    exp_cmd.append("--{}".format(k))
-                    exp_cmd.append(str(v))
-                
-                print("Starting experiment {}...\n{}\n".format(exp_i, exp_cmd))
-                process = subprocess.run(exp_cmd)
-                exit_code = process.returncode
-                if exit_code == 0:
-                    print("\nCompleted experiment {}...\n\n".format(exp_i))
-                    exp_log.write("SUCCESS - exit code {} - experiment {}...\n{}\n".format(exit_code, exp_i, exp_cmd))
-                else:
-                    print("\nFailed experiment {}...\n\n".format(exp_i))
-                    exp_log.write("FAIL - exit code {} - experiment {}...\n{}\n".format(exit_code, exp_i, exp_cmd))
-                
-                exp_log.flush()
+    print(args.log)
+    
+    setup_custom_logging(args.log)
+    print("Running run_experiments.csv with arguments:\n{}\n\n".format(args))
+
+    with open(args.exp_csv, mode='r', newline='') as exp_csv:
+        reader = csv.DictReader(exp_csv)
+        # get each experiment configuration
+        for exp_i, exp_row in enumerate(reader):
+            exp_cmd = ['python', 'eigenface_train.py']
+            
+            for k, v in exp_row.items():
+                exp_cmd.append("--{}".format(k))
+                exp_cmd.append(str(v))
+            
+            print("Starting experiment {}...\n{}\n".format(exp_i, exp_cmd))
+            process = subprocess.run(exp_cmd)
+            exit_code = process.returncode
+            if exit_code == 0:
+                print("\nSUCCESS - exit code {} - experiment {}:\n{}\n".format(exit_code, exp_i, exp_cmd))
+                print("\nCompleted experiment {}...\n\n".format(exp_i))
+            else:
+                print("\nFAIL - exit code {} - experiment {}:\n{}\n".format(exit_code, exp_i, exp_cmd))
+                print("\nFailed experiment {}...\n\n".format(exp_i))
 
 
 if __name__ == '__main__':
