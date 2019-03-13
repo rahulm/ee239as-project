@@ -5,7 +5,7 @@ from torch.autograd import Variable
 # class appearance_VAE(nn.Module):
 class Model(nn.Module):
     MODEL_TYPE = 'vae'
-    MODEL_NAME = "complex_vae_reparam_upsample"
+    MODEL_NAME = "complex_vae_upsample"
     MODEL_DATASET = 'faces'
     
     def __init__(self, num_filters, latent_dim_size, use_cuda=False):
