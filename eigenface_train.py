@@ -53,17 +53,21 @@ class ExperimentConfig:
         self.exp_nn_dir = os.path.join(self.exp_dir, EXP_NEARESTNEIGHBOR_DIR)
         
         self.exp_datetime = exp_datetime
+        self.exp_datetime_str = self.exp_datetime.strftime("%Y %B %d %H:%M:%S")
         
         self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir, \
-            self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
+            # self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
+            self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
             
         for dir in self.dirs:
             if not os.path.exists(dir):
                 os.makedirs(dir)
         
+        self.dirs.append(self.exp_model_architectures_dir)
+        
         self.str_repr = "ExperimentConfig for experiment {}\n".format(self.exp_name)
         # 2016 April 05 13:09:15 format
-        self.str_repr += (self.exp_datetime.strftime("%Y %B %d %H:%M:%S") + "\n")
+        self.str_repr += (self.exp_datetime_str + "\n")
         for dir in self.dirs:
             self.str_repr += ("\t" + dir + "\n")
         self.str_repr += "\n"
@@ -71,8 +75,10 @@ class ExperimentConfig:
         # copy all code into backup folder
         for pyfile in glob.glob('*.py'):
             shutil.copy(pyfile, self.exp_code_dir)
-        for pyfile in glob.glob(os.path.join(EXP_MODEL_ARCHITECTURES_DIR, '*.py')):
-            shutil.copy(pyfile, self.exp_model_architectures_dir)
+        
+        # copy entire models folder over to experiment
+        shutil.copytree(EXP_MODEL_ARCHITECTURES_DIR, self.exp_model_architectures_dir,
+            ignore=shutil.ignore_patterns('*.pyc', '__pycache__'))
     
     def __str__(self):
         return self.str_repr
@@ -351,18 +357,18 @@ def train_model(exp_config,
     return final_train_loss, final_val_loss, final_test_loss
 
 
-def write_results_to_csv(path_to_results_csv, args, final_train_loss, final_val_loss, final_test_loss):
+def write_results_to_csv(path_to_results_csv, args, exp_config, final_train_loss, final_val_loss, final_test_loss):
     results_csv, results_csv_writer = None, None
     if not os.path.exists(path_to_results_csv):
         results_csv = open(path_to_results_csv, 'a+', newline='')
         results_csv_writer = csv.writer(results_csv)
-        results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
+        results_csv_writer.writerow(["datetime", "exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
             "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
     else:
         results_csv = open(path_to_results_csv, 'a+', newline='')
         results_csv_writer = csv.writer(results_csv)
-
-    results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
+    
+    results_csv_writer.writerow([exp_config.exp_datetime_str, args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
         args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
             final_val_loss, final_test_loss])
     
@@ -448,10 +454,10 @@ if __name__ == '__main__':
                                                             shuffle=True)
                                                             # shuffle=False)
     
-    write_results_to_csv(exp_config.exp_results_csv, args, final_train_loss, final_val_loss, final_test_loss)
+    write_results_to_csv(exp_config.exp_results_csv, args, exp_config, final_train_loss, final_val_loss, final_test_loss)
     
     if args.results_csv is not None:
-        write_results_to_csv(args.results_csv, args, final_train_loss, final_val_loss, final_test_loss)
+        write_results_to_csv(args.results_csv, args, exp_config, final_train_loss, final_val_loss, final_test_loss)
     
 
     exit()

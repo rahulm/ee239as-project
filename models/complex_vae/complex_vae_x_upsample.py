@@ -5,7 +5,7 @@ from torch.autograd import Variable
 # class appearance_VAE(nn.Module):
 class Model(nn.Module):
     MODEL_TYPE = 'vae'
-    MODEL_NAME = "complex_vae_reparam_leakyrelu_convtranspose"
+    MODEL_NAME = "complex_vae_upsample"
     MODEL_DATASET = 'faces'
     
     def __init__(self, num_filters, latent_dim_size, use_cuda=False):
@@ -45,27 +45,14 @@ class Model(nn.Module):
         )
 
         self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(self.latent_dim_size, self.num_filters*8, kernel_size=8, stride=1),
-            nn.BatchNorm2d(self.num_filters * 8),
+            nn.Linear(self.latent_dim_size, self.num_filters*8*8*8),
             nn.LeakyReLU(),
-            nn.Dropout2d(),
 
-            nn.ConvTranspose2d(self.num_filters*8, self.num_filters*4, kernel_size=4, stride=2, padding=1),
-            nn.BatchNorm2d(self.num_filters * 4),
-            nn.LeakyReLU(),
-            nn.Dropout2d(),
+            nn.UpsamplingNearest2d(scale_factor=2),
+            nn.ReplicationPad2d(1),
+            nn.Conv2d(),
+            nn.BatchNorm2d(),
 
-            nn.ConvTranspose2d(self.num_filters*4, self.num_filters*2, kernel_size=4, stride=2, padding=1),
-            nn.BatchNorm2d(self.num_filters * 2),
-            nn.LeakyReLU(),
-            nn.Dropout2d(),
-
-            nn.ConvTranspose2d(self.num_filters*2, self.num_filters, kernel_size=4, stride=2, padding=1),
-            nn.BatchNorm2d(self.num_filters),
-            nn.LeakyReLU(),
-            nn.Dropout2d(),
-
-            nn.ConvTranspose2d(self.num_filters, 3, kernel_size=4,  stride=2, padding=1),
             nn.Sigmoid(),
         )
 
@@ -82,13 +69,12 @@ class Model(nn.Module):
     def get_latent_vec(self, x):
         before_sample = self.encoder(x)
         mu = self.fc1(before_sample.view(-1, self.num_filters*8*8*8))
-        var = self.fc2(before_sample.view(-1, self.num_filters*8*8*8))
+        var = self.fc2(before_sample.view(-1, self.num_filters*8*8*8*8))
 
-        latent_vec = nn.LeakyReLU(self.reparametrize(mu, var))
+        latent_vec = self.reparametrize(mu, var)
         return mu, var, latent_vec
     
     def get_recon_from_latent_vec(self, latent_vec):
-        # Do we need to pass the latent_vector through relu???
         x_recon = self.decoder(latent_vec.view(-1, self.latent_dim_size, 1, 1))
         return x_recon
         
