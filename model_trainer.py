@@ -135,7 +135,7 @@ class ae_trainer(object):
         plt.legend()
         plt.ylabel("Loss")
         plt.xlabel("Number of Epochs")
-        plt.title("{} Model Loss vs Number of Epochs".format(self.model_name))
+        plt.title("{}\nModel Loss vs Number of Epochs".format(self.model_name))
         plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, 'loss.png'))
         
         # flush and close loss
@@ -290,7 +290,7 @@ class vae_trainer(object):
         plt.legend()
         plt.ylabel("Loss")
         plt.xlabel("Number of Epochs")
-        plt.title("{} Model Loss vs Number of Epochs".format(self.model_name))
+        plt.title("{}\nModel Loss vs Number of Epochs".format(self.model_name))
         plt.savefig(os.path.join(self.exp_config.exp_loss_plots_dir, 'loss.png'))
         
         # flush and close loss
