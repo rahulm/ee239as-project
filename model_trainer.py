@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import datetime 
 import matplotlib.pyplot as plt
-from eigenface_inference import perform_eigenface_inference, perform_eigenface_sampling
+from eigenface_inference import perform_eigenface_inference, perform_eigenface_sampling, find_eigenface_NN
 import os
 import csv
 
@@ -21,7 +21,7 @@ class ae_trainer(object):
         self.optim = optimizer
         self.exp_config = exp_config
         
-    def train_model(self, epochs, trainloader, valloader, testloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, **kwargs):
+    def train_model(self, epochs, trainloader, valloader, testloader, checkpoint_interval, test_samples, test_tensors, all_samples, recon_gen_interval, **kwargs):
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
         val_loss = []
@@ -52,7 +52,7 @@ class ae_trainer(object):
                 loss = self.loss_func(x_recon, batch) #  NOTE Maybe flatten here https://github.com/pytorch/examples/issues/294
                 
                 if (self.latent_vec_reg > 0) and hasattr(self.model, 'get_latent_vec_reg_loss'):
-                    loss += (self.latent_vec_reg * model.get_latent_vec_reg_loss())
+                    loss += (self.latent_vec_reg * self.model.get_latent_vec_reg_loss())
                 
                 loss.backward()
                 self.optim.step()
@@ -98,10 +98,13 @@ class ae_trainer(object):
                 # Reconstruction for landmarks?
                 if self.model.MODEL_DATASET == 'faces':
                     perform_eigenface_inference(model=self.model,
-                                                samples=test_samples, 
-                                                tensor_samples=test_tensors, 
+                                                test_images=test_samples, 
+                                                test_tensor=test_tensors, 
                                                 path_to_save=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)))
-        
+                    find_eigenface_NN(model=self.model,
+                                    test_tensor=test_samples,
+                                    all_images=all_samples,
+                                    path_to_save=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
 
         # Calclate test loss
         self.model.eval()
@@ -113,8 +116,8 @@ class ae_trainer(object):
                 batch = batch.cuda()
             else:
                 batch = batch.cpu()
-            x_recon, mu, var = self.model(batch)
-            loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
+            x_recon = self.model(batch)
+            loss = self.loss_func(x_recon, batch)
             test_loss += loss.item()
         
         test_loss_norm = test_loss/num_test_samples
@@ -166,7 +169,7 @@ class vae_trainer(object):
         return (recon_loss + KLD) / float(len(x))
         # return recon_loss + KLD
 
-    def train_model(self, epochs, trainloader, valloader, testloader, checkpoint_interval, test_samples, test_tensors, recon_gen_interval, num_gen, **kwargs):
+    def train_model(self, epochs, trainloader, valloader, testloader, checkpoint_interval, test_samples, test_tensors, all_samples, recon_gen_interval, num_gen, **kwargs):
         # self.model.train()
         print("Beginning to train {} model".format(self.model_name))
         train_loss = []
@@ -202,7 +205,7 @@ class vae_trainer(object):
                 loss = self.vae_loss(batch, x_recon, mu, var, self.loss_func)
                 
                 if (self.latent_vec_reg > 0) and hasattr(self.model, 'get_latent_vec_reg_loss'):
-                    loss += (self.latent_vec_reg * model.get_latent_vec_reg_loss())
+                    loss += (self.latent_vec_reg * self.model.get_latent_vec_reg_loss())
                 
                 loss.backward()
                 self.optim.step()

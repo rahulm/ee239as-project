@@ -32,6 +32,7 @@ EXP_CODE_DIR = "code"
 EXP_MODEL_ARCHITECTURES_DIR = "models"
 EXP_RECONSTRUCTION_DIR = "reconstructions"
 EXP_GENERATION_DIR = "generations"
+EXP_NEARESTNEIGHBOR_DIR = "nearestneighbor"
 
 class ExperimentConfig:
     def __init__(self, exp_name, exp_datetime=None):
@@ -46,11 +47,12 @@ class ExperimentConfig:
         self.exp_model_architectures_dir = os.path.join(self.exp_code_dir, EXP_MODEL_ARCHITECTURES_DIR)
         self.exp_reconstruction_dir = os.path.join(self.exp_dir, EXP_RECONSTRUCTION_DIR)
         self.exp_generation_dir = os.path.join(self.exp_dir, EXP_GENERATION_DIR)
+        self.exp_nn_dir = os.path.join(self.exp_dir, EXP_NEARESTNEIGHBOR_DIR)
         
         self.exp_datetime = exp_datetime
         
         self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir, \
-            self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir]
+            self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
             
         for dir in self.dirs:
             if not os.path.exists(dir):
@@ -148,6 +150,8 @@ def get_args(print_args=False):
         # help="whether or not to perform l1 regularization on latent vector")
     parser.add_argument('--latent_vec_reg', type=float, default=0,
         help="coefficient to apply to latent vector l1 regularization, set to 0 for no regularization.")
+    parser.add_argument('--results_csv', type=str, default="./results.csv",
+        help="path to save results of experiment in csv format. must include name of csv at end of path.")
         
     
     required_group = parser.add_argument_group('required arguments:')
@@ -165,8 +169,7 @@ def get_args(print_args=False):
         help="number of epochs to train model")
     required_group.add_argument('--batch_size', type=int, required=True, # 32
         help="batch size to use in training of model")
-    required_group.add_argument('--results_csv', type=str, required=True,
-        help="path to save results of experiment in csv format. must include name of csv at end of path.")
+    
         
     # Ex: use ae231.face_model or something
     required_group.add_argument('--model', type=str, required=True,
@@ -277,6 +280,7 @@ def train_model(exp_config,
     train_split = train_dataset[:-100]
     val_split = train_dataset[-100:]
     
+
     trainset = dataset_constructor(train_split, transform=transforms.Compose([dataset_transform()]))
     valset = dataset_constructor(val_split, transform=transforms.Compose([dataset_transform()]))
     testset = dataset_constructor(test_dataset, transform=transforms.Compose([dataset_transform()]))
@@ -325,6 +329,9 @@ def train_model(exp_config,
     sample_test_tensors = torch.stack(sample_test_tensors)
     sample_test_tensors = sample_test_tensors.to('cuda:0' if use_cuda else 'cpu')
     
+    all_samples = np.concatenate((train_dataset, test_dataset), axis=0)
+
+
     final_train_loss, final_val_loss, final_test_loss = trainer.train_model(
                                                                 epochs=num_epochs,
                                                                 trainloader=trainloader,
@@ -333,6 +340,7 @@ def train_model(exp_config,
                                                                 checkpoint_interval=checkpoint_interval,
                                                                 test_samples=orig_test,
                                                                 test_tensors=sample_test_tensors,
+                                                                all_samples=all_samples,
                                                                 recon_gen_interval=recon_gen_interval,
                                                                 num_gen=num_gen)
 

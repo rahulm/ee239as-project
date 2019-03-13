@@ -4,16 +4,16 @@ import torch
 from mywarper import plot
 
 
-def perform_eigenface_inference(model, samples, tensor_samples, path_to_save):
+def perform_eigenface_inference(model, test_images, test_tensor, path_to_save):
     model.eval()
-    out = model(tensor_samples)
+    out = model(test_tensor)
     if model.MODEL_TYPE == 'vae':
         out = out[0]
     
     sample_img_recons = out.data.cpu().numpy().transpose((0, 2, 3, 1))
 
-    orig_and_recons = np.concatenate((samples, sample_img_recons), axis=0)
-    plot(orig_and_recons, 2, len(samples), 3, 128, 128, path_to_save)
+    orig_and_recons = np.concatenate((test_images, sample_img_recons), axis=0)
+    plot(orig_and_recons, 2, len(test_images), 3, 128, 128, path_to_save)
 
 def perform_eigenface_sampling(model, use_cuda, num_generate, path_to_save):
     model.eval()
@@ -22,6 +22,23 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, path_to_save):
     generated_faces = model.get_recon_from_latent_vec(z)
     generated_faces = np.asarray(generated_faces.data.cpu().numpy().transpose((0, 2, 3, 1)))
     plot(generated_faces, 1, num_generate, 3, 128, 128, path_to_save)
+
+def find_eigenface_NN(model, test_tensor, all_images, path_to_save):
+    model.eval()
+    out = model(test_tensor)
+    if model.MODEL_TYPE == 'vae':
+        out = out[0]
+    
+    sample_img_recons = out.data.cpu().numpy().transpose((0, 2, 3, 1))
+
+    nearest_neighbors = []
+    for recon in sample_img_recons:
+        dists = np.linalg.norm(all_images - (recon * 255), axis=1)
+        nearest_neighbors.append(all_images[np.argmin(dists)])
+    
+    nearest_neighbors = np.asarray(nearest_neighbors)
+    nn_and_recons = np.concatenate((nearest_neighbors, sample_img_recons), axis=0)
+    plot(nn_and_recons, 2, len(test_tensor), 3, 128, 128, path_to_save)
 
 
 # # read arguments
