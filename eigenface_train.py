@@ -56,11 +56,14 @@ class ExperimentConfig:
         self.exp_datetime_str = self.exp_datetime.strftime("%Y %B %d %H:%M:%S")
         
         self.dirs = [self.exp_dir, self.exp_loss_plots_dir, self.exp_metrics_dir, self.exp_models_dir, self.exp_code_dir, \
-            self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
+            # self.exp_model_architectures_dir, self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
+            self.exp_reconstruction_dir, self.exp_generation_dir, self.exp_nn_dir]
             
         for dir in self.dirs:
             if not os.path.exists(dir):
                 os.makedirs(dir)
+        
+        self.dirs.append(self.exp_model_architectures_dir)
         
         self.str_repr = "ExperimentConfig for experiment {}\n".format(self.exp_name)
         # 2016 April 05 13:09:15 format
@@ -72,8 +75,10 @@ class ExperimentConfig:
         # copy all code into backup folder
         for pyfile in glob.glob('*.py'):
             shutil.copy(pyfile, self.exp_code_dir)
-        for pyfile in glob.glob(os.path.join(EXP_MODEL_ARCHITECTURES_DIR, '*.py')):
-            shutil.copy(pyfile, self.exp_model_architectures_dir)
+        
+        # copy entire models folder over to experiment
+        shutil.copytree(EXP_MODEL_ARCHITECTURES_DIR, self.exp_model_architectures_dir,
+            ignore=shutil.ignore_patterns('*.pyc', '__pycache__'))
     
     def __str__(self):
         return self.str_repr
