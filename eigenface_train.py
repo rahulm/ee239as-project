@@ -452,23 +452,6 @@ if __name__ == '__main__':
     
     if args.results_csv is not None:
         write_results_to_csv(args.results_csv, args, final_train_loss, final_val_loss, final_test_loss)
-        # path_to_results_csv = args.results_csv
-        # results_csv, results_csv_writer = None, None
-        # if not os.path.exists(path_to_results_csv):
-            # results_csv = open(path_to_results_csv, 'a+', newline='')
-            # results_csv_writer = csv.writer(results_csv)
-            # results_csv_writer.writerow(["exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
-                # "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
-        # else:
-            # results_csv = open(path_to_results_csv, 'a+', newline='')
-            # results_csv_writer = csv.writer(results_csv)
-
-        # results_csv_writer.writerow([args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
-            # args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
-                # final_val_loss, final_test_loss])
-        
-        # results_csv.flush()
-        # results_csv.close()
     
 
     exit()
