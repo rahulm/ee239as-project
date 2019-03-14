@@ -83,8 +83,8 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, img_ou
     generated_flat = np.reshape(generated_faces, (num_generate, -1))
     
     nearest_neighbor_inds = []
+    nearest_neighbor_dists = []
     nearest_neighbors = []
-    nearest_neighbor_dists = {}
     for gen_i, gen_face in enumerate(generated_flat):
         dists = np.linalg.norm(flat_imgs - (gen_face * 255), axis=1)
         min_i = np.argmin(dists)
@@ -92,11 +92,13 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, img_ou
         nearest_neighbors.append(all_images[min_i])
         # nearest_neighbors.append(all_images[np.argmin(dists)])
         
-        nearest_neighbor_dists[gen_i + num_generate] = dists[min_i]
+        # nearest_neighbor_dists[gen_i + num_generate] = dists[min_i]
+        nearest_neighbor_dists.append(dists[min_i])
     
     nearest_neighbors = np.asarray(nearest_neighbors)
     gen_and_nn = np.concatenate((generated_faces, nearest_neighbors), axis=0)
-    plot_with_titles(gen_and_nn, 2, num_generate, 3, 128, 128, nearest_neighbor_dists, img_out_path)
+    plot(gen_and_nn, 2, num_generate, 3, 128, 128, img_out_path)
+    # plot_with_titles(gen_and_nn, 2, num_generate, 3, 128, 128, nearest_neighbor_dists, img_out_path)
     
     # save to csv
     if knn_csv_path is not None:
@@ -115,12 +117,10 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, img_ou
             if needs_headers:
                 writer.writerow(headers)
             
-            ave_dist = np.mean(list(nearest_neighbor_dists.values()))
+            ave_dist = np.mean(nearest_neighbor_dists)
             
             row = [str(epoch), "{:f}".format(ave_dist)]
-            for gen_i, img_ind in enumerate(nearest_neighbor_inds):
-                dist = nearest_neighbor_dists[gen_i + num_generate]
-                
+            for img_ind, dist in zip(nearest_neighbor_inds, nearest_neighbor_dists):                    
                 row.append(str(img_ind))
                 row.append("{:f}".format(dist))
             
