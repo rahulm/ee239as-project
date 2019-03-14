@@ -1,7 +1,7 @@
 # from eigenface_train import ImgToTensor
 import numpy as np
 import torch
-from mywarper import plot
+from mywarper import plot, plot_with_titles
 
 
 def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_inference,
@@ -46,13 +46,18 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, path_t
     generated_flat = np.reshape(generated_faces, (num_generate, -1))
     
     nearest_neighbors = []
-    for gen_face in generated_flat:
+    nearest_neighbor_scores = {}
+    for gen_i, gen_face in enumerate(generated_flat):
         dists = np.linalg.norm(flat_imgs - (gen_face * 255), axis=1)
-        nearest_neighbors.append(all_images[np.argmin(dists)])
+        min_i = np.argmin(dists)
+        nearest_neighbors.append(all_images[min_i])
+        # nearest_neighbors.append(all_images[np.argmin(dists)])
+        
+        nearest_neighbor_scores[gen_i + num_generate] = dists[min_i]
     
     nearest_neighbors = np.asarray(nearest_neighbors)
     gen_and_nn = np.concatenate((generated_faces, nearest_neighbors), axis=0)
-    plot(gen_and_nn, 2, num_generate, 3, 128, 128, path_to_save)
+    plot_with_titles(gen_and_nn, 2, num_generate, 3, 128, 128, nearest_neighbor_scores, path_to_save)
 
 
 # def find_eigenface_NN(model, test_tensor, all_images, path_to_save):

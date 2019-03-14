@@ -175,5 +175,40 @@ def plot(samples,Nh,Nc,channel,IMG_HEIGHT, IMG_WIDTH, path_to_save):
     plt.savefig(path_to_save)
     return fig 
 
+def plot_with_titles(samples, Nh, Nc, channel, IMG_HEIGHT, IMG_WIDTH, img_titles, path_to_save):
+    fig = plt.figure(figsize=(Nc, Nh))
+    plt.clf()
+    gs = gridspec.GridSpec(Nh, Nc)
+    gs.update(wspace=0.05, hspace=0.05)
+
+    for i, sample in enumerate(samples[0:Nh*Nc,:,:,:]):
+        ax = plt.subplot(gs[i])
+        plt.axis('off')
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.set_aspect('equal')
+        
+        if channel==1:
+            image=sample.reshape(IMG_HEIGHT, IMG_WIDTH)
+            immin=(image[:,:]).min()
+            immax=(image[:,:]).max()
+            image=(image-immin)/(immax-immin+1e-8)
+            plt.imshow(image,cmap ='gray')
+        else:
+            image=sample.reshape(IMG_HEIGHT, IMG_WIDTH,channel)
+            immin=(image[:,:,:]).min()
+            immax=(image[:,:,:]).max()
+            image=(image-immin)/(immax-immin+1e-8)
+            plt.imshow(image)
+        
+        plt.subplots_adjust(top=0.99, bottom=0.01, hspace=1.9, wspace=1.5)
+        # plt.subplots_adjust(top=0.99, bottom=0.01, hspace=1.9, left=0.01, right=0.99, wspace=10)
+        if i in img_titles:
+            ax.set_title("{:.2f}".format(img_titles[i]))
+            
+    
+    # plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.savefig(path_to_save)
+    return fig 
 
 
