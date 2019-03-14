@@ -42,13 +42,13 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, path_t
 
     num_imgs = len(all_images)
     flat_imgs = np.reshape(all_images, (num_imgs, -1))
-        
+    
     generated_flat = np.reshape(generated_faces, (num_generate, -1))
     
     nearest_neighbors = []
     for gen_face in generated_flat:
         dists = np.linalg.norm(flat_imgs - (gen_face * 255), axis=1)
-        nearest_neighbors.append(all_images[np.argmiin(dists)])
+        nearest_neighbors.append(all_images[np.argmin(dists)])
     
     nearest_neighbors = np.asarray(nearest_neighbors)
     gen_and_nn = np.concatenate((generated_faces, nearest_neighbors), axis=0)
