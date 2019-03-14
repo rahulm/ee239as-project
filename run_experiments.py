@@ -40,6 +40,7 @@ def setup_custom_logging(log_filename):
             self.fileout.flush()
     
     sys.stdout = CustomLogging(sys.stdout)
+    sys.stderr = CustomLogging(sys.stderr)
     
 def main(args):
     print(args.exp_csv)

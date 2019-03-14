@@ -99,23 +99,20 @@ def setup_custom_logging(exp_name=""):
     outfile = open(curr_exp_log, 'w')
     
     class CustomLogging:
-        def __init__(self):
-            self.orig_stdout = sys.stdout
-            self.orig_stderr = sys.stderr
+        def __init__(self, orig_stram):
+            self.orig_stream = orig_stream
             self.fileout = outfile
         def write(self, data):
+            self.orig_stream.write(data)
+            self.orig_stream.flush()
             self.fileout.write(data)
             self.fileout.flush()
-            self.orig_stdout.write(data)
-            self.orig_stdout.flush()
-            self.orig_stderr.write(data)
-            self.orig_stderr.flush()
         def flush(self):
+            self.orig_stream.flush()
             self.fileout.flush()
-            self.orig_stdout.flush()
-            self.orig_stderr.flush()
     
-    sys.stdout = CustomLogging()
+    sys.stdout = CustomLogging(sys.stdout)
+    sys.stderr = CustomLogging(sys.stderr)
     
     return exp_config
 
