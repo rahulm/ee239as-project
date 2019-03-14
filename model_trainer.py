@@ -102,7 +102,9 @@ class ae_trainer(object):
                                                 test_tensor=test_tensors, 
                                                 path_to_save_inference=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)),
                                                 all_images=all_samples,
-                                                path_to_save_nn=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
+                                                path_to_save_nn=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)),
+                                                knn_csv_path=os.path.join(self.exp_config.exp_nn_dir, 'recon_knn.csv'),
+                                                epoch=epoch)
                     find_eigenface_NN(model=self.model,
                                         test_tensor=test_tensors,
                                         all_images=all_samples,
@@ -257,7 +259,9 @@ class vae_trainer(object):
                                                 test_tensor=test_tensors, 
                                                 path_to_save_inference=os.path.join(self.exp_config.exp_reconstruction_dir, 'recon-epoch_{}.png'.format(epoch)),
                                                 all_images=all_samples,
-                                                path_to_save_nn=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)))
+                                                path_to_save_nn=os.path.join(self.exp_config.exp_nn_dir, 'nn-epoch_{}.png'.format(epoch)),
+                                                knn_csv_path=os.path.join(self.exp_config.exp_nn_dir, 'recon_knn.csv'),
+                                                epoch=epoch)
                     perform_eigenface_sampling(model=self.model,
                                                 use_cuda=self.use_cuda,
                                                 num_generate=num_gen,

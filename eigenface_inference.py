@@ -7,7 +7,8 @@ from mywarper import plot, plot_with_titles
 
 
 def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_inference,
-                                all_images=None, path_to_save_nn=None):
+                                all_images=None, path_to_save_nn=None,
+                                knn_csv_path=None, epoch=None):
     model.eval()
     out = model(test_tensor)
     if model.MODEL_TYPE == 'vae':
@@ -25,15 +26,47 @@ def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_in
         num_recons = len(sample_img_recons)
         flat_recons = np.reshape(sample_img_recons, (num_recons, -1))
         
+        nearest_neighbor_inds = []
+        nearest_neighbor_dists = []
         nearest_neighbors = []
         # for recon in sample_img_recons:
         for recon in flat_recons:
             dists = np.linalg.norm(flat_imgs - (recon * 255), axis=1)
-            nearest_neighbors.append(all_images[np.argmin(dists)])
+            min_i = np.argmin(dists)
+            nearest_neighbor_inds.append(min_i)
+            nearest_neighbor_dists.append(dists[min_i])
+            nearest_neighbors.append(all_images[min_i])
         
         nearest_neighbors = np.asarray(nearest_neighbors)
         nn_and_recons = np.concatenate((test_images, sample_img_recons, nearest_neighbors), axis=0)
         plot(nn_and_recons, 3, len(test_tensor), 3, 128, 128, path_to_save_nn)
+        
+        
+        # save to csv
+        if knn_csv_path is not None:
+            
+            # create headers
+            headers = ['epoch']
+            header_per_image = ['img_{}-knn_ind', 'img_{}-euclidean_dist']
+            for i in range(num_recons):
+                headers.extend([h.format(i) for h in header_per_image])
+            
+            # if it already exists, assume headers are the same. otherwise create
+            needs_headers = (not os.path.exists(knn_csv_path))
+            with open(knn_csv_path, 'a+', newline='') as knn_csv_file:
+                writer = csv.writer(knn_csv_file)
+                
+                if needs_headers:
+                    writer.writerow(headers)
+                
+                row = [str(epoch)]
+                for img_ind, dist in zip(nearest_neighbor_inds, nearest_neighbor_dists):                    
+                    row.append(str(img_ind))
+                    row.append("{:f}".format(dist))
+                
+                writer.writerow(row)
+        
+        
 
 def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, img_out_path, knn_csv_path, epoch):
     model.eval()
