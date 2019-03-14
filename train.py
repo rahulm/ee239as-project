@@ -40,24 +40,25 @@ if not os.path.isdir('output_images'):
 parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
 # TODO Add parsing arguments
 
+                
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train VAE on MNIST or FACE.')
     parser.add_argument('--mode',              required=False, default="train", help="train or inference", metavar="train or inf")
-    parser.add_argument('--dataset',           required=False, default='./<addyourstuff>', help='Path to dataset', metavar="/path/to/dataset/")
-    parser.add_argument('--name',              required=False, default='celeb', help='Name of dataset', metavar="/path/to/dataset/")
-    parser.add_argument('--decoder',           required=False, default='naive', metavar="naive", help="decoder network style")
-    parser.add_argument('--encoder',           required=False, default='naive', metavar="naive", help="backbone network style")
+    parser.add_argument('--dataset',           required=False, default='mnist', help='Path to dataset', metavar="/path/to/dataset/")
+    parser.add_argument('--name',              required=False, default='mnist_binary', help='Name of dataset', metavar="/path/to/dataset/")
+    parser.add_argument('--decoder',           required=False, default='vae_light', metavar="naive", help="decoder network style")
+    parser.add_argument('--encoder',           required=False, default='vae_light', metavar="naive", help="backbone network style")
     parser.add_argument('--loss',              required=False, default='ce',    metavar="mse",   help="loss func")
     parser.add_argument('--logs',              required=False, default=DEFAULT_LOGS_DIR, metavar="/path/to/logs/", help='Logs and checkpoints directory')
     parser.add_argument('--tensorboard',       required=False, default=False,  help="Whether to use tensorboard callback or not", action='store_true')
-    parser.add_argument('--save_weights',      required=False, default='vae_mlp_zhuface.h5', metavar='save_weights path', help="file to save weights from")
+    parser.add_argument('--save_weights',      required=False, default='vae_mnist_id512_ld2_newmodel.h5', metavar='save_weights path', help="file to save weights from")
     parser.add_argument('--load_weights',      required=False, default=None,   metavar='load_weights path', help="file to load weights from")
     parser.add_argument('--res',               required=False, default=28,     type=int, metavar='resolution', help='Input resolution')
     parser.add_argument('--img_height',        required=False, default=28,     metavar='image height', type=int, help='Input height')
     parser.add_argument('--img_width',         required=False, default=28,     metavar='img_width', type=int, help='Input width')
-    parser.add_argument('--channel',           required=False, default=3,      metavar='channel', type=int, help='Input resolution channel')
+    parser.add_argument('--channel',           required=False, default=1,      metavar='channel', type=int, help='Input resolution channel')
     parser.add_argument('--lr',                required=False, default=0.0001, type=float)
-    parser.add_argument('--epochs',            required=False, default=60,     type=int)             
+    parser.add_argument('--epochs',            required=False, default=50,     type=int)             
     parser.add_argument('--gpus',              required=False, default=1,      type=int)
     parser.add_argument('--batch_size',        required=False, default=128,    type=int, help='must be divisible by number of gpus')
     parser.add_argument('--intermediate_dim',  required=False, default=512,    type=int, help='intermediate dim')
@@ -83,6 +84,10 @@ if __name__ == '__main__':
         raise ValueError("The backbone you selected: ", args.backbone, 'not valid!')
     if args.decoder not in ['unet', 'deeplabv3+', 'naive_upsampling', 'naive', 'vae_light']:
         raise ValueError("The decoder you selected: ", args.decoder, "is invalid!")
+
+    # temp
+
+    # temp
 
     LOGS_DIR = args.logs
     MODELS_DIR = os.path.join(LOGS_DIR, args.encoder)
@@ -124,7 +129,7 @@ if __name__ == '__main__':
         data = (x_test, y_test)
 
     def save_model(epoch, logs):
-        model.save_weights(os.path.join(MODELS_DIR, str(epoch) + save_weights_path))
+        model.save_weights(os.path.join(MODELS_DIR, save_weights_path))
     callbacks_list = [LambdaCallback(on_epoch_end=save_model)]
     if args.tensorboard:
         tb = TensorBoard(log_dir=MODELS_DIR, histogram_freq=0, write_graph=True, write_images=False)
@@ -172,7 +177,7 @@ if __name__ == '__main__':
         losses = {'loss':     history.history['loss'],
                   'val_loss': history.history['val_loss'],
                   'epoch':    history.epoch}
-        with open(args.loss + 'history.pkl', 'wb') as pkl_file:
+        with open(str(args.loss)+str(args.latent_dim) + 'history.pkl', 'wb') as pkl_file:
             pickle.dump(losses, pkl_file)
 
         filename = os.path.join(MODELS_DIR, save_weights_path[:-3] + '_losses.png')
@@ -279,7 +284,7 @@ if __name__ == '__main__':
 
 
             for j, xi in enumerate(grid_x):
-                z_sample = np.random.normal(loc=0, scale=1, size=args.latent_dim)
+                z_sample = np.random.normal(loc=xi, scale=1, size=args.latent_dim)
                 x_decoded = decoder.predict(np.expand_dims(z_sample, axis=0)) * 1 # variance
                 digit = x_decoded[0].reshape(digit_size, digit_size)
                 figure[0:28, j * digit_size: (j + 1) * digit_size] = digit
@@ -335,34 +340,6 @@ if __name__ == '__main__':
             plt.ylabel("z[1]")
             plt.savefig(filename)
             plt.show()
-
-
-
-    # Plot results
-    # plot_results((model.layers[1], model.layers[2]),
-    #                 data,
-    #                 batch_size=args.batch_size,
-    #                 model_name=args.loss + 'vae_faces')
-
-    # Reconstruction loss run
-
-    # Sampling
-    # Make 2 gaussians for Z 
-
-    # digit_size = 28
-    # encoder, decoder = models
-
-    # z_sample = np.random.normal(loc=0.0, scale=1.0, size=args.latent_dim)
-    # x_decoded = decoder.predict(np.expand_dims(z_sample,axis=0))
-
-    # digit = x_decoded[0].reshape(digit_size, digit_size)
-
-    # # Build Z latent vector
-    # epsilon = 1
-    # z_sample = np.array([0,0]) * epsilon
-    # x_decoded = decoder.predict([z_sample])
-
-
 
 
 
