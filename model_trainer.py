@@ -261,6 +261,7 @@ class vae_trainer(object):
                     perform_eigenface_sampling(model=self.model,
                                                 use_cuda=self.use_cuda,
                                                 num_generate=num_gen,
+                                                all_images=all_samples,
                                                 path_to_save=os.path.join(self.exp_config.exp_generation_dir, 'sampling-epoch_{}.png'.format(epoch)))
         
         # Calclate test loss

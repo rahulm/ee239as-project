@@ -33,13 +33,27 @@ def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_in
         nn_and_recons = np.concatenate((test_images, sample_img_recons, nearest_neighbors), axis=0)
         plot(nn_and_recons, 3, len(test_tensor), 3, 128, 128, path_to_save_nn)
 
-def perform_eigenface_sampling(model, use_cuda, num_generate, path_to_save):
+def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, path_to_save):
     model.eval()
     z = torch.randn(num_generate, model.latent_dim_size)
     z = z.to('cuda:0' if use_cuda else 'cpu')
     generated_faces = model.get_recon_from_latent_vec(z)
     generated_faces = np.asarray(generated_faces.data.cpu().numpy().transpose((0, 2, 3, 1)))
-    plot(generated_faces, 1, num_generate, 3, 128, 128, path_to_save)
+
+    num_imgs = len(all_images)
+    flat_imgs = np.reshape(all_images, (num_imgs, -1))
+        
+    generated_flat = np.reshape(generated_faces, (num_generate, -1))
+    
+    nearest_neighbors = []
+    for gen_face in generated_flat:
+        dists = np.linalg.norm(flat_imgs - (gen_face * 255), axis=1)
+        nearest_neighbors.append(all_images[np.argmiin(dists)])
+    
+    nearest_neighbors = np.asarray(nearest_neighbors)
+    gen_and_nn = np.concatenate((generated_faces, nearest_neighbors), axis=0)
+    plot(gen_and_nn, 2, num_generate, 3, 128, 128, path_to_save)
+
 
 # def find_eigenface_NN(model, test_tensor, all_images, path_to_save):
     # model.eval()
