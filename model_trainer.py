@@ -94,7 +94,7 @@ class ae_trainer(object):
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
             val_loss_csv.flush()
             
-            if (recon_gen_interval is not None) and (epoch % recon_gen_interval == 0 or (epoch == epochs - 1)):
+            if (recon_gen_interval is not None) and ((epoch % recon_gen_interval == 0) or (epoch == epochs - 1)):
                 # Reconstruction for landmarks?
                 if self.model.MODEL_DATASET == 'faces':
                     perform_eigenface_inference(model=self.model,
@@ -251,7 +251,7 @@ class vae_trainer(object):
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
             val_loss_csv.flush()
             
-            if (recon_gen_interval is not None) and (epoch % recon_gen_interval == 0 or (epoch == epochs - 1)):
+            if (recon_gen_interval is not None) and ((epoch % recon_gen_interval == 0) or (epoch == epochs - 1)):
                 # Reconstruction for landmarks?
                 if self.model.MODEL_DATASET == 'faces':
                     perform_eigenface_inference(model=self.model,
