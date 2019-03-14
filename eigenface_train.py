@@ -358,22 +358,25 @@ def train_model(exp_config,
 
 
 def write_results_to_csv(path_to_results_csv, args, exp_config, final_train_loss, final_val_loss, final_test_loss):
-    results_csv, results_csv_writer = None, None
-    if not os.path.exists(path_to_results_csv):
-        results_csv = open(path_to_results_csv, 'a+', newline='')
-        results_csv_writer = csv.writer(results_csv)
-        results_csv_writer.writerow(["datetime", "exp_name", "seed", "model", "latent_dim", "lr", "loss_func",
-            "optimizer", "batch_size", "epochs", "faces", "final_train_loss", "final_val_loss", "final_test_loss"])
-    else:
-        results_csv = open(path_to_results_csv, 'a+', newline='')
-        results_csv_writer = csv.writer(results_csv)
+    csv_dir = os.path.dirname(path_to_results_csv)
+    if (csv_dir != "") and (not os.path.exists(csv_dir)):
+        os.makedirs(csv_dir)
     
-    results_csv_writer.writerow([exp_config.exp_datetime_str, args.exp_name, str(args.seed), args.model, str(args.latent_dim), str(args.lr),
-        args.loss_func, args.optimizer, str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
-            final_val_loss, final_test_loss])
-    
-    results_csv.flush()
-    results_csv.close()
+    needs_header = (not os.path.exists(path_to_results_csv))
+    with open(path_to_results_csv, 'a+', newline='') as results_csv:
+        results_csv_writer = csv.writer(results_csv)
+        
+        if needs_header:
+            results_csv_writer.writerow(["datetime", "exp_name", "seed", "model", "latent_dim", "lr",
+                                            "loss_func", "optimizer", "batch_size", "epochs", "faces",
+                                            "final_train_loss", "final_val_loss", "final_test_loss"])
+        
+        results_csv_writer.writerow([exp_config.exp_datetime_str, args.exp_name, str(args.seed), args.model,
+                                        str(args.latent_dim), str(args.lr), args.loss_func, args.optimizer,
+                                        str(args.batch_size), str(args.epochs), args.faces, final_train_loss,
+                                        final_val_loss, final_test_loss])
+        
+        results_csv.flush()
 
 if __name__ == '__main__':
     args = get_args(print_args=True)
