@@ -153,7 +153,7 @@ def get_args(print_args=False):
         help="number of test images to generate after each interval, ONLY IF VAE")
     
     parser.add_argument('--checkpoint_interval', type=int, default=1,
-        help="specifies the interval (in number of epochs) to checkpoint the weighs at.")
+        help="specifies the interval (in number of epochs) to checkpoint the weighs at. Set to <=0 for no weight checkpoints.")
     
     # parser.add_argument('--latent_vec_reg', type=str_to_bool, default=False, nargs='?', const=True,
         # help="whether or not to perform l1 regularization on latent vector")
