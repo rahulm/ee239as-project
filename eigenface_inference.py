@@ -46,7 +46,7 @@ def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_in
         if knn_csv_path is not None:
             
             # create headers
-            headers = ['epoch']
+            headers = ['epoch', 'ave-euclidean_dist']
             header_per_image = ['img_{}-knn_ind', 'img_{}-euclidean_dist']
             for i in range(num_recons):
                 headers.extend([h.format(i) for h in header_per_image])
@@ -59,7 +59,9 @@ def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_in
                 if needs_headers:
                     writer.writerow(headers)
                 
-                row = [str(epoch)]
+                ave_dist = np.mean(nearest_neighbor_dists)
+            
+                row = [str(epoch), "{:f}".format(ave_dist)]
                 for img_ind, dist in zip(nearest_neighbor_inds, nearest_neighbor_dists):                    
                     row.append(str(img_ind))
                     row.append("{:f}".format(dist))
