@@ -2,6 +2,7 @@ import argparse
 import subprocess
 import csv
 import sys
+import os
 
 def get_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -19,6 +20,10 @@ def get_args():
     return args
 
 def setup_custom_logging(log_filename):
+    log_dir = os.path.dirname(log_filename)
+    if (log_dir != "") and (not os.path.exists(log_dir)):
+        os.makedirs(log_dir)
+    
     outfile = open(log_filename, 'a')
     
     class CustomLogging:
