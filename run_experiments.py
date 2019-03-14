@@ -5,10 +5,16 @@ import sys
 
 def get_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--exp_csv', type=str, required=True,
+    
+    required_group = parser.add_argument_group('required arguments:')
+    required_group.add_argument('--exp_csv', type=str, required=True,
         help="location of the csv containing experiment configurations.")
-    parser.add_argument('--log', type=str, required=True,
+    required_group.add_argument('--log', type=str, required=True,
         help="location of where to output a log file detailing a fail or complete status for experiments")
+    
+    parser.add_argument('--pycmd', type=str, default='python',
+        help="Python prompt to use when starting each experiment. Ex: 'python' vs 'python3'.")
+    
     args = parser.parse_args()
     return args
 
@@ -41,7 +47,7 @@ def main(args):
         reader = csv.DictReader(exp_csv)
         # get each experiment configuration
         for exp_i, exp_row in enumerate(reader):
-            exp_cmd = ['python', 'eigenface_train.py']
+            exp_cmd = [args.pycmd, 'eigenface_train.py']
             
             for k, v in exp_row.items():
                 exp_cmd.append("--{}".format(k))
