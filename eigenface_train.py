@@ -99,7 +99,7 @@ def setup_custom_logging(exp_name=""):
     outfile = open(curr_exp_log, 'w')
     
     class CustomLogging:
-        def __init__(self, orig_stram):
+        def __init__(self, orig_stream):
             self.orig_stream = orig_stream
             self.fileout = outfile
         def write(self, data):
