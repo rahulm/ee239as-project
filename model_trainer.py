@@ -63,7 +63,7 @@ class ae_trainer(object):
             print('{} Model training epoch {}, Loss: {:.6f}'.format(self.model_name, epoch, training_loss_norm))
             
             # save model checkpoint
-            if (checkpoint_interval > 0) and (epoch % checkpoint_interval == 0):
+            if (checkpoint_interval > 0) and ((epoch+1) % checkpoint_interval == 0):
                 torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "weights-epoch_{}.pth".format(epoch)))
             
             # save training loss
@@ -94,7 +94,7 @@ class ae_trainer(object):
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
             val_loss_csv.flush()
             
-            if (recon_gen_interval is not None) and ((epoch % recon_gen_interval == 0) or (epoch == epochs - 1)):
+            if (recon_gen_interval is not None) and (((epoch+1) % recon_gen_interval == 0) or (epoch == epochs - 1)):
                 # Reconstruction for landmarks?
                 if self.model.MODEL_DATASET == 'faces':
                     perform_eigenface_inference(model=self.model,
@@ -221,7 +221,7 @@ class vae_trainer(object):
             print('{} Model training epoch {}, Loss: {:f}'.format(self.model_name, epoch, train_loss_norm))
             
             # save model checkpoint
-            if (checkpoint_interval > 0) and (epoch % checkpoint_interval == 0):
+            if (checkpoint_interval > 0) and ((epoch+1) % checkpoint_interval == 0):
                 torch.save(self.model.state_dict, os.path.join(self.exp_config.exp_models_dir, "weights-epoch_{}.pth".format(epoch)))
             
             # save training loss
@@ -251,7 +251,7 @@ class vae_trainer(object):
             val_csv_writer.writerow([str(epoch), "{:f}".format(validation_loss_norm)])
             val_loss_csv.flush()
             
-            if (recon_gen_interval is not None) and ((epoch % recon_gen_interval == 0) or (epoch == epochs - 1)):
+            if (recon_gen_interval is not None) and (((epoch+1) % recon_gen_interval == 0) or (epoch == epochs - 1)):
                 # Reconstruction for landmarks?
                 if self.model.MODEL_DATASET == 'faces':
                     perform_eigenface_inference(model=self.model,
