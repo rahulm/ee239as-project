@@ -1,6 +1,8 @@
 # from eigenface_train import ImgToTensor
 import numpy as np
 import torch
+import csv
+import os
 from mywarper import plot, plot_with_titles
 
 
@@ -33,7 +35,7 @@ def perform_eigenface_inference(model, test_images, test_tensor, path_to_save_in
         nn_and_recons = np.concatenate((test_images, sample_img_recons, nearest_neighbors), axis=0)
         plot(nn_and_recons, 3, len(test_tensor), 3, 128, 128, path_to_save_nn)
 
-def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, path_to_save):
+def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, img_out_path, knn_csv_path, epoch):
     model.eval()
     z = torch.randn(num_generate, model.latent_dim_size)
     z = z.to('cuda:0' if use_cuda else 'cpu')
@@ -45,19 +47,49 @@ def perform_eigenface_sampling(model, use_cuda, num_generate, all_images, path_t
     
     generated_flat = np.reshape(generated_faces, (num_generate, -1))
     
+    nearest_neighbor_inds = []
     nearest_neighbors = []
-    nearest_neighbor_scores = {}
+    nearest_neighbor_dists = {}
     for gen_i, gen_face in enumerate(generated_flat):
         dists = np.linalg.norm(flat_imgs - (gen_face * 255), axis=1)
         min_i = np.argmin(dists)
+        nearest_neighbor_inds.append(min_i)
         nearest_neighbors.append(all_images[min_i])
         # nearest_neighbors.append(all_images[np.argmin(dists)])
         
-        nearest_neighbor_scores[gen_i + num_generate] = dists[min_i]
+        nearest_neighbor_dists[gen_i + num_generate] = dists[min_i]
     
     nearest_neighbors = np.asarray(nearest_neighbors)
     gen_and_nn = np.concatenate((generated_faces, nearest_neighbors), axis=0)
-    plot_with_titles(gen_and_nn, 2, num_generate, 3, 128, 128, nearest_neighbor_scores, path_to_save)
+    plot_with_titles(gen_and_nn, 2, num_generate, 3, 128, 128, nearest_neighbor_dists, img_out_path)
+    
+    # save to csv
+    if knn_csv_path is not None:
+        
+        # create headers
+        headers = ['epoch', 'ave-euclidean_dist']
+        header_per_image = ['sample_{}-knn_ind', 'sample_{}-euclidean_dist']
+        for i in range(num_generate):
+            headers.extend([h.format(i) for h in header_per_image])
+        
+        # if it already exists, assume headers are the same. otherwise create
+        needs_headers = (not os.path.exists(knn_csv_path))
+        with open(knn_csv_path, 'a+', newline='') as knn_csv_file:
+            writer = csv.writer(knn_csv_file)
+            
+            if needs_headers:
+                writer.writerow(headers)
+            
+            ave_dist = np.mean(list(nearest_neighbor_dists.values()))
+            
+            row = [str(epoch), "{:f}".format(ave_dist)]
+            for gen_i, img_ind in enumerate(nearest_neighbor_inds):
+                dist = nearest_neighbor_dists[gen_i + num_generate]
+                
+                row.append(str(img_ind))
+                row.append("{:f}".format(dist))
+            
+            writer.writerow(row)
 
 
 # def find_eigenface_NN(model, test_tensor, all_images, path_to_save):

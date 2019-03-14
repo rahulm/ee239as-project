@@ -262,7 +262,9 @@ class vae_trainer(object):
                                                 use_cuda=self.use_cuda,
                                                 num_generate=num_gen,
                                                 all_images=all_samples,
-                                                path_to_save=os.path.join(self.exp_config.exp_generation_dir, 'sampling-epoch_{}.png'.format(epoch)))
+                                                img_out_path=os.path.join(self.exp_config.exp_generation_dir, 'sampling-epoch_{}.png'.format(epoch)),
+                                                knn_csv_path=os.path.join(self.exp_config.exp_generation_dir, 'sampling_knn.csv'),
+                                                epoch=epoch)
         
         # Calclate test loss
         self.model.eval()
