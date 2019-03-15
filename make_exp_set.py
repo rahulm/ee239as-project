@@ -2,6 +2,7 @@ import argparse
 import subprocess
 import csv
 import sys
+import os
 
 def get_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
