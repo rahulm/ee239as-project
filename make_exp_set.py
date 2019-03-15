@@ -50,6 +50,11 @@ def main(args):
     
     allParamConfigs = getAllSets(hParamRanges, hParamNames)
     
+    
+    config_dir = os.path.dirname(args.exp_config_out)
+    if (config_dir != "") and (not os.path.exists(config_dir)):
+        os.makedirs(config_dir)
+    
     hParamNames = ['exp_name'] + hParamNames
     with open(args.exp_config_out, 'w', newline='') as configCsv:
         writer = csv.writer(configCsv)
