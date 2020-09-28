@@ -1,0 +1,4 @@
+results_csv,seed,use_cuda,device,landmark_dir,model,latent_vec_reg,latent_dim,lr,loss_func,optimizer,batch_size,epochs,faces,checkpoint_interval,recon_gen_interval,num_recon,num_gen
+exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,20,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+,,,,,models.complex_vae_no_dropout.complex_vae_16_upsample,,50,1.00E-05,,,,,,,,,
+,,,,,,,75,,,,,,,,,,

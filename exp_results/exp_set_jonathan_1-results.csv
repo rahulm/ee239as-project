@@ -1,0 +1,13 @@
+datetime,exp_name,seed,model,latent_dim,lr,loss_func,optimizer,batch_size,epochs,faces,final_train_loss,final_val_loss,final_test_loss
+2019 March 14 19:50:08,exp_set_jonathan_1-exp_0,12345,models.complex_vae_no_dropout.complex_vae_16_convtranspose,20,0.0001,BCELoss,Adam,32,150,aligned,15453.4194140625,15603.89875,15505.29953125
+2019 March 14 19:53:29,exp_set_jonathan_1-exp_1,12345,models.complex_vae_no_dropout.complex_vae_16_convtranspose,20,1e-05,BCELoss,Adam,32,150,aligned,23944.058046875,23878.526328125,23762.272265625
+2019 March 14 19:56:56,exp_set_jonathan_1-exp_2,12345,models.complex_vae_no_dropout.complex_vae_16_convtranspose,50,0.0001,BCELoss,Adam,32,150,aligned,15424.5949609375,15583.4683984375,15508.54671875
+2019 March 14 20:00:26,exp_set_jonathan_1-exp_3,12345,models.complex_vae_no_dropout.complex_vae_16_convtranspose,50,1e-05,BCELoss,Adam,32,150,aligned,26903.788046875,26810.63265625,26611.214453125
+2019 March 14 20:03:56,exp_set_jonathan_1-exp_4,12345,models.complex_vae_no_dropout.complex_vae_16_convtranspose,75,0.0001,BCELoss,Adam,32,150,aligned,15472.11703125,15565.351015625,15474.9169921875
+2019 March 14 20:07:27,exp_set_jonathan_1-exp_5,12345,models.complex_vae_no_dropout.complex_vae_16_convtranspose,75,1e-05,BCELoss,Adam,32,150,aligned,26322.237578125,26252.0828125,26041.99328125
+2019 March 14 20:10:59,exp_set_jonathan_1-exp_6,12345,models.complex_vae_no_dropout.complex_vae_16_upsample,20,0.0001,BCELoss,Adam,32,150,aligned,15436.7230859375,15524.7319140625,15440.521171875
+2019 March 14 20:15:26,exp_set_jonathan_1-exp_7,12345,models.complex_vae_no_dropout.complex_vae_16_upsample,20,1e-05,BCELoss,Adam,32,150,aligned,18825.381015625,18783.6696875,18604.857734375
+2019 March 14 20:19:53,exp_set_jonathan_1-exp_8,12345,models.complex_vae_no_dropout.complex_vae_16_upsample,50,0.0001,BCELoss,Adam,32,150,aligned,15393.5044921875,15510.880078125,15411.83953125
+2019 March 14 20:24:23,exp_set_jonathan_1-exp_9,12345,models.complex_vae_no_dropout.complex_vae_16_upsample,50,1e-05,BCELoss,Adam,32,150,aligned,19249.159296875,19193.83296875,19026.40625
+2019 March 14 20:28:52,exp_set_jonathan_1-exp_10,12345,models.complex_vae_no_dropout.complex_vae_16_upsample,75,0.0001,BCELoss,Adam,32,150,aligned,15404.8387890625,15510.9218359375,15413.9798828125
+2019 March 14 20:33:23,exp_set_jonathan_1-exp_11,12345,models.complex_vae_no_dropout.complex_vae_16_upsample,75,1e-05,BCELoss,Adam,32,150,aligned,18046.4090625,18034.924453125,17867.47390625

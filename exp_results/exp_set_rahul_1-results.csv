@@ -1,0 +1,11 @@
+datetime,exp_name,seed,model,latent_dim,lr,loss_func,optimizer,batch_size,epochs,faces,final_train_loss,final_val_loss,final_test_loss
+2019 March 14 05:03:25,exp_set_rahul_1-exp_0,12345,models.complex_vae_no_dropout.complex_vae_32_convtranspose,500,0.0001,BCELoss,Adam,32,300,aligned,15323.6531640625,15444.245,15353.17390625
+2019 March 14 09:18:44,exp_set_rahul_1-exp_1,12345,models.complex_vae_no_dropout.complex_vae_32_convtranspose,500,0.0001,BCELoss,Adam,64,300,aligned,15374.481953125,15460.315625,15361.529375
+2019 March 14 09:56:29,exp_set_rahul_1-exp_2,12345,models.complex_vae_no_dropout.complex_vae_32_convtranspose,250,0.0001,BCELoss,Adam,32,300,aligned,15295.3540625,15459.03828125,15376.292421875
+2019 March 14 10:34:56,exp_set_rahul_1-exp_3,12345,models.complex_vae_no_dropout.complex_vae_32_convtranspose,250,0.0001,BCELoss,Adam,64,300,aligned,15337.9184375,15459.846875,15363.78375
+2019 March 14 11:11:41,exp_set_rahul_1-exp_4,12345,models.complex_vae_no_dropout.complex_vae_32_convtranspose,100,0.0001,BCELoss,Adam,32,300,aligned,15238.3983203125,15486.7960546875,15400.7527734375
+2019 March 14 11:49:00,exp_set_rahul_1-exp_5,12345,models.complex_vae_no_dropout.complex_vae_32_convtranspose,100,0.0001,BCELoss,Adam,64,300,aligned,15294.63953125,15492.441875,15402.759375
+2019 March 14 12:42:35,exp_set_rahul_1-exp_6,12345,models.complex_vae_no_dropout.complex_vae_32_upsample,50,0.0001,BCELoss,Adam,16,300,aligned,15204.95990234375,15499.03109375,15427.23875
+2019 March 14 13:31:10,exp_set_rahul_1-exp_7,12345,models.complex_vae_no_dropout.complex_vae_32_upsample,100,0.0001,BCELoss,Adam,16,300,aligned,15234.55470703125,15497.4658203125,15406.5880859375
+2019 March 14 14:16:38,exp_set_rahul_1-exp_8,12345,models.complex_vae_no_dropout.complex_vae_32_upsample,250,0.0001,BCELoss,Adam,16,300,aligned,15274.59418,15460.90395,15356.81191
+2019 March 14 15:04:25,exp_set_rahul_1-exp_9,12345,models.complex_vae_no_dropout.complex_vae_32_upsample,500,0.0001,BCELoss,Adam,16,300,aligned,15302.6123828125,15434.12625,15348.6878515625

@@ -1,0 +1,13 @@
+exp_name,results_csv,seed,use_cuda,device,landmark_dir,model,latent_vec_reg,latent_dim,lr,loss_func,optimizer,batch_size,epochs,faces,checkpoint_interval,recon_gen_interval,num_recon,num_gen
+exp_set_jonathan_1-exp_0,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,20,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_1,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,20,1.00E-05,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_2,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,50,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_3,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,50,1.00E-05,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_4,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,75,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_5,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_convtranspose,0,75,1.00E-05,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_6,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_upsample,0,20,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_7,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_upsample,0,20,1.00E-05,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_8,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_upsample,0,50,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_9,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_upsample,0,50,1.00E-05,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_10,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_upsample,0,75,1.00E-04,BCELoss,Adam,32,150,aligned,-1,5,5,10
+exp_set_jonathan_1-exp_11,exp_set_jonathan_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_16_upsample,0,75,1.00E-05,BCELoss,Adam,32,150,aligned,-1,5,5,10

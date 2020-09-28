@@ -1,0 +1,14 @@
+exp_name,results_csv,seed,use_cuda,device,landmark_dir,model,latent_vec_reg,latent_dim,lr,loss_func,optimizer,batch_size,epochs,faces,checkpoint_interval,recon_gen_interval,num_recon,num_gen
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_32_convtranspose,0,500,1.00E-04,BCELoss,Adam,32,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_32_convtranspose,0,500,1.00E-04,BCELoss,Adam,64,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_convtranspose,0,500,1.00E-04,BCELoss,Adam,16,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_convtranspose,0,500,1.00E-04,BCELoss,Adam,32,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_convtranspose,0,500,1.00E-04,BCELoss,Adam,64,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_32_upsample,0,500,1.00E-04,BCELoss,Adam,8,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_32_upsample,0,500,1.00E-04,BCELoss,Adam,16,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_32_upsample,0,500,1.00E-04,BCELoss,Adam,32,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_32_upsample,0,500,1.00E-04,BCELoss,Adam,64,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_upsample,0,500,1.00E-04,BCELoss,Adam,8,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_upsample,0,500,1.00E-04,BCELoss,Adam,16,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_upsample,0,500,1.00E-04,BCELoss,Adam,32,2,aligned,-1,5,5,10
+exp_0,exp_set_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae.complex_vae_64_upsample,0,500,1.00E-04,BCELoss,Adam,64,2,aligned,-1,5,5,10

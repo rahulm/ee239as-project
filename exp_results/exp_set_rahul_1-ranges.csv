@@ -1,0 +1,4 @@
+results_csv,seed,use_cuda,device,landmark_dir,model,latent_vec_reg,latent_dim,lr,loss_func,optimizer,batch_size,epochs,faces,checkpoint_interval,recon_gen_interval,num_recon,num_gen
+exp_results/exp_set_rahul_1-results.csv,12345,TRUE,0,landmarks,models.complex_vae_no_dropout.complex_vae_32_convtranspose,0,500,1.00E-04,BCELoss,Adam,32,300,aligned,300,10,5,10
+,,,,,,,250,,,,64,,,,,,
+,,,,,,,100,,,,,,,,,,

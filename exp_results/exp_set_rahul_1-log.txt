@@ -1,0 +1,159 @@
+Running run_experiments.csv with arguments:
+Namespace(exp_csv='exp_results\\exp_set_rahul_1-config.csv', log='exp_results\\exp_set_rahul_1-log.txt', pycmd='python')
+
+
+Starting experiment 0...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_0', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 0:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_0', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 0...
+
+
+Starting experiment 1...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_1', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Running run_experiments.csv with arguments:
+Namespace(exp_csv='exp_results\\exp_set_rahul_1_run_2-config.csv', log='exp_results\\exp_set_rahul_1-log.txt', pycmd='python')
+
+
+Starting experiment 0...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_1', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 0:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_1', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 0...
+
+
+Starting experiment 1...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_2', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 1:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_2', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 1...
+
+
+Starting experiment 2...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_3', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 2:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_3', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 2...
+
+
+Starting experiment 3...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_4', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 3:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_4', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 3...
+
+
+Starting experiment 4...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_5', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 4:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_5', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_convtranspose', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '64', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 4...
+
+
+Starting experiment 5...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+FAIL - exit code 1 - experiment 5:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Failed experiment 5...
+
+
+Starting experiment 6...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+FAIL - exit code 1 - experiment 6:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Failed experiment 6...
+
+
+Starting experiment 7...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+FAIL - exit code 1 - experiment 7:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '32', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Failed experiment 7...
+
+
+Running run_experiments.csv with arguments:
+Namespace(exp_csv='exp_results\\exp_set_rahul_1_run_3-config.csv', log='exp_results\\exp_set_rahul_1-log.txt', pycmd='python')
+
+
+Starting experiment 0...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '50', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 0:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_6', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '50', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 0...
+
+
+Starting experiment 1...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_7', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 1:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_7', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '100', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 1...
+
+
+Starting experiment 2...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_8', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+FAIL - exit code 1 - experiment 2:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_8', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '250', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Failed experiment 2...
+
+
+Starting experiment 3...
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_9', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+SUCCESS - exit code 0 - experiment 3:
+['python', 'eigenface_train.py', '--exp_name', 'exp_set_rahul_1-exp_9', '--results_csv', 'exp_results/exp_set_rahul_1-results.csv', '--seed', '12345', '--use_cuda', 'TRUE', '--device', '0', '--landmark_dir', 'landmarks', '--model', 'models.complex_vae_no_dropout.complex_vae_32_upsample', '--latent_vec_reg', '0', '--latent_dim', '500', '--lr', '1.00E-04', '--loss_func', 'BCELoss', '--optimizer', 'Adam', '--batch_size', '16', '--epochs', '300', '--faces', 'aligned', '--checkpoint_interval', '300', '--recon_gen_interval', '10', '--num_recon', '5', '--num_gen', '10']
+
+
+Completed experiment 3...
+
+
